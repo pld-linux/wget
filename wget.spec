@@ -3,17 +3,18 @@ Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocol
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.6
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
 Group(pl):	Sieciowe/Narzêdzia
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
 Source1:	http://cade.8m.com/away/%{name}-new-percentage-3.0.tar.gz
+Source2:	wget.pl.po
 Patch0:		%{name}-man.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-DESTDIR.patch
-Patch3:		%{name}-1.6-ipv6-20010102.patch.gz
+Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-1.6-ipv6-20010102.patch.gz
 URL:		http://sunsite.dk/wget/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -54,6 +55,7 @@ go jako zadanie z cron'a.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+install %{SOURCE2} po/pl.po
 tar xzf %{SOURCE1}
 cd src
 mv -f ../wget-new-percentage/wget-new-percentage.c .
