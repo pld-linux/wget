@@ -55,7 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644, root, root, 755)
 %doc AUTHORS ChangeLog MAILING-LIST NEWS README TODO rmold.README
 %verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
-%attr(755, root, root) /usr/bin/*
+%attr(711, root, root) /usr/bin/*
 %attr(644, root,  man) /usr/man/man1/*
 /usr/info/wget.info*
 %lang(cs) /usr/share/locale/cs/LC_MESSAGES/wget.mo
@@ -71,7 +71,8 @@ rm -rf $RPM_BUILD_ROOT
   [1.5.2-2]
 - added wget-pl.po.patch patch with polish translation 
   (Adam Kozubowicz <tapir@interdata.com.pl>,
-- added wget-man.patch patch with wget man page.
+- added wget-man.patch patch with wget man page,
+- changed permission on binaries to 711.
 
 * Sat Aug  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.5.2-1]
