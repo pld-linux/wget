@@ -21,10 +21,12 @@ BuildRoot:	/tmp/%{name}-%{version}-root
 %define	_sysconfdir	/etc
 
 %description
-wget is a command-line program to fetch files via HTTP or FTP. It
-supports recursive retrieval and mirroring options, and it automatically
-retries several times before giving up, so it is well-suited to running
-from cron jobs.
+GNU Wget is a file retrieval utility which can use either the HTTP or FTP
+protocols. Wget features include the ability to work in the background while
+you're logged out, recursive retrieval of directories, file name wildcard
+matching, remote file timestamp storage and comparison, use of Rest with FTP
+servers and Range with HTTP servers to retrieve files over slow or unstable
+connections, support for Proxy servers, and configurability.
 
 %description -l fr
 GNU Wget est un utilitaire pour récupérer des fichiers qui peut utiliser
