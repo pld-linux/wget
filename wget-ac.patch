@@ -1,18 +1,6 @@
-diff -urN wget-1.9-b5.org/aclocal.m4 wget-1.9-b5/aclocal.m4
---- wget-1.9-b5.org/aclocal.m4	2003-10-12 23:55:54.000000000 +0200
-+++ wget-1.9-b5/aclocal.m4	2003-10-12 23:56:04.000000000 +0200
-@@ -7,7 +7,7 @@
- if test x"$ac_cv_header_utime_h" = xyes; then
-   AC_EGREP_CPP([struct[ 	]+utimbuf],
-     [#include <utime.h>],
--    [AC_DEFINE(HAVE_STRUCT_UTIMBUF)
-+    [AC_DEFINE(HAVE_STRUCT_UTIMBUF,,[Have struct utimbuf])
-       AC_MSG_RESULT(yes)],
-     AC_MSG_RESULT(no))
- else
-diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
---- wget-1.9-b5.org/configure.in	2003-10-12 23:55:54.000000000 +0200
-+++ wget-1.9-b5/configure.in	2003-10-12 23:57:18.000000000 +0200
+diff -urN wget-1.9-beta3.org/configure.in wget-1.9-beta3/configure.in
+--- wget-1.9-beta3.org/configure.in	2003-10-03 12:07:14.000000000 +0200
++++ wget-1.9-beta3/configure.in	2003-10-03 12:15:57.000000000 +0200
 @@ -46,14 +46,14 @@
  dnl Get cannonical host
  dnl
@@ -47,11 +35,11 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
  [  --disable-debug         disable support for debugging output],
  ENABLE_DEBUG=$enableval, ENABLE_DEBUG=yes)
 -test x"${ENABLE_DEBUG}" = xyes && AC_DEFINE(ENABLE_DEBUG)
-+test x"${ENABLE_DEBUG}" = xyes && AC_DEFINE(DEBUG,,[Support for debugging output])
++test x"${ENABLE_DEBUG}" = xyes && AC_DEFINE(ENABLE_DEBUG,,[Support for debugging output])
  
  wget_need_md5=no
  
-@@ -382,7 +382,7 @@
+@@ -374,7 +374,7 @@
      dnl AC_MSG_RESULT doesn't look right here, but I'm not sure what
      dnl to use instead.
      AC_MSG_RESULT([Compiling in support for SSL in $ssl_root])
@@ -60,7 +48,7 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
      AC_SUBST(SSL_INCLUDES)
      SSL_OBJ='gen_sslfunc$o'
      AC_SUBST(SSL_OBJ)
-@@ -424,7 +424,7 @@
+@@ -416,7 +416,7 @@
    dnl specific to the Solaris MD5 library.
    if test x"$found_md5" = xno; then
      AC_CHECK_LIB(md5, md5_calc, [
@@ -69,7 +57,7 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
        LIBS="-lmd5 $LIBS"
        found_md5=yes
      ])
-@@ -434,19 +434,19 @@
+@@ -426,19 +426,19 @@
    dnl implementation.
    if test x"$found_md5" = xno; then
      if test x"$ssl_success" = xyes; then
@@ -92,7 +80,7 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
  AC_SUBST(MD5_OBJ)
  
  dnl **********************************************************************
-@@ -530,7 +530,7 @@
+@@ -522,7 +522,7 @@
  dnl new language was added.
  
  dnl internationalization macros
@@ -101,9 +89,9 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
  
  dnl
  dnl Find makeinfo.  If makeinfo is not found, look for Emacs.  If
-diff -urN wget-1.9-b5.org/src/main.c wget-1.9-b5/src/main.c
---- wget-1.9-b5.org/src/main.c	2003-10-12 23:55:54.000000000 +0200
-+++ wget-1.9-b5/src/main.c	2003-10-12 23:56:04.000000000 +0200
+diff -urN wget-1.9-beta3.org/src/main.c wget-1.9-beta3/src/main.c
+--- wget-1.9-beta3.org/src/main.c	2003-10-03 12:07:14.000000000 +0200
++++ wget-1.9-beta3/src/main.c	2003-10-03 12:07:21.000000000 +0200
 @@ -44,11 +44,11 @@
  #ifdef HAVE_SIGNAL_H
  # include <signal.h>
@@ -116,8 +104,8 @@ diff -urN wget-1.9-b5.org/src/main.c wget-1.9-b5/src/main.c
 -#endif /* HAVE_NLS */
 +#endif /* ENABLE_NLS */
  #include <errno.h>
- #ifndef errno
- extern int errno;
+ 
+ #include "wget.h"
 @@ -98,9 +98,9 @@
  static void
  i18n_initialize (void)
@@ -139,10 +127,10 @@ diff -urN wget-1.9-b5.org/src/main.c wget-1.9-b5/src/main.c
  }
  
  /* Print the usage message.  */
-diff -urN wget-1.9-b5.org/src/wget.h wget-1.9-b5/src/wget.h
---- wget-1.9-b5.org/src/wget.h	2003-10-12 23:55:54.000000000 +0200
-+++ wget-1.9-b5/src/wget.h	2003-10-12 23:56:04.000000000 +0200
-@@ -54,14 +54,12 @@
+diff -urN wget-1.9-beta3.org/src/wget.h wget-1.9-beta3/src/wget.h
+--- wget-1.9-beta3.org/src/wget.h	2003-10-03 12:07:14.000000000 +0200
++++ wget-1.9-beta3/src/wget.h	2003-10-03 12:07:21.000000000 +0200
+@@ -53,14 +53,12 @@
  
  /* `gettext (FOO)' is long to write, so we use `_(FOO)'.  If NLS is
     unavailable, _(STRING) simply returns STRING.  */
@@ -160,3 +148,14 @@ diff -urN wget-1.9-b5.org/src/wget.h wget-1.9-b5/src/wget.h
  
  /* No-op version of gettext, used for constant strings. */
  #define N_(string) (string)
+--- wget-1.9-beta4/aclocal.m4.orig	2003-10-04 00:24:48.000000000 +0200
++++ wget-1.9-beta4/aclocal.m4	2003-10-12 22:06:14.533208184 +0200
+@@ -79,7 +79,7 @@
+ if test x"$ac_cv_header_utime_h" = xyes; then
+   AC_EGREP_CPP([struct[ 	]+utimbuf],
+     [#include <utime.h>],
+-    [AC_DEFINE(HAVE_STRUCT_UTIMBUF)
++    [AC_DEFINE(HAVE_STRUCT_UTIMBUF,,[Have struct utimbuf])
+       AC_MSG_RESULT(yes)],
+     AC_MSG_RESULT(no))
+ else
