@@ -5,7 +5,7 @@ Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
 Version:	1.7
-Release:	6
+Release:	7
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
@@ -23,6 +23,7 @@ BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.6a
 BuildRequires:	texinfo
+BuildRequires:	perl-devel
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -101,7 +102,7 @@ autoconf
 %configure \
 	--with-ssl \
 	--enable-ipv6
-%{__make}
+%{__make} CFLAGS="$CFLAGS -DHAVE_NLS -DHAVE_LOCALE_H"
 tail -6 util/README >rmold.README
 
 cd doc
