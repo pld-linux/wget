@@ -1,0 +1,49 @@
+--- src/url.c
++++ src/url.c
+@@ -1290,12 +1290,13 @@
+ compose_file_name (char *base, char *query)
+ {
+   char result[256];
++  const size_t max_size = sizeof(result) - 3; /* Make sure we can expand if needed */
+   char *from;
+   char *to = result;
+ 
+   /* Copy BASE to RESULT and encode all unsafe characters.  */
+   from = base;
+-  while (*from && to - result < sizeof (result))
++  while (*from && to - result < max_size)
+     {
+       if (UNSAFE_CHAR (*from))
+ 	{
+@@ -1308,7 +1309,7 @@
+ 	*to++ = *from++;
+     }
+ 
+-  if (query && to - result < sizeof (result))
++  if (query && to - result < max_size)
+     {
+ #if WINDOWS || __CYGWIN__
+       /* Temporary fix.  Use '@' instead of '?' here for Windows. */
+@@ -1319,7 +1320,7 @@
+ 
+       /* Copy QUERY to RESULT and encode all '/' characters. */
+       from = query;
+-      while (*from && to - result < sizeof (result))
++      while (*from && to - result < max_size)
+ 	{
+ 	  if (*from == '/')
+ 	    {
+@@ -1333,12 +1334,7 @@
+ 	}
+     }
+ 
+-  if (to - result < sizeof (result))
+-    *to = '\0';
+-  else
+-    /* Truncate input which is too long, presumably due to a huge
+-       query string.  */
+-    result[sizeof (result) - 1] = '\0';
++  *to = '\0';
+ 
+   return xstrdup (result);
+ }
