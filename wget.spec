@@ -13,6 +13,7 @@ Patch1:		wget-pl.po.patch
 Patch2:		wget-info.patch
 Patch3:		wget-1.5.3-ipv6.patch
 Patch4:		wget-DESTDIR.patch
+patch5:		wget-symlink.patch
 Prereq:		/usr/sbin/fix-info-dir
 URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:	/tmp/%{name}-%{version}-root
@@ -51,6 +52,7 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 autoconf
