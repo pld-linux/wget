@@ -10,6 +10,7 @@ Source:		ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
 Patch0:		wget-man.patch
 Patch1:		wget-pl.po.patch
 Patch2:		wget-info.patch
+Patch3:		wget-1.5.3-ipv6.patch
 BuildPrereq:	autoconf >= 2.13-8
 Prereq:		/sbin/install-info
 URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
@@ -36,6 +37,7 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 autoconf
