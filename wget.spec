@@ -1,3 +1,6 @@
+# TODO
+# - -porn patch does not work with LFS
+# - -back-to-ipv4 patch closes socket -1
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es):	Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
@@ -8,7 +11,7 @@ Summary(uk):	õÔÉÌ¦ÔÁ ÄÌÑ ÏÔÒÉÍÁÎÎÑ ÆÁÊÌ¦× ÐÏ ÐÒÏÔÏËÏÌÁÍ HTTP ÔÁ FTP
 Summary(zh_CN):	[Í¨Ñ¶]¹¦ÄÜÇ¿´óµÄÏÂÔØ³ÌÐò,Ö§³Ö¶ÏµãÐø´«
 Name:		wget
 Version:	1.9.1
-Release:	6
+Release:	6.3
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
@@ -26,6 +29,7 @@ Patch7:		%{name}-home_etc.patch
 Patch8:		%{name}-strptime.patch
 Patch9:		%{name}-porn.patch
 Patch10:	%{name}-nonperm.patch
+Patch11:	%{name}-1.9.1-LFS.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -122,6 +126,7 @@ Proxy ÓÅÒ×ÅÒ¦×, ÎÁÓÔÒÏÀ×ÁÎ¦ÓÔØ.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 rm -f doc/wget.info*
 
 mv -f po/{no,nb}.po
@@ -134,6 +139,7 @@ mv -f po/{no,nb}.po
 %{__autoconf}
 %configure \
 	--with-ssl \
+	--enable-LFS \
 	--enable-ipv6
 %{__make}
 tail -n 6 util/README >rmold.README
