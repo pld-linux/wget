@@ -148,14 +148,4 @@ diff -urN wget-1.9-beta3.org/src/wget.h wget-1.9-beta3/src/wget.h
  
  /* No-op version of gettext, used for constant strings. */
  #define N_(string) (string)
---- wget-1.9-beta4/aclocal.m4.orig	2003-10-04 00:24:48.000000000 +0200
-+++ wget-1.9-beta4/aclocal.m4	2003-10-12 22:06:14.533208184 +0200
-@@ -79,7 +79,7 @@
- if test x"$ac_cv_header_utime_h" = xyes; then
-   AC_EGREP_CPP([struct[ 	]+utimbuf],
-     [#include <utime.h>],
--    [AC_DEFINE(HAVE_STRUCT_UTIMBUF)
-+    [AC_DEFINE(HAVE_STRUCT_UTIMBUF,,[Have struct utimbuf])
-       AC_MSG_RESULT(yes)],
-     AC_MSG_RESULT(no))
- else
+
