@@ -4,17 +4,16 @@ Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocol
 Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
-Version:	1.8.1
-Release:	4
+Version:	1.8.2
+Release:	0.1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
-Source1:	%{name}-pl.po
 Source2:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-ah.patch
-Patch2:		http://www14.u-page.so-net.ne.jp/db3/h-yamamo/ipv6/patches/%{name}-1.8.1-v6-20219.patch.gz
-Patch3:		%{name}-use_AM_GNU_GETTEXT.patch
+Patch1:		%{name}-ac.patch
+# based on http://www14.u-page.so-net.ne.jp/db3/h-yamamo/ipv6/patches/%{name}-1.8.1-v6-20219.patch.gz
+Patch2:		%{name}-ipv6.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -74,7 +73,7 @@ umo¿liwiaj±ce wykonanie lokalnej kopii zasobów (mirror). W razie
 niemo¿no¶ci dostania siê do zasobów lub gdy po³±czenie z serwerem
 FTP/HTTP zostanie zerwane, mo¿e automatycznie ponawiaæ próby
 kopiowania. Jest tak¿e dobrze przystosowany do tego, ¿eby uruchamiaæ
-go jako zadanie z cron'a.
+go jako zadanie z crona.
 
 %description -l pt_BR
 O GNU wget é uma ferramenta de rede para baixar arquivos usando HTTP e
@@ -87,18 +86,17 @@ baixando o arquivo até que ele seja completamente recebido.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-
-cp -f %{SOURCE1} po/pl.po
 
 %build
 rm -f missing
 %{__libtoolize}
 aclocal
+autoheader
 %{__autoconf}
 %configure \
-	--with-ssl
-%{__make} CFLAGS="%{rpmcflags} -DHAVE_NLS -DHAVE_LOCALE_H -DINET6"
+	--with-ssl \
+	--enable-ipv6
+%{__make}
 tail -6 util/README >rmold.README
 
 cd doc
