@@ -18,7 +18,7 @@ BuildRoot:	/tmp/%{name}-%{version}-root
 %define	_sysconfdir	/etc
 
 %description
-wget is a command-line program to fetch files via HTTP or FTP.  It
+wget is a command-line program to fetch files via HTTP or FTP. It
 supports recursive retrieval and mirroring options, and it automatically
 retries several times before giving up, so it is well-suited to running
 from cron jobs.
@@ -38,12 +38,11 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %patch2 -p1
 
 %build
+autoconf
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
 ./configure %{_target} \
 	--prefix=%{_prefix} \
-	--sysconfdir=%{_sysconfdir} \
-	--mandir=%{_mandir} \
-	--infodir=%{_infodir}
+	--sysconfdir=%{_sysconfdir}
 make
 tail -6 util/README >rmold.README
 
@@ -80,13 +79,13 @@ fi
 
 %attr(755,root,root) %{_bindir}/*
 
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/%{name}.mo
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/%{name}.mo
-%lang(hr) %{_datadir}/locale/hr/LC_MESSAGES/%{name}.mo
-%lang(it) %{_datadir}/locale/it/LC_MESSAGES/%{name}.mo
-%lang(no) %{_datadir}/locale/no/LC_MESSAGES/%{name}.mo
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/%{name}.mo
-%lang(pt) %{_datadir}/locale/pt*/LC_MESSAGES/%{name}.mo
+%lang(cs)    %{_datadir}/locale/cs/LC_MESSAGES/%{name}.mo
+%lang(de)    %{_datadir}/locale/de/LC_MESSAGES/%{name}.mo
+%lang(hr)    %{_datadir}/locale/hr/LC_MESSAGES/%{name}.mo
+%lang(it)    %{_datadir}/locale/it/LC_MESSAGES/%{name}.mo
+%lang(no)    %{_datadir}/locale/no/LC_MESSAGES/%{name}.mo
+%lang(pl)    %{_datadir}/locale/pl/LC_MESSAGES/%{name}.mo
+%lang(pt_BR) %{_datadir}/locale/pt_BR/LC_MESSAGES/%{name}.mo
 
 %{_mandir}/man1/*
 %{_infodir}/%{name}.info*
