@@ -5,14 +5,12 @@ Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
 Version:	1.8.1
-#
 Release:	0.1
 # Je¿eli siê ³atka ipv6 na³o¿y i zadzia³a to podbijcie do 1
 # (nie mam zdrowia pisaæ tego po angielsku)
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
-Source1:	%{name}.pl.po
 Source2:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ah.patch
@@ -95,7 +93,6 @@ baixando o arquivo até que ele seja completamente recebido.
 #%patch3 -p1
 #%patch4 -p1
 %patch5 -p1
-install %{SOURCE1} po/pl.po
 
 %build
 #echo '#undef ENABLE_IPV6' >> acconfig.h
