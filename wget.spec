@@ -1,4 +1,3 @@
-%define debug 1
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
 Summary(pl):	Wsadowy klient HTTP/FTP 
