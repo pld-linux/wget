@@ -1,7 +1,7 @@
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es):	Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
-Summary(pl):	Wsadowy klient HTTP/FTP 
+Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
 Version:	1.7
@@ -114,10 +114,10 @@ echo "y" | %{__make} install DESTDIR=$RPM_BUILD_ROOT
 mv $RPM_BUILD_ROOT%{_sysconfdir}/wgetrc.* $RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 install util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
-gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README 
+gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %find_lang %{name}
- 
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
