@@ -1,0 +1,19 @@
+diff -urN wget-1.9-rc1.org/src/main.c wget-1.9-rc1/src/main.c
+--- wget-1.9-rc1.org/src/main.c	2003-10-17 09:40:01.000000000 +0200
++++ wget-1.9-rc1/src/main.c	2003-10-17 09:43:09.000000000 +0200
+@@ -380,6 +380,15 @@
+ 
+   append_to_log = 0;
+ 
++#ifdef ENABLE_IPV6
++  {
++      int s = socket(AF_INET6, SOCK_STREAM, 0);
++      if (s < 0 && (errno == EAFNOSUPPORT || errno == EINVAL))
++	  ip_default_family = AF_INET;
++      close(s);
++  }
++#endif
++
+   /* Construct the name of the executable, without the directory part.  */
+   exec_name = strrchr (argv[0], PATH_SEPARATOR);
+   if (!exec_name)
