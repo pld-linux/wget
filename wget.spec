@@ -27,6 +27,7 @@ Patch6:		%{name}-back-to-ipv4.patch
 Patch7:		%{name}-home_etc.patch
 Patch8:		%{name}-strptime.patch
 Patch9:		%{name}-porn.patch
+Patch10:	%{name}-nonperm.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -120,6 +121,7 @@ Proxy сервер╕в, настроюван╕сть.
 %patch7 -p1
 %patch8 -p1
 %{?with_fancy:%patch9 -p1}
+%patch10 -p1
 rm -f doc/wget.info*
 
 %build
