@@ -1,9 +1,7 @@
-Tylko w wget-1.9.1-porn: config.log
-Tylko w wget-1.9.1-porn: libtool
 diff -ur wget-1.9.1/src/progress.c wget-1.9.1-porn/src/progress.c
 --- wget-1.9.1/src/progress.c	2003-09-23 20:48:10.000000000 +0000
-+++ wget-1.9.1-porn/src/progress.c	2004-02-13 11:32:06.000000000 +0000
-@@ -659,15 +659,15 @@
++++ wget-1.9.1-porn/src/progress.c	2004-02-13 12:11:13.000000000 +0000
+@@ -659,15 +659,19 @@
       randomly.
  
       "xx% " or "100%"  - percentage               - 4 chars
@@ -19,10 +17,24 @@ diff -ur wget-1.9.1/src/progress.c wget-1.9.1-porn/src/progress.c
    int dlbytes_size = 1 + MAX (size_legible_len, 11);
 -  int progress_size = bp->width - (4 + 2 + dlbytes_size + 11 + 13);
 +  int progress_size = bp->width - (4 + 6 + dlbytes_size + 11 + 13);
++
++  int percentage = (int)(100.0 * size / bp->total_length);
++
++  assert (percentage <= 100);
  
    if (progress_size < 5)
      progress_size = 0;
-@@ -703,7 +703,7 @@
+@@ -675,9 +679,6 @@
+   /* "xx% " */
+   if (bp->total_length > 0)
+     {
+-      int percentage = (int)(100.0 * size / bp->total_length);
+-
+-      assert (percentage <= 100);
+ 
+       if (percentage < 100)
+ 	sprintf (p, "%2d%% ", percentage);
+@@ -703,7 +704,7 @@
        assert (dlsz <= progress_size);
        assert (insz <= dlsz);
  
@@ -31,7 +43,7 @@ diff -ur wget-1.9.1/src/progress.c wget-1.9.1-porn/src/progress.c
        begin = p;
  
        /* Print the initial portion of the download with '+' chars, the
-@@ -715,12 +715,16 @@
+@@ -715,12 +716,23 @@
  	{
  	  for (i = 0; i < dlsz - 1; i++)
  	    *p++ = '=';
@@ -44,7 +56,14 @@ diff -ur wget-1.9.1/src/progress.c wget-1.9.1-porn/src/progress.c
 -      *p++ = ']';
 +      *p++ = '(';
 +      *p++ = '_';
-+      *p++ = 'o';
++      if (percentage < 25)
++        *p++ = '.';
++      else if (percentage < 50)
++        *p++ = 'o';
++      else if (percentage < 75)
++        *p++ = '0';
++      else
++        *p++ = 'O';
 +      *p++ = '_';
 +      *p++ = ')';
      }
