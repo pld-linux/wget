@@ -1,3 +1,4 @@
+%define debug 1
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
 Summary(pl):	Wsadowy klient HTTP/FTP 
@@ -13,6 +14,7 @@ Source1:	http://cade.8m.com/away/%{name}-new-percentage-3.0.tar.gz
 Patch0:		%{name}-man.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-DESTDIR.patch
+Patch3:		%{name}-1.6-ipv6-20010102.patch.gz
 URL:		http://sunsite.dk/wget/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -52,6 +54,7 @@ go jako zadanie z cron'a.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 tar xzf %{SOURCE1}
 cd src
 mv -f ../wget-new-percentage/wget-new-percentage.c .
@@ -59,7 +62,8 @@ patch retr.c < ../wget-new-percentage/wget-new-percentage.diff
 
 %build
 autoconf
-%configure 
+autoheader
+%configure --enable-ipv6
 %{__make}
 tail -6 util/README >rmold.README
 
