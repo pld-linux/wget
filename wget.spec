@@ -5,7 +5,7 @@ Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
 Version:	1.7
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
@@ -16,9 +16,10 @@ Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
 Source1:	%{name}.pl.po
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ah.patch
-Patch2:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-1.7-ipv6-20010604.patch.gz
-Patch3:		%{name}-ac.patch
-Patch4:		%{name}-use_AM_GNU_GETTEXT.patch
+Patch2:		ftp://ftp.kame.net/pub/kame/misc/%{name}-17-v6-20010716a.diff.gz
+Patch3:		%{name}-ipv6-fix.patch
+Patch4:		%{name}-ac.patch
+Patch5:		%{name}-use_AM_GNU_GETTEXT.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -61,13 +62,13 @@ GNU wget ¤Ï HTTP ¤« FTP ¥×¥í¥È¥³¥ë¤Î¤É¤Á¤é¤«¤ò»ÈÍÑ¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë
 ¥Õ¥¡¥¤¥ë¤ò¼èÆÀ¤¹¤ë¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤Ç¤¹¡£wget ¤Ï¥í¥°¥¢¥¦¥È¤·¤Æ¤¤¤ë
 ´Ö¤Ë¥Ð¥Ã¥¯¥°¥é¥¦¥ó¥É¤ÇÆ¯¤¯ÆÃÄ§¤ò¤â¤Ã¤Æ¤¤¤ë¤³¤È¡¢¥Ç¥£¥ì¥¯¥È¥ê¤ÎºÆµ¢Åª
 ¼èÆÀ¡¢¥Õ¥¡¥¤¥ë¥Í¡¼¥à¤Î¥ï¥¤¥ë¥É¥«¡¼¥É¥Þ¥Ã¥Á¥ó¥°¡¢¥Õ¥¡¥¤¥ë¤Î¥¿¥¤¥à¥¹¥¿¥ó¥×¤Î
-ÊÝÂ¸¤ÈÈæ³Ó¡¢ÃÙ¤¯ÉÔ°ÂÄê¤ÊÀÜÂ³¤Ç FTP ¥µ¡¼¥Ð¤Î Rest ¤È HTTP ¥µ¡¼¥Ð¤Î Range
-¤Î»ÈÍÑ¡¢¥×¥í¥­¥·¡¼¥µ¡¼¥Ð¤Î¥µ¥Ý¡¼¥È¤ÈÀßÄê¤ÎÍÆ°×¤µ¤ò´Þ¤ó¤ÀÆÃÄ§¤ò
+ÊÝÂ¸¤ÈÈæ³Ó¡¢ÃÙ¤¯ÉÔ°ÂÄê¤ÊÀÜÂ³¤Ç FTP ¥µ¡¼¥Ð¤Î Rest ¤È HTTP ¥µ¡¼¥Ð¤Î
+Range ¤Î»ÈÍÑ¡¢¥×¥í¥­¥·¡¼¥µ¡¼¥Ð¤Î¥µ¥Ý¡¼¥È¤ÈÀßÄê¤ÎÍÆ°×¤µ¤ò´Þ¤ó¤ÀÆÃÄ§¤ò
 ¤â¤Ã¤Æ¤¤¤Þ¤¹¡£
 
-¤â¤· HTTP ¤« FTP ¤ÇÂçÎÌ¤Î¥Õ¥¡¥¤¥ë¤ò¼èÆÀ¤¹¤ëÉ¬Í×¤¬¤¢¤Ã¤¿¤ê¡¢Web ¥µ¥¤¥È¤ä
-FTP ¥Ç¥£¥ì¥¯¥È¥ê¤ò¥ß¥é¡¼¤¹¤ë¥æ¡¼¥Æ¥£¥ê¥Æ¥£¡¼¤¬É¬Í×¤Ê¤éwget ¤ò¥¤¥ó¥¹¥È¡¼¥ë
-¤·¤Ê¤µ¤¤¡£
+¤â¤· HTTP ¤« FTP ¤ÇÂçÎÌ¤Î¥Õ¥¡¥¤¥ë¤ò¼èÆÀ¤¹¤ëÉ¬Í×¤¬¤¢¤Ã¤¿¤ê¡¢Web
+¥µ¥¤¥È¤ä FTP ¥Ç¥£¥ì¥¯¥È¥ê¤ò¥ß¥é¡¼¤¹¤ë¥æ¡¼¥Æ¥£¥ê¥Æ¥£¡¼¤¬É¬Í×¤Ê¤éwget
+¤ò¥¤¥ó¥¹¥È¡¼¥ë ¤·¤Ê¤µ¤¤¡£
 
 %description -l pl
 Wget jest klientem FTP/HTTP przeznaczonym do ¶ci±gania zasobów
@@ -88,12 +89,14 @@ baixando o arquivo até que ele seja completamente recebido.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%patch2 -p1
-#%patch3 -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
+%patch5 -p1
 install %{SOURCE1} po/pl.po
 
 %build
+echo '#undef ENABLE_IPV6' >> acconfig.h
 libtoolize --copy --force
 autoheader
 aclocal
@@ -104,14 +107,19 @@ autoconf
 %{__make}
 tail -6 util/README >rmold.README
 
-(cd doc; makeinfo --force %{name}.texi; touch *)
+cd doc
+makeinfo --force %{name}.texi; touch *
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
-echo "y" | %{__make} install DESTDIR=$RPM_BUILD_ROOT
-install util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
+echo "y" | \
+	%{__make} install \
+		DESTDIR=$RPM_BUILD_ROOT
+
+install util/rmold.pl		$RPM_BUILD_ROOT%{_bindir}/rmold
+install doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 
 gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
