@@ -3,7 +3,7 @@ Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocol
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.6
-Release:	3
+Release:	4
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
