@@ -12,7 +12,9 @@ Release:	5
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
+# Source0-md5: a2473d7a53ebaf0a1bdb06f17059e8f1
 Source2:	%{name}-non-english-man-pages.tar.bz2
+# Source2-md5: bad85be11d26aeab8158cdfcf7e7483e
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac.patch
 # based on http://www14.u-page.so-net.ne.jp/db3/h-yamamo/ipv6/patches/%{name}-1.8.1-v6-20219.patch.gz
