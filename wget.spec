@@ -1,3 +1,5 @@
+%bcond_with fancy	pornografic progress bar
+
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es):	Cliente en lМnea de comando para bajar archivos WWW/FTP con recursiСn opcional
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
@@ -24,6 +26,7 @@ Patch5:		%{name}-wgetrc_path.patch
 Patch6:		%{name}-back-to-ipv4.patch
 Patch7:		%{name}-home_etc.patch
 Patch8:		%{name}-strptime.patch
+Patch9:		%{name}-porn.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -116,7 +119,7 @@ Proxy сервер╕в, настроюван╕сть.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-
+%{?with_fancy:%patch9 -p1}
 rm -f doc/wget.info*
 
 %build
