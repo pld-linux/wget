@@ -22,7 +22,7 @@ Patch4:		%{name}-use_AM_GNU_GETTEXT.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtoolize
+BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.6a
 BuildRequires:	texinfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
