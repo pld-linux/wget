@@ -7,12 +7,12 @@ Summary(ru):	Утилита для получения файлов по протоколам HTTP и FTP
 Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
-Version:	1.8.2
-Release:	6
+Version:	1.9
+Release:	0.1
 License:	GPL
 Group:		Networking/Utilities
-Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
-# Source0-md5:	a2473d7a53ebaf0a1bdb06f17059e8f1
+Source0:	http://fly.srk.fer.hr/~hniksic/wget/%{name}-%{version}-beta3.tar.gz
+# Source0-md5:	42a2c98cd9980397007ea6306f1f5dd2
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -106,13 +106,13 @@ GNU Wget - це утил╕та командного рядка для отримання файл╕в по
 Proxy сервер╕в, настроюван╕сть.
 
 %prep
-%setup -q
-%patch0 -p1
+%setup -q -n %{name}-%{version}-beta3
+#%patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p0
-%patch4 -p1
-%patch5 -p1
+#%patch2 -p1
+#%patch3 -p0
+#%patch4 -p1
+#%patch5 -p1
 %patch6 -p1
 %patch7 -p1
 
