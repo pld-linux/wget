@@ -8,7 +8,7 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.9.1
-Release:	5
+Release:	6
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
@@ -123,6 +123,8 @@ Proxy сервер╕в, настроюван╕сть.
 %patch9 -p1
 %patch10 -p1
 rm -f doc/wget.info*
+
+mv -f po/{no,nb}.po
 
 %build
 %{__libtoolize}
