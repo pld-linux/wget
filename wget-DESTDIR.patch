@@ -1,0 +1,128 @@
+diff -ur wget-1.5.3.old/doc/Makefile.in wget-1.5.3/doc/Makefile.in
+--- wget-1.5.3.old/doc/Makefile.in	Wed Jun 23 15:09:55 1999
++++ wget-1.5.3/doc/Makefile.in	Wed Jun 23 17:14:23 1999
+@@ -87,39 +87,39 @@
+ 
+ # install info pages, creating install directory if necessary
+ install.info: wget.info
+-	$(top_srcdir)/mkinstalldirs $(infodir)
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(infodir)
+ 	-for file in $(srcdir)/wget.info $(srcdir)/wget.info-*[0-9]; do \
+-	   test -f "$$file" && $(INSTALL_DATA) $$file $(infodir) ; \
++	   test -f "$$file" && $(INSTALL_DATA) $$file $(DESTDIR)$(infodir) ; \
+ 	done
+ 
+ # install man page, creating install directory if necessary
+ install.man:
+-	$(top_srcdir)/mkinstalldirs $(mandir)/man$(manext)
+-	$(INSTALL_DATA) $(srcdir)/$(MAN) $(mandir)/man$(manext)/$(MAN)
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(mandir)/man$(manext)
++	$(INSTALL_DATA) $(srcdir)/$(MAN) $(DESTDIR)$(mandir)/man$(manext)/$(MAN)
+ 
+ # install sample.wgetrc
+ install.wgetrc:
+-	$(top_srcdir)/mkinstalldirs $(sysconfdir)
+-	@if test -f $(WGETRC); then \
+-	  if cmp -s $(srcdir)/sample.wgetrc $(WGETRC); then echo ""; \
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(sysconfdir)
++	@if test -f $(DESTDIR)$(WGETRC); then \
++	  if cmp -s $(srcdir)/sample.wgetrc $(DESTDIR)$(WGETRC); then echo ""; \
+ 	     else \
+-	     echo ' $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(WGETRC).new'; \
+-	     $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(WGETRC).new; \
+-	     echo "WARNING: File \`$(WGETRC)' already exists and is spared."; \
+-	     echo "         You might want to consider \`$(WGETRC).new',"; \
+-	     echo "         and merge both into \`$(WGETRC)', for the best."; \
++	     echo ' $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(DESTDIR)$(WGETRC).new'; \
++	     $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(DESTDIR)$(WGETRC).new; \
++	     echo "WARNING: File \`$(DESTDIR)$(WGETRC)' already exists and is spared."; \
++	     echo "         You might want to consider \`$(DESTDIR)$(WGETRC).new',"; \
++	     echo "         and merge both into \`$(DESTDIR)$(WGETRC)', for the best."; \
+ 	  fi; \
+ 	else \
+-	  $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(WGETRC); \
++	  $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(DESTDIR)$(WGETRC); \
+ 	fi
+ 
+ # uninstall info pages
+ uninstall.info:
+-	$(RM) $(infodir)/wget.info*
++	$(RM) $(DESTDIR)$(infodir)/wget.info*
+ 
+ # uninstall man page
+ uninstall.man:
+-	$(RM) $(mandir)/man$(manext)/$(MAN)
++	$(RM) $(DESTDIR)$(mandir)/man$(manext)/$(MAN)
+ 
+ #
+ # Dependencies for cleanup
+diff -ur wget-1.5.3.old/doc/Makefile.in~ wget-1.5.3/doc/Makefile.in~
+--- wget-1.5.3.old/doc/Makefile.in~	Sun May 24 04:40:42 1998
++++ wget-1.5.3/doc/Makefile.in~	Wed Jun 23 15:09:55 1999
+@@ -80,7 +80,7 @@
+ #
+ 
+ # install all the documentation
+-install: install.info install.wgetrc # install.man
++install: install.info install.wgetrc  install.man
+ 
+ # uninstall all the documentation
+ uninstall: uninstall.info # uninstall.man
+@@ -93,9 +93,9 @@
+ 	done
+ 
+ # install man page, creating install directory if necessary
+-#install.man:
+-#	$(top_srcdir)/mkinstalldirs $(mandir)/man$(manext)
+-#	$(INSTALL_DATA) $(srcdir)/$(MAN) $(mandir)/man$(manext)/$(MAN)
++install.man:
++	$(top_srcdir)/mkinstalldirs $(mandir)/man$(manext)
++	$(INSTALL_DATA) $(srcdir)/$(MAN) $(mandir)/man$(manext)/$(MAN)
+ 
+ # install sample.wgetrc
+ install.wgetrc:
+@@ -118,8 +118,8 @@
+ 	$(RM) $(infodir)/wget.info*
+ 
+ # uninstall man page
+-#uninstall.man:
+-#	$(RM) $(mandir)/man$(manext)/$(MAN)
++uninstall.man:
++	$(RM) $(mandir)/man$(manext)/$(MAN)
+ 
+ #
+ # Dependencies for cleanup
+diff -ur wget-1.5.3.old/po/Makefile.in.in wget-1.5.3/po/Makefile.in.in
+--- wget-1.5.3.old/po/Makefile.in.in	Tue Mar 17 02:54:29 1998
++++ wget-1.5.3/po/Makefile.in.in	Wed Jun 23 17:17:20 1999
+@@ -92,8 +92,8 @@
+ 	for cat in $$catalogs; do \
+ 	  cat=`basename $$cat`; \
+ 	  case "$$cat" in \
+-	    *.gmo) destdir=$(gnulocaledir);; \
+-	    *)     destdir=$(localedir);; \
++	    *.gmo) destdir=$(DESTDIR)$(gnulocaledir);; \
++	    *)     destdir=$(DESTDIR)$(localedir);; \
+ 	  esac; \
+ 	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+ 	  dir=$$destdir/$$lang/LC_MESSAGES; \
+Only in wget-1.5.3/po: Makefile.in.in~
+diff -ur wget-1.5.3.old/src/Makefile.in wget-1.5.3/src/Makefile.in
+--- wget-1.5.3.old/src/Makefile.in	Tue Jun 23 23:29:18 1998
++++ wget-1.5.3/src/Makefile.in	Wed Jun 23 15:18:46 1999
+@@ -100,11 +100,11 @@
+ uninstall: uninstall.bin
+ 
+ install.bin: wget$(exeext)
+-	$(top_srcdir)/mkinstalldirs $(bindir)
+-	$(INSTALL_PROGRAM) wget$(exeext) $(bindir)/wget$(exeext)
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) wget$(exeext) $(DESTDIR)$(bindir)/wget$(exeext)
+ 
+ uninstall.bin:
+-	$(RM) $(bindir)/wget$(exeext)
++	$(RM) $(DESTDIR)$(bindir)/wget$(exeext)
+ 
+ #
+ # Dependencies for cleanup
+Only in wget-1.5.3/src: Makefile.in~
