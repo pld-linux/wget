@@ -35,8 +35,6 @@ BuildRequires:	perl-devel
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_sysconfdir	/etc
-
 %description
 GNU Wget is a file retrieval utility which can use either the HTTP or
 FTP protocols. Wget features include the ability to work in the
