@@ -17,7 +17,7 @@ Patch1:		%{name}-ah.patch
 #Patch2:		ftp://ftp.kame.net/pub/kame/misc/%{name}-17-v6-20010716a.diff.gz
 #Patch3:		%{name}-ipv6-fix.patch
 #Patch4:		%{name}-ac.patch
-Patch2:		%{name}-%{version}-ipv6.patch
+#Patch2:		%{name}-%{version}-ipv6.patch
 Patch5:		%{name}-use_AM_GNU_GETTEXT.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
@@ -89,7 +89,7 @@ baixando o arquivo até que ele seja completamente recebido.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#%patch2 -p1
 #%patch3 -p1
 #%patch4 -p1
 %patch5 -p1
