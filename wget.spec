@@ -26,7 +26,7 @@ Patch5:		%{name}-wgetrc_path.patch
 Patch6:		%{name}-back-to-ipv4.patch
 Patch7:		%{name}-home_etc.patch
 Patch8:		%{name}-strptime.patch
-#Patch9:		%{name}-porn.patch
+Patch9:		%{name}-porn.patch
 Patch10:	%{name}-nonperm.patch
 Patch11:	%{name}-1.9.1-LFS.patch
 URL:		http://sunsite.dk/wget/
@@ -117,13 +117,13 @@ Proxy сервер╕в, настроюван╕сть.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
+#%%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-#%patch9 -p1
+#%%patch9 -p1
 %patch10 -p1
 %patch11 -p1
 rm -f doc/wget.info*
