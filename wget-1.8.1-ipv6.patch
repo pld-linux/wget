@@ -143,165 +143,6 @@ diff -ubr wget-1.8.1/src/connect.c wget-1.8.1_ipv6/src/connect.c
    return res;
  }
 
-diff -ubr wget-1.8.1/src/host.c wget-1.8.1_ipv6/src/host.c
---- wget-1.8.1/src/host.c       Tue Dec 11 08:32:57 2001
-+++ wget-1.8.1_ipv6/src/host.c  Tue Jan 15 01:14:05 2002
-@@ -18,6 +18,7 @@
- Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
-
- #include <config.h>
-+#include <netdb.h>
-
- #include <stdio.h>
- #include <stdlib.h>
-@@ -65,8 +66,13 @@
- # endif
- #endif
-
--/* An IPv4 address is simply a 4-byte quantity. */
--typedef unsigned char ipv4_address[4];
-+#ifdef IPV6
-+int     family  =       AF_INET6;
-+#else
-+int     family  =       AF_INET;
-+#endif
-+
-+
-
- /* Mapping between known hosts and to lists of their addresses. */
-
-@@ -77,7 +83,7 @@
-
- struct address_list {
-   int count;                   /* number of adrresses */
--  ipv4_address *addresses;     /* pointer to the string of addresses */
-+  ip_address *addresses;       /* pointer to the string of addresses */
-
-   int faulty;                  /* number of addresses known not to
-                                   work. */
-@@ -101,7 +107,7 @@
-                       unsigned char *ip_store)
- {
-   assert (index >= al->faulty && index < al->count);
--  memcpy (ip_store, al->addresses + index, sizeof (ipv4_address));
-+  memcpy (ip_store, al->addresses + index, sizeof (ip_address));
- }
-
- /* Check whether two address lists have all their IPs in common.  */
-@@ -114,7 +120,7 @@
-   if (al1->count != al2->count)
-     return 0;
-   return 0 == memcmp (al1->addresses, al2->addresses,
--                     al1->count * sizeof (ipv4_address));
-+                     al1->count * sizeof (ip_address));
- }
-
- /* Mark the INDEXth element of AL as faulty, so that the next time
-@@ -152,11 +158,11 @@
-   assert (count > 0);
-   al->count     = count;
-   al->faulty    = 0;
--  al->addresses = xmalloc (count * sizeof (ipv4_address));
-+  al->addresses = xmalloc (count * sizeof (ip_address));
-   al->refcount  = 1;
-
-   for (i = 0; i < count; i++)
--    memcpy (al->addresses + i, h_addr_list[i], sizeof (ipv4_address));
-+    memcpy (al->addresses + i, h_addr_list[i], sizeof (ip_address));
-
-   return al;
- }
-@@ -169,9 +175,9 @@
-   struct address_list *al = xmalloc (sizeof (struct address_list));
-   al->count     = 1;
-   al->faulty    = 0;
--  al->addresses = xmalloc (sizeof (ipv4_address));
-+  al->addresses = xmalloc (sizeof (ip_address));
-   al->refcount  = 1;
--  memcpy (al->addresses, addr, sizeof (ipv4_address));
-+  memcpy (al->addresses, addr, sizeof (ip_address));
-
-   return al;
- }
-@@ -233,13 +239,12 @@
- lookup_host (const char *host, int silent)
- {
-   struct address_list *al = NULL;
--  unsigned long addr;
-+  ip_address addr;
-   struct hostent *hptr;
-
--  /* If the address is of the form d.d.d.d, no further lookup is
--     needed.  */
--  addr = (unsigned long)inet_addr (host);
--  if ((int)addr != -1)
-+  /* If the address is of the form that if valid for <family>,
-+     no further lookup is needed.  */
-+  if(0>=inet_pton(family,host,addr))
-     {
-       /* ADDR is defined to be in network byte order, which is what
-         this returns, so we can just copy it to STORE_IP.  However,
-@@ -248,15 +253,15 @@
-         we copy the correct four bytes.  */
-       int offset;
- #ifdef WORDS_BIGENDIAN
--      offset = sizeof (unsigned long) - sizeof (ipv4_address);
-+      offset = sizeof (unsigned long) - sizeof (ip_address);
- #else
-       offset = 0;
- #endif
-       return address_list_new_one ((char *)&addr + offset);
-     }
-
--  /* By now we know that the host name we got is not of the form
--     d.d.d.d.  Try to find it in our cache of host names.  */
-+  /* By now we know that the host name we got is not numerialcal represantation
-+     for <family>.  Try to find it in our cache of host names.  */
-   if (host_name_addresses_map)
-     al = hash_table_get (host_name_addresses_map, host);
-
-@@ -270,8 +275,8 @@
-   if (!silent)
-     logprintf (LOG_VERBOSE, _("Resolving %s... "), host);
-
--  /* Look up the host using gethostbyname().  */
--  hptr = gethostbyname (host);
-+  /* Look up the host using getipnodebyname().  */
-+  hptr = gethostbyname2(host, family);
-   if (!hptr)
-     {
-       if (!silent)
-diff -ubr wget-1.8.1/src/host.h wget-1.8.1_ipv6/src/host.h
---- wget-1.8.1/src/host.h       Tue Dec 11 08:32:58 2001
-+++ wget-1.8.1_ipv6/src/host.h  Tue Jan 15 01:37:06 2002
-@@ -44,4 +44,26 @@
-
- void host_cleanup PARAMS ((void));
-
-+
-+#define IPV6
-+/*
-+       IPv6 support added by Thomas Lussnig <lussnig@bewegungsmelder.de>
-+       Date: 15.01.2001 02:36:05
-+       If there are mistakes please inform me, but i will not work till the
-+       morning on it.
-+*/
-+
-+#ifdef IPV6
-+#include <netdb.h>
-+/* An IPv6 address is simply a 16-byte quantity. */
-+typedef unsigned char ip_address[16];
-+typedef struct sockaddr_in6    SOCKADDR_IN;
-+#else
-+/* An IPv4 address is simply a 4-byte quantity. */
-+typedef unsigned char ip_address[4];
-+typedef struct sockaddr_in     SOCKADDR_IN;
-+#endif
-+extern int     family; /* defined in host.c */
-+
-+
- #endif /* HOST_H */
-Only in wget-1.8.1_ipv6/src: host.h~
 diff -ubr wget-1.8.1/src/init.c wget-1.8.1_ipv6/src/init.c
 --- wget-1.8.1/src/init.c       Thu Dec 13 19:19:03 2001
 +++ wget-1.8.1_ipv6/src/init.c  Tue Jan 15 01:34:06 2002
@@ -356,3 +197,132 @@ diff -ubr wget-1.8.1/src/options.h wget-1.8.1_ipv6/src/options.h
 
  #ifdef HAVE_SSL
    char *sslcertfile;           /* external client cert to use. */
+
+diff -urN wget-1.8.1/src/host.c wget-1.8.1_ipv6/src/host.c
+--- wget-1.8.1/src/host.c	Tue Dec 11 09:32:57 2001
++++ wget-1.8.1_ipv6/src/host.c	Mon Apr  1 20:49:22 2002
+@@ -18,6 +18,7 @@
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+ 
+ #include <config.h>
++#include <netdb.h>
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -65,8 +66,13 @@
+ # endif
+ #endif
+ 
+-/* An IPv4 address is simply a 4-byte quantity. */
+-typedef unsigned char ipv4_address[4];
++#ifdef IPV6
++int     family  =       AF_INET6;
++#else
++int     family  =       AF_INET;
++#endif
++
++
+ 
+ /* Mapping between known hosts and to lists of their addresses. */
+ 
+@@ -77,7 +83,7 @@
+ 
+ struct address_list {
+   int count;			/* number of adrresses */
+-  ipv4_address *addresses;	/* pointer to the string of addresses */
++  ip_address *addresses;	/* pointer to the string of addresses */
+ 
+   int faulty;			/* number of addresses known not to
+ 				   work. */
+@@ -101,7 +107,7 @@
+ 		       unsigned char *ip_store)
+ {
+   assert (index >= al->faulty && index < al->count);
+-  memcpy (ip_store, al->addresses + index, sizeof (ipv4_address));
++  memcpy (ip_store, al->addresses + index, sizeof (ip_address));
+ }
+ 
+ /* Check whether two address lists have all their IPs in common.  */
+@@ -114,7 +120,7 @@
+   if (al1->count != al2->count)
+     return 0;
+   return 0 == memcmp (al1->addresses, al2->addresses,
+-		      al1->count * sizeof (ipv4_address));
++		      al1->count * sizeof (ip_address));
+ }
+ 
+ /* Mark the INDEXth element of AL as faulty, so that the next time
+@@ -152,11 +158,11 @@
+   assert (count > 0);
+   al->count     = count;
+   al->faulty    = 0;
+-  al->addresses = xmalloc (count * sizeof (ipv4_address));
++  al->addresses = xmalloc (count * sizeof (ip_address));
+   al->refcount  = 1;
+ 
+   for (i = 0; i < count; i++)
+-    memcpy (al->addresses + i, h_addr_list[i], sizeof (ipv4_address));
++    memcpy (al->addresses + i, h_addr_list[i], sizeof (ip_address));
+ 
+   return al;
+ }
+@@ -169,9 +175,9 @@
+   struct address_list *al = xmalloc (sizeof (struct address_list));
+   al->count     = 1;
+   al->faulty    = 0;
+-  al->addresses = xmalloc (sizeof (ipv4_address));
++  al->addresses = xmalloc (sizeof (ip_address));
+   al->refcount  = 1;
+-  memcpy (al->addresses, addr, sizeof (ipv4_address));
++  memcpy (al->addresses, addr, sizeof (ip_address));
+ 
+   return al;
+ }
+@@ -233,13 +239,12 @@
+ lookup_host (const char *host, int silent)
+ {
+   struct address_list *al = NULL;
+-  unsigned long addr;
++  ip_address addr;
+   struct hostent *hptr;
+ 
+-  /* If the address is of the form d.d.d.d, no further lookup is
+-     needed.  */
+-  addr = (unsigned long)inet_addr (host);
+-  if ((int)addr != -1)
++  /* If the address is of the form that if valid for <family>,
++     no further lookup is needed.  */
++  if(0>=inet_pton(family,host,addr))
+     {
+       /* ADDR is defined to be in network byte order, which is what
+ 	 this returns, so we can just copy it to STORE_IP.  However,
+@@ -248,15 +253,15 @@
+ 	 we copy the correct four bytes.  */
+       int offset;
+ #ifdef WORDS_BIGENDIAN
+-      offset = sizeof (unsigned long) - sizeof (ipv4_address);
++      offset = sizeof (unsigned long) - sizeof (ip_address);
+ #else
+       offset = 0;
+ #endif
+       return address_list_new_one ((char *)&addr + offset);
+     }
+ 
+-  /* By now we know that the host name we got is not of the form
+-     d.d.d.d.  Try to find it in our cache of host names.  */
++  /* By now we know that the host name we got is not numerialcal represantation
++     for <family>.  Try to find it in our cache of host names.  */
+   if (host_name_addresses_map)
+     al = hash_table_get (host_name_addresses_map, host);
+ 
+@@ -270,8 +275,8 @@
+   if (!silent)
+     logprintf (LOG_VERBOSE, _("Resolving %s... "), host);
+ 
+-  /* Look up the host using gethostbyname().  */
+-  hptr = gethostbyname (host);
++  /* Look up the host using getipnodebyname().  */
++  hptr = gethostbyname2(host, family);
+   if (!hptr)
+     {
+       if (!silent)
