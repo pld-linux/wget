@@ -2,14 +2,14 @@ Summary:     Command-line HTTP and FTP client
 Summary(pl): Wsadowy klient HTTP/FTP 
 Name:        wget
 Version:     1.5.3
-Release:     4
+Release:     5
 Copyright:   GPL
 Group:       Networking/Utilities
 Group(pl):   Sieciowe/Narzêdzia
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
 Patch0:      %{name}-man.patch
 Patch1:      %{name}-pl.po.patch
-Patch2:      %{naem}-info.patch
+Patch2:      %{name}-info.patch
 Prereq:      /sbin/install-info
 URL:         http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:   /tmp/%{name}-%{version}-root
@@ -23,8 +23,8 @@ from cron jobs.
 %description -l pl
 Wget jest klientem FTP/HTTP przeznaczonym do ¶ci±gania zasobów wsadowo. 
 Umo¿liwia ¶ci±ganie zasobów z podkatalogami, a tak¿e ma opcje umo¿liwiaj±ce 
-wykonanie lokalnej kopi zasobów (mirror). W razie nie mo¿no¶ci dostania siê 
-do zasobów lub gdy po³±czenie z serwerem FTP/HTTP zostanie zerwane mo¿e 
+wykonanie lokalnej kopii zasobów (mirror). W razie niemo¿no¶ci dostania siê 
+do zasobów lub gdy po³±czenie z serwerem FTP/HTTP zostanie zerwane, mo¿e 
 automatycznie ponawiaæ próby kopiowania. Jest tak¿e dobrze przystosowany do 
 tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 
@@ -48,8 +48,8 @@ rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
 install -c util/rmold.pl $RPM_BUILD_ROOT/usr/bin/rmold
 
-gzip -9nf $RPM_BUILD_ROOT/usr/{info/wget.info*,man/man1/*}
-gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
+gzip -9nf $RPM_BUILD_ROOT/usr/{info/wget.info*,man/man1/*} \
+    AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -63,12 +63,11 @@ if [ $1 = 0 ]; then
 fi
 
 %files
-%defattr(644, root, root, 755)
-%doc AUTHORS.gz ChangeLog.gz MAILING-LIST.gz NEWS.gz TODO.gz
-%doc README.gz rmold.README.gz
+%defattr(644,root,root,755)
+%doc {AUTHORS,ChangeLog,MAILING-LIST,NEWS,TODO,README,rmold.README}.gz
 %verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
-%attr(755, root, root) /usr/bin/*
-%attr(644, root,  man) /usr/man/man1/*
+%attr(755,root,root) /usr/bin/*
+/usr/man/man1/*
 /usr/info/wget.info*
 %lang(cs) /usr/share/locale/cs/LC_MESSAGES/wget.mo
 %lang(de) /usr/share/locale/de/LC_MESSAGES/wget.mo
@@ -79,6 +78,12 @@ fi
 %lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
 
 %changelog
+* Fri Apr  2 1999 Piotr Czerwiñski <pius@pld.org.pl>
+  [1.5.2-5]
+- removed man group from man pages,
+- few typos corrected,
+- cosmetic changes for common l&f.
+
 * Thu Feb 10 1999 Micha³ Kuratczyk <kurkens@polbox.com>
   [1.5.2-4]
 - added Group(pl)
