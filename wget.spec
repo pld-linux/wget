@@ -36,7 +36,7 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure \
+./configure %{_target} \
 	--prefix=/usr \
 	--sysconfdir=/etc
 make
