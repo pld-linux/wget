@@ -64,7 +64,7 @@ install -c util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/%{name}.info*,%{_mandir}/man1/*} \
     AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
-%find_lang wget
+%find_lang %{name}
  
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -77,7 +77,7 @@ if [ "$1" = "0" ]; then
 	/sbin/install-info --delete %{_infodir}/%{name}.info.gz /etc/info-dir
 fi
 
-%files -f wget.lang
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc {AUTHORS,ChangeLog,MAILING-LIST,NEWS,TODO,README,rmold.README}.gz
 %verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
