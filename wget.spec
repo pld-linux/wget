@@ -50,7 +50,7 @@ tail -6 util/README >rmold.README
 rm -rf $RPM_BUILD_ROOT
 
 make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
-install -c util/rmold.pl $RPM_BUILD_ROOT/usr/bin/rmold
+install -c util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
 gzip -9nf $RPM_BUILD_ROOT%{_datadir}/{info/wget.info*,man/man1/*} \
     AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
@@ -70,7 +70,7 @@ fi
 %defattr(644,root,root,755)
 %doc {AUTHORS,ChangeLog,MAILING-LIST,NEWS,TODO,README,rmold.README}.gz
 
-%attr(755,root,root) /usr/bin/*
+%attr(755,root,root) %{_bindir}/*
 
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/wget.mo
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/wget.mo
