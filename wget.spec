@@ -12,9 +12,9 @@ Release:	5
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
-# Source0-md5: a2473d7a53ebaf0a1bdb06f17059e8f1
-Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
-# Source2-md5: bad85be11d26aeab8158cdfcf7e7483e
+# Source0-md5:	a2473d7a53ebaf0a1bdb06f17059e8f1
+Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
+# Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac.patch
 # based on http://www14.u-page.so-net.ne.jp/db3/h-yamamo/ipv6/patches/%{name}-1.8.1-v6-20219.patch.gz
@@ -23,6 +23,7 @@ Patch3:		%{name}-ht.patch
 Patch4:		%{name}-filename.patch
 Patch5:		%{name}-lame_fs.patch
 Patch6:		%{name}-pl.patch
+Patch7:		%{name}-wgetrc_path.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -115,6 +116,7 @@ Proxy сервер╕в, настроюван╕сть.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 rm -f missing
@@ -142,7 +144,7 @@ echo "y" | \
 install util/rmold.pl		$RPM_BUILD_ROOT%{_bindir}/rmold
 install doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 
-bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
 %find_lang %{name}
 
