@@ -5,7 +5,7 @@ Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
 Version:	1.8.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
@@ -101,7 +101,8 @@ aclocal
 autoconf
 %configure \
 	--with-ssl
-%{__make} CFLAGS="$CFLAGS -DHAVE_NLS -DHAVE_LOCALE_H -DINET6"
+#%{__make} CFLAGS="$CFLAGS -DHAVE_NLS -DHAVE_LOCALE_H -DINET6"
+%{__make} CFLAGS="%{rpmcflags} -DHAVE_NLS -DHAVE_LOCALE_H -DINET6"
 tail -6 util/README >rmold.README
 
 cd doc
