@@ -111,7 +111,6 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
 echo "y" | %{__make} install DESTDIR=$RPM_BUILD_ROOT
-mv $RPM_BUILD_ROOT%{_sysconfdir}/wgetrc.* $RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 install util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
 gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
