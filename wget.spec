@@ -8,11 +8,11 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.9
-Release:	0.2
+Release:	0.3
 License:	GPL
 Group:		Networking/Utilities
-Source0:	http://fly.srk.fer.hr/~hniksic/wget/%{name}-%{version}-b5.tar.gz
-# Source0-md5:	d1755765e8bfa952ba952e12486f60b1
+Source0:	http://fly.srk.fer.hr/~hniksic/wget/%{name}-%{version}-rc1.tar.gz
+# Source0-md5:	c63649b78a0821ea557a569009c5d89a
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -21,6 +21,7 @@ Patch2:		%{name}-m4.patch
 Patch3:		%{name}-lame_fs.patch
 Patch4:		%{name}-pl.patch
 Patch5:		%{name}-wgetrc_path.patch
+Patch6:		%{name}-back-to-ipv4.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -103,13 +104,14 @@ GNU Wget - це утил╕та командного рядка для отримання файл╕в по
 Proxy сервер╕в, настроюван╕сть.
 
 %prep
-%setup -q -n %{name}-%{version}-b5
+%setup -q -n %{name}-%{version}-rc1
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 #%patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 rm -f aclocal.m4
