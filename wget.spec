@@ -2,7 +2,7 @@ Summary:	Command-line HTTP and FTP client
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.5.3
-Release:	6
+Release:	7
 Copyright:	GPL
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
@@ -10,6 +10,7 @@ Source:		ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
 Patch0:		wget-man.patch
 Patch1:		wget-pl.po.patch
 Patch2:		wget-info.patch
+BuildPrereq:	autoconf >= 2.13-8
 Prereq:		/sbin/install-info
 URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:	/tmp/%{name}-%{version}-root
@@ -35,6 +36,7 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %patch2 -p1
 
 %build
+autoconf
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
 ./configure %{_target} \
 	--prefix=/usr \
@@ -50,18 +52,18 @@ rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
 install -c util/rmold.pl $RPM_BUILD_ROOT/usr/bin/rmold
 
-gzip -9nf $RPM_BUILD_ROOT/usr/{info/wget.info*,man/man1/*} \
+gzip -9nf $RPM_BUILD_ROOT/usr/share/{info/wget.info*,man/man1/*} \
     AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/install-info /usr/info/wget.info.gz /etc/info-dir
+/sbin/install-info /usr/share/info/wget.info.gz /etc/info-dir
 
 %postun
 if [ "$1" = "0" ]; then
-	/sbin/install-info --delete /usr/info/wget.info.gz /etc/info-dir
+	/sbin/install-info --delete /usr/share/info/wget.info.gz /etc/info-dir
 fi
 
 %files
@@ -78,12 +80,16 @@ fi
 %lang(pl) /usr/share/locale/pl/LC_MESSAGES/wget.mo
 %lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
 
-/usr/man/man1/*
-/usr/info/wget.info*
+/usr/share/man/man1/*
+/usr/share/info/wget.info*
 
 %verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
 
 %changelog
+* Thu May 13 1999 Piotr Czerwiñski <pius@pld.org.pl>
+  [1.5.3-7]
+- package is now FHS 2.0 compliant.
+
 * Wed Apr 21 1999 Piotr Czerwiñski <pius@pld.org.pl>
   [1.5.3-6]
 - replacements in %files,
