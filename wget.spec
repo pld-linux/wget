@@ -37,6 +37,8 @@ BuildRequires:	perl-devel
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_noautoreqfiles		%{_bindir}/rmold
+
 %description
 GNU Wget is a file retrieval utility which can use either the HTTP or
 FTP protocols. Wget features include the ability to work in the
