@@ -56,42 +56,6 @@ diff -ur wget-1.5.3.old/doc/Makefile.in wget-1.5.3/doc/Makefile.in
  
  #
  # Dependencies for cleanup
-diff -ur wget-1.5.3.old/doc/Makefile.in~ wget-1.5.3/doc/Makefile.in~
---- wget-1.5.3.old/doc/Makefile.in~	Sun May 24 04:40:42 1998
-+++ wget-1.5.3/doc/Makefile.in~	Wed Jun 23 15:09:55 1999
-@@ -80,7 +80,7 @@
- #
- 
- # install all the documentation
--install: install.info install.wgetrc # install.man
-+install: install.info install.wgetrc  install.man
- 
- # uninstall all the documentation
- uninstall: uninstall.info # uninstall.man
-@@ -93,9 +93,9 @@
- 	done
- 
- # install man page, creating install directory if necessary
--#install.man:
--#	$(top_srcdir)/mkinstalldirs $(mandir)/man$(manext)
--#	$(INSTALL_DATA) $(srcdir)/$(MAN) $(mandir)/man$(manext)/$(MAN)
-+install.man:
-+	$(top_srcdir)/mkinstalldirs $(mandir)/man$(manext)
-+	$(INSTALL_DATA) $(srcdir)/$(MAN) $(mandir)/man$(manext)/$(MAN)
- 
- # install sample.wgetrc
- install.wgetrc:
-@@ -118,8 +118,8 @@
- 	$(RM) $(infodir)/wget.info*
- 
- # uninstall man page
--#uninstall.man:
--#	$(RM) $(mandir)/man$(manext)/$(MAN)
-+uninstall.man:
-+	$(RM) $(mandir)/man$(manext)/$(MAN)
- 
- #
- # Dependencies for cleanup
 diff -ur wget-1.5.3.old/po/Makefile.in.in wget-1.5.3/po/Makefile.in.in
 --- wget-1.5.3.old/po/Makefile.in.in	Tue Mar 17 02:54:29 1998
 +++ wget-1.5.3/po/Makefile.in.in	Wed Jun 23 17:17:20 1999
