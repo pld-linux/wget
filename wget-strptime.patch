@@ -1,0 +1,12 @@
+diff -dur wget-1.9.1.orig/src/http.c wget-1.9.1/src/http.c
+--- wget-1.9.1.orig/src/http.c	2003-10-15 01:32:15.000000000 +0200
++++ wget-1.9.1/src/http.c	2004-01-28 10:50:00.757788465 +0100
+@@ -30,6 +30,7 @@
+ 
+ #include <config.h>
+ 
++#define _XOPEN_SOURCE
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <sys/types.h>
+Only in wget-1.9.1/src: http.c~
