@@ -3,18 +3,19 @@ Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocol
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.5.3
-Release:	10
+Release:	11
 Copyright:	GPL
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
 Source:		ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Source1:		http://cade.8m.com/away/wget-new-percentage-3.0.tar.gz
 Patch0:		wget-man.patch
 Patch1:		wget-pl.po.patch
 Patch2:		wget-info.patch
 Patch3:		wget-1.5.3-ipv6.patch
 Patch4:		wget-DESTDIR.patch
-patch5:		wget-symlink.patch
-URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
+Patch5:		wget-symlink.patch
+URL:			http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define	_sysconfdir	/etc
@@ -54,6 +55,10 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+tar xzf %{SOURCE1}
+cd src
+mv ../wget-new-percentage/wget-new-percentage.c .
+patch retr.c < ../wget-new-percentage/wget-new-percentage.diff
 
 %build
 autoconf
@@ -71,8 +76,10 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 install util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
+mv	wget-new-percentage/README README-new_percent
 gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/%{name}.info*,%{_mandir}/man1/*} \
-	AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
+	AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README \
+	README-new_percent
 
 %find_lang %{name}
  
@@ -87,7 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc {AUTHORS,ChangeLog,MAILING-LIST,NEWS,TODO,README,rmold.README}.gz
+%doc {AUTHORS,ChangeLog,MAILING-LIST,NEWS,TODO,README,rmold.README,README-new_percent}.gz
 %verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
 %attr(755,root,root) %{_bindir}/*
 
