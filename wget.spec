@@ -11,14 +11,12 @@ Version:	1.9
 Release:	0.1
 License:	GPL
 Group:		Networking/Utilities
-Source0:	http://fly.srk.fer.hr/~hniksic/wget/%{name}-%{version}-beta3.tar.gz
-# Source0-md5:	42a2c98cd9980397007ea6306f1f5dd2
+Source0:	http://fly.srk.fer.hr/~hniksic/wget/%{name}-%{version}-beta4.tar.gz
+# Source0-md5:	810085ed7df4da45353f4b836a1b06b3
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac.patch
-# based on http://www14.u-page.so-net.ne.jp/db3/h-yamamo/ipv6/patches/%{name}-1.8.1-v6-20219.patch.gz
-Patch2:		%{name}-ipv6.patch
 Patch3:		%{name}-ht.patch
 Patch4:		%{name}-filename.patch
 Patch5:		%{name}-lame_fs.patch
@@ -106,10 +104,9 @@ GNU Wget - це утил╕та командного рядка для отримання файл╕в по
 Proxy сервер╕в, настроюван╕сть.
 
 %prep
-%setup -q -n %{name}-%{version}-beta3
+%setup -q -n %{name}-%{version}-beta4
 #%patch0 -p1
 %patch1 -p1
-#%patch2 -p1
 #%patch3 -p0
 #%patch4 -p1
 #%patch5 -p1
