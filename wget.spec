@@ -2,23 +2,25 @@ Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
-Version:	1.6
-Release:	4
+Version:	1.7
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
 Group(pl):	Sieciowe/Narzêdzia
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
-Source1:	http://cade.8m.com/away/%{name}-new-percentage-3.0.tar.gz
-Source2:	wget.pl.po
-Patch0:		%{name}-man.patch
-Patch1:		%{name}-info.patch
-Patch2:		%{name}-DESTDIR.patch
-Patch3:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-1.6-ipv6-20010102.patch.gz
+Source1:	%{name}.pl.po
+Patch0:		%{name}-info.patch
+Patch1:		%{name}-am_ac.patch
+Patch2:		http://www.t17.ds.pwr.wroc.pl/~misiek/ipv6/%{name}-1.7-ipv6-20010604.patch.gz
 URL:		http://sunsite.dk/wget/
+BuildRequires:	openssl-devel >= 0.9.6a
+BuildRequires:	autoconf
+BuildRequires:	texinfo
+BuildRequires:	gettext-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define	_sysconfdir	/etc
+%define		_sysconfdir	/etc
 
 %description
 GNU Wget is a file retrieval utility which can use either the HTTP or
@@ -53,18 +55,15 @@ go jako zadanie z cron'a.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-install %{SOURCE2} po/pl.po
-tar xzf %{SOURCE1}
-cd src
-mv -f ../wget-new-percentage/wget-new-percentage.c .
-patch retr.c < ../wget-new-percentage/wget-new-percentage.diff
+#%patch2 -p1
+install %{SOURCE1} po/pl.po
 
 %build
-autoconf
 autoheader
-%configure --enable-ipv6
+autoconf
+%configure \
+	--with-ssl \
+	--enable-ipv6
 %{__make}
 tail -6 util/README >rmold.README
 
@@ -72,15 +71,13 @@ tail -6 util/README >rmold.README
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
-
+echo "y" | %{__make} install DESTDIR=$RPM_BUILD_ROOT
+mv $RPM_BUILD_ROOT%{_sysconfdir}/wgetrc.* $RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 install util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
-mv -f wget-new-percentage/README README-new_percent
-
-gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README \
-	README-new_percent
+gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README 
 
 %find_lang %{name}
  
