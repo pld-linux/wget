@@ -1,5 +1,27 @@
---- ../../wget-1.9.1/src/progress.c	2003-09-23 22:48:10.000000000 +0200
-+++ src/progress.c	2004-02-12 15:48:58.839263832 +0100
+Tylko w wget-1.9.1-porn: config.log
+Tylko w wget-1.9.1-porn: libtool
+diff -ur wget-1.9.1/src/progress.c wget-1.9.1-porn/src/progress.c
+--- wget-1.9.1/src/progress.c	2003-09-23 20:48:10.000000000 +0000
++++ wget-1.9.1-porn/src/progress.c	2004-02-13 11:32:06.000000000 +0000
+@@ -659,15 +659,15 @@
+      randomly.
+ 
+      "xx% " or "100%"  - percentage               - 4 chars
+-     "[]"              - progress bar decorations - 2 chars
++     "8(_o_)"          - progress bar decorations - 6 chars
+      " nnn,nnn,nnn"    - downloaded bytes         - 12 chars or very rarely more
+      " 1012.56K/s"     - dl rate                  - 11 chars
+      " ETA xx:xx:xx"   - ETA                      - 13 chars
+ 
+-     "=====>..."       - progress bar             - the rest
++     "=====D..."       - progress bar             - the rest
+   */
+   int dlbytes_size = 1 + MAX (size_legible_len, 11);
+-  int progress_size = bp->width - (4 + 2 + dlbytes_size + 11 + 13);
++  int progress_size = bp->width - (4 + 6 + dlbytes_size + 11 + 13);
+ 
+   if (progress_size < 5)
+     progress_size = 0;
 @@ -703,7 +703,7 @@
        assert (dlsz <= progress_size);
        assert (insz <= dlsz);
@@ -9,7 +31,7 @@
        begin = p;
  
        /* Print the initial portion of the download with '+' chars, the
-@@ -715,12 +715,12 @@
+@@ -715,12 +715,16 @@
  	{
  	  for (i = 0; i < dlsz - 1; i++)
  	    *p++ = '=';
@@ -20,7 +42,11 @@
        while (p - begin < progress_size)
  	*p++ = ' ';
 -      *p++ = ']';
++      *p++ = '(';
++      *p++ = '_';
 +      *p++ = 'o';
++      *p++ = '_';
++      *p++ = ')';
      }
    else if (progress_size)
      {
