@@ -10,7 +10,7 @@ diff -Nru wget-1.5.3/doc/wget.texi wget-1.5.3.new/doc/wget.texi
 +@dircategory Net utilities:
  @direntry
 -* Wget: (wget).         The non-interactive network downloader.
-+* Wget: (wget)				The non-interactive network downloader
++* Wget: (wget).				The non-interactive network downloader
  @end direntry
  
  @ifinfo
