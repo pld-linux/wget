@@ -2,21 +2,18 @@ Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
-Version:	1.5.3
-Release:	12
+Version:	1.6
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
 Group(pl):	Sieciowe/Narzêdzia
-Source0:	ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
 Source1:	http://cade.8m.com/away/%{name}-new-percentage-3.0.tar.gz
 Patch0:		%{name}-man.patch
-Patch1:		%{name}-pl.po.patch
-Patch2:		%{name}-info.patch
-Patch3:		%{name}-1.5.3-ipv6.patch
-Patch4:		%{name}-DESTDIR.patch
-Patch5:		%{name}-symlink.patch
-URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
+Patch1:		%{name}-info.patch
+Patch2:		%{name}-DESTDIR.patch
+URL:		http://sunsite.dk/wget/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define	_sysconfdir	/etc
@@ -55,9 +52,6 @@ go jako zadanie z cron'a.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 tar xzf %{SOURCE1}
 cd src
 mv -f ../wget-new-percentage/wget-new-percentage.c .
