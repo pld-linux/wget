@@ -1,6 +1,6 @@
-diff -urN wget-1.9-beta3.org/configure.in wget-1.9-beta3/configure.in
---- wget-1.9-beta3.org/configure.in	2003-10-03 12:07:14.000000000 +0200
-+++ wget-1.9-beta3/configure.in	2003-10-03 12:15:57.000000000 +0200
+diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
+--- wget-1.9-b5.org/configure.in	2003-10-12 23:55:54.000000000 +0200
++++ wget-1.9-b5/configure.in	2003-10-13 00:24:45.000000000 +0200
 @@ -46,14 +46,14 @@
  dnl Get cannonical host
  dnl
@@ -39,7 +39,7 @@ diff -urN wget-1.9-beta3.org/configure.in wget-1.9-beta3/configure.in
  
  wget_need_md5=no
  
-@@ -374,7 +374,7 @@
+@@ -382,7 +382,7 @@
      dnl AC_MSG_RESULT doesn't look right here, but I'm not sure what
      dnl to use instead.
      AC_MSG_RESULT([Compiling in support for SSL in $ssl_root])
@@ -48,7 +48,7 @@ diff -urN wget-1.9-beta3.org/configure.in wget-1.9-beta3/configure.in
      AC_SUBST(SSL_INCLUDES)
      SSL_OBJ='gen_sslfunc$o'
      AC_SUBST(SSL_OBJ)
-@@ -416,7 +416,7 @@
+@@ -424,7 +424,7 @@
    dnl specific to the Solaris MD5 library.
    if test x"$found_md5" = xno; then
      AC_CHECK_LIB(md5, md5_calc, [
@@ -57,7 +57,7 @@ diff -urN wget-1.9-beta3.org/configure.in wget-1.9-beta3/configure.in
        LIBS="-lmd5 $LIBS"
        found_md5=yes
      ])
-@@ -426,19 +426,19 @@
+@@ -434,19 +434,19 @@
    dnl implementation.
    if test x"$found_md5" = xno; then
      if test x"$ssl_success" = xyes; then
@@ -80,7 +80,7 @@ diff -urN wget-1.9-beta3.org/configure.in wget-1.9-beta3/configure.in
  AC_SUBST(MD5_OBJ)
  
  dnl **********************************************************************
-@@ -522,7 +522,7 @@
+@@ -530,7 +530,7 @@
  dnl new language was added.
  
  dnl internationalization macros
@@ -89,9 +89,38 @@ diff -urN wget-1.9-beta3.org/configure.in wget-1.9-beta3/configure.in
  
  dnl
  dnl Find makeinfo.  If makeinfo is not found, look for Emacs.  If
-diff -urN wget-1.9-beta3.org/src/main.c wget-1.9-beta3/src/main.c
---- wget-1.9-beta3.org/src/main.c	2003-10-03 12:07:14.000000000 +0200
-+++ wget-1.9-beta3/src/main.c	2003-10-03 12:07:21.000000000 +0200
+@@ -563,6 +563,4 @@
+ dnl Create output
+ dnl
+ AC_OUTPUT([Makefile src/Makefile doc/Makefile util/Makefile po/Makefile.in
+-           windows/Makefile],
+-[WGET_PROCESS_PO
+-test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h])
++           windows/Makefile])
+diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
+--- wget-1.9-b5.org/Makefile.in	2003-10-12 23:55:54.000000000 +0200
++++ wget-1.9-b5/Makefile.in	2003-10-13 00:29:14.000000000 +0200
+@@ -82,7 +82,7 @@
+ infodir='$(infodir)' mandir='$(mandir)' manext='$(manext)'
+ 
+ # subdirectories in the distribution
+-SUBDIRS = src doc po util windows
++SUBDIRS = src doc intl po util windows
+ 
+ # default target
+ all: libtool src/config.h Makefile $(SUBDIRS)
+@@ -106,7 +106,7 @@
+ 
+ # Install `.mo' files
+ install.mo:
+-	cd po && $(MAKE) $(MAKEDEFS) $@
++	cd po && $(MAKE) $(MAKEDEFS) install
+ 
+ # Regenerate libtool if ltconfig and/or ltmain are updated
+ libtool: $(LIBTOOL_DEPS)
+diff -urN wget-1.9-b5.org/src/main.c wget-1.9-b5/src/main.c
+--- wget-1.9-b5.org/src/main.c	2003-10-12 23:55:54.000000000 +0200
++++ wget-1.9-b5/src/main.c	2003-10-13 00:14:16.000000000 +0200
 @@ -44,11 +44,11 @@
  #ifdef HAVE_SIGNAL_H
  # include <signal.h>
@@ -104,8 +133,8 @@ diff -urN wget-1.9-beta3.org/src/main.c wget-1.9-beta3/src/main.c
 -#endif /* HAVE_NLS */
 +#endif /* ENABLE_NLS */
  #include <errno.h>
- 
- #include "wget.h"
+ #ifndef errno
+ extern int errno;
 @@ -98,9 +98,9 @@
  static void
  i18n_initialize (void)
@@ -127,10 +156,10 @@ diff -urN wget-1.9-beta3.org/src/main.c wget-1.9-beta3/src/main.c
  }
  
  /* Print the usage message.  */
-diff -urN wget-1.9-beta3.org/src/wget.h wget-1.9-beta3/src/wget.h
---- wget-1.9-beta3.org/src/wget.h	2003-10-03 12:07:14.000000000 +0200
-+++ wget-1.9-beta3/src/wget.h	2003-10-03 12:07:21.000000000 +0200
-@@ -53,14 +53,12 @@
+diff -urN wget-1.9-b5.org/src/wget.h wget-1.9-b5/src/wget.h
+--- wget-1.9-b5.org/src/wget.h	2003-10-12 23:55:54.000000000 +0200
++++ wget-1.9-b5/src/wget.h	2003-10-13 00:14:16.000000000 +0200
+@@ -54,14 +54,12 @@
  
  /* `gettext (FOO)' is long to write, so we use `_(FOO)'.  If NLS is
     unavailable, _(STRING) simply returns STRING.  */
@@ -148,4 +177,3 @@ diff -urN wget-1.9-beta3.org/src/wget.h wget-1.9-beta3/src/wget.h
  
  /* No-op version of gettext, used for constant strings. */
  #define N_(string) (string)
-
