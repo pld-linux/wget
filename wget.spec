@@ -65,7 +65,7 @@ patch retr.c < ../wget-new-percentage/wget-new-percentage.diff
 autoconf
 LDFLAGS="-s"; export LDFLAGS
 %configure 
-make
+%{__make}
 tail -6 util/README >rmold.README
 
 (cd doc; makeinfo --force %{name}.texi; touch *)
