@@ -16,7 +16,7 @@ Patch4:		wget-DESTDIR.patch
 patch5:		wget-symlink.patch
 Prereq:		/usr/sbin/fix-info-dir
 URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define	_sysconfdir	/etc
 
