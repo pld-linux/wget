@@ -42,6 +42,8 @@ CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
 make
 tail -6 util/README >rmold.README
 
+(cd doc; makeinfo --force wget.texi; touch *)
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
