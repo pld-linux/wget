@@ -81,13 +81,3 @@ fi
 
 %{_mandir}/man1/*
 %{_infodir}/%{name}.info*
-
-%changelog
-* Thu May 20 1999 Piotr Czerwiñski <pius@pld.org.pl> 
-  [1.5.3-8]
-- package is FHS 2.0 compliant,
-- based on spec file written by ??? <root@ricketts.stannes.ox.ac.uk>,
-  rewritten for PLD use by me, Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>,
-  and Micha³ Kuratczyk <kura@pld.org.pl>,
-- pl translation by Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  and Wojtek ¦lusarczyk <wojtek@shadow.eu.org>.
