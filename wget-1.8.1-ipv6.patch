@@ -97,11 +97,11 @@ diff -ubr wget-1.8.1/src/connect.c wget-1.8.1_ipv6/src/connect.c
 -      int addrlen = sizeof (struct sockaddr_in);
 +      int addrlen = sizeof (SOCKADDR_IN);
        if (getsockname (msock, addr, &addrlen) < 0)
-        {
-          CLOSE (msock);
-          msock = -1;
-          return CONPORTERR;
-        }
+ 	{
+ 	  CLOSE (msock);
+ 	  msock = -1;
+ 	  return CONPORTERR;
+ 	}
 +#ifdef IPV6
 +      *port = ntohs (srv.sin6_port);
 +#else
