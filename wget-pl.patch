@@ -1,0 +1,50 @@
+--- wget-1.8.2/po/pl.po.orig	Wed Mar 19 19:57:06 2003
++++ wget-1.8.2/po/pl.po	Wed Mar 19 20:01:23 2003
+@@ -6,9 +6,9 @@
+ #
+ msgid ""
+ msgstr ""
+-"Project-Id-Version: wget 1.8.1\n"
++"Project-Id-Version: wget 1.8.2\n"
+ "POT-Creation-Date: 2001-12-17 16:30+0100\n"
+-"PO-Revision-Date: 2002-03-20 10:57+01:00\n"
++"PO-Revision-Date: 2002-03-20 11:12+0100\n"
+ "Last-Translator: Wojciech Kotwica <wkotwica@post.pl>\n"
+ "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+ "MIME-Version: 1.0\n"
+@@ -313,7 +313,7 @@
+ "The sizes do not match (local %ld) -- retrieving.\n"
+ "\n"
+ msgstr ""
+-"Rozmiary nie pasuj± (lokalny %ld) -- pobieranie.\n"
++"Rozmiary siê ró¿ni± (lokalny %ld) -- pobieranie.\n"
+ "\n"
+ 
+ #: src/ftp.c:1348
+@@ -391,7 +391,7 @@
+ msgid "Could not seed OpenSSL PRNG; disabling SSL.\n"
+ msgstr ""
+ "Nie da³o siê ustaliæ ziarna generatora liczb pseudolosowych dla OpenSSL;\n"
+-" wy³±czenie SSL.\n"
++"wy³±czenie SSL.\n"
+ 
+ #: src/getopt.c:454
+ #, c-format
+@@ -623,7 +623,7 @@
+ #: src/http.c:1714
+ #, c-format
+ msgid "The sizes do not match (local %ld) -- retrieving.\n"
+-msgstr "Rozmiary nie pasuj± (lokalny %ld) -- pobieranie.\n"
++msgstr "Rozmiary siê ró¿ni± (lokalny %ld) -- pobieranie.\n"
+ 
+ #: src/http.c:1718
+ msgid "Remote file is newer, retrieving.\n"
+@@ -828,7 +828,7 @@
+ "\n"
+ msgstr ""
+ "¦ci±ganie:\n"
+-"       --bind-address=ADRES     u¿ywa lokalnego adresu ADRES (host lub IP).\n"
++"       --bind-address=ADRES     u¿ywa lokalnego adresu ADRES (nazwa lub IP).\n"
+ "  -t,  --tries=LICZBA           ustawia liczbê ponownych prób na LICZBA\n"
+ "                                (0 = bez limitu).\n"
+ "  -O   --output-document=PLIK   zapisuje dokumenty do PLIKu.\n"
