@@ -8,11 +8,11 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.9
-Release:	0.4
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
-Source0:	http://fly.srk.fer.hr/~hniksic/wget/%{name}-%{version}-rc1.tar.gz
-# Source0-md5:	c63649b78a0821ea557a569009c5d89a
+Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
+# Source0-md5:	18ac093db70801b210152dd69b4ef08a
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -104,7 +104,7 @@ GNU Wget - це утил╕та командного рядка для отримання файл╕в по
 Proxy сервер╕в, настроюван╕сть.
 
 %prep
-%setup -q -n %{name}-%{version}-rc1
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
