@@ -2,7 +2,7 @@ Summary:	Command-line HTTP and FTP client
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.5.3
-Release:	7
+Release:	8
 Copyright:	GPL
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
@@ -14,6 +14,8 @@ BuildPrereq:	autoconf >= 2.13-8
 Prereq:		/sbin/install-info
 URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:	/tmp/%{name}-%{version}-root
+
+%define	_sysconfdir	/etc
 
 %description
 wget is a command-line program to fetch files via HTTP or FTP.  It
@@ -36,34 +38,40 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %patch2 -p1
 
 %build
-autoconf
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
 ./configure %{_target} \
-	--prefix=/usr \
-	--sysconfdir=/etc
+	--prefix=%{_prefix} \
+	--sysconfdir=%{_sysconfdir} \
+	--mandir=%{_mandir} \
+	--infodir=%{_infodir}
 make
 tail -6 util/README >rmold.README
 
-(cd doc; makeinfo --force wget.texi; touch *)
+(cd doc; makeinfo --force %{name}.texi; touch *)
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
+make install \
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir} \
+	infodir=$RPM_BUILD_ROOT%{_infodir}
+
 install -c util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
-gzip -9nf $RPM_BUILD_ROOT%{_datadir}/{info/wget.info*,man/man1/*} \
+gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/%{name}.info*,%{_mandir}/man1/*} \
     AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/install-info %{_infodir}/wget.info.gz /etc/info-dir
+/sbin/install-info %{_infodir}/%{name}.info.gz /etc/info-dir
 
 %postun
 if [ "$1" = "0" ]; then
-	/sbin/install-info --delete %{_infodir}/wget.info.gz /etc/info-dir
+	/sbin/install-info --delete %{_infodir}/%{name}.info.gz /etc/info-dir
 fi
 
 %files
@@ -72,84 +80,25 @@ fi
 
 %attr(755,root,root) %{_bindir}/*
 
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/wget.mo
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/wget.mo
-%lang(hr) %{_datadir}/locale/hr/LC_MESSAGES/wget.mo
-%lang(it) %{_datadir}/locale/it/LC_MESSAGES/wget.mo
-%lang(no) %{_datadir}/locale/no/LC_MESSAGES/wget.mo
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/wget.mo
-%lang(pt) %{_datadir}/locale/pt*/LC_MESSAGES/wget.mo
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/%{name}.mo
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/%{name}.mo
+%lang(hr) %{_datadir}/locale/hr/LC_MESSAGES/%{name}.mo
+%lang(it) %{_datadir}/locale/it/LC_MESSAGES/%{name}.mo
+%lang(no) %{_datadir}/locale/no/LC_MESSAGES/%{name}.mo
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/%{name}.mo
+%lang(pt) %{_datadir}/locale/pt*/LC_MESSAGES/%{name}.mo
 
 %{_mandir}/man1/*
-%{_infodir}/wget.info*
+%{_infodir}/%{name}.info*
 
-%verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
+%verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
 
 %changelog
-* Thu May 13 1999 Piotr Czerwiñski <pius@pld.org.pl>
-  [1.5.3-7]
-- package is now FHS 2.0 compliant.
-
-* Wed Apr 21 1999 Piotr Czerwiñski <pius@pld.org.pl>
-  [1.5.3-6]
-- replacements in %files,
-- recompiled on rpm 3,
-- force making info pages (new makeinfo don't accept @xfer{} without "." or
-  "," after this markup) by Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>.
-
-* Fri Apr  2 1999 Piotr Czerwiñski <pius@pld.org.pl>
-  [1.5.2-5]
-- removed man group from man pages,
-- few typos corrected,
-- cosmetic changes for common l&f.
-
-* Thu Feb 10 1999 Micha³ Kuratczyk <kurkens@polbox.com>
-  [1.5.2-4]
-- added Group(pl)
-- added gzipping documentation
-
-* Mon Dec 27 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [1.5.2-3]
-- standarized {un}registering info pages (added wget-info.patch),
-- added URL,
-- added gzipping man pages.
-
-* Tue Sep 12 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
-  [1.5.2-2]
-- fixed pl translation.
-
-* Mon Sep  7 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [1.5.2-2]
-- added wget-pl.po.patch patch with polish translation 
-  (Adam Kozubowicz <tapir@interdata.com.pl>,
-- added wget-man.patch patch with wget man page.
-
-* Sat Aug  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [1.5.2-1]
-- added pl translation.
-
-* Sun May 17 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [1.5.1-2]
-- %%{version} macro instead %%{PACKAGE_VERSION},
-- added -q %setup parameter,
-- added using %%{name} macro in Buildroot and Source,
-- added %verify(not md5 size mtime) and noreplace parameter for %config,
-- removed COPYING from %doc (copyright statment is in Copyright
-  field),
-- added %postun, %post sections with {de}instaling wget info pages,
-- spec file rewrited for using Buildroot,
-- added %clean section,
-- added URL,
-- removed Packager field from spec (if you want recompile package and
-  redistribute this package later put this in your private .rpmrc). 
-- Buildroot changed to /tmp/wget-%%{PACKAGE_VERSION}-root,
-- added %%{PACKAGE_VERSION} to Source url,
-- replaced "mkdir -p" with "install -d" in %install,
-- base datadir changed to %{_datadir},
-- added %lang macros for %{_datadir}/locale/*/LC_MESSAGES/wget.mo files,
-- added %defattr and %attr macros in %files (allows building package from
-  non-root account).
-
-* Thu May  7 1998 ??? <root@ricketts.stannes.ox.ac.uk>
-  [1.5.1-1]
-- previous release in rpm package.
+* Thu May 20 1999 Piotr Czerwiñski <pius@pld.org.pl> 
+  [1.5.3-8]
+- package is FHS 2.0 compliant,
+- based on spec file written by ??? <root@ricketts.stannes.ox.ac.uk>,
+  rewritten for PLD use by me, Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>,
+  and Micha³ Kuratczyk <kura@pld.org.pl>,
+- pl translation by Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  and Wojtek ¦lusarczyk <wojtek@shadow.eu.org>.
