@@ -1,0 +1,358 @@
+diff -ubr wget-1.8.1/src/connect.c wget-1.8.1_ipv6/src/connect.c
+--- wget-1.8.1/src/connect.c    Tue Nov 27 14:55:40 2001
++++ wget-1.8.1_ipv6/src/connect.c       Tue Jan 15 01:09:23 2002
+@@ -55,6 +55,8 @@
+ extern int errno;
+ #endif
+
++#define IPV6
++
+ /* Variables shared by bindport and acceptport: */
+ static int msock = -1;
+ static struct sockaddr *addr;
+@@ -78,13 +80,18 @@
+ int
+ connect_to_one (const unsigned char *addr, unsigned short port, int silent)
+ {
+-  struct sockaddr_in sock_name;
++  SOCKADDR_IN sock_name;
+   int sock, save_errno;
+-
+   /* Set port and protocol */
+-  sock_name.sin_family = AF_INET;
++#ifdef IPV6
++  sock_name.sin6_family = family;
++  sock_name.sin6_port = htons (port);
++  memcpy ((unsigned char *)&sock_name.sin6_addr, addr, sizeof(ip_address));
++#else
++  sock_name.sin_family = family;
+   sock_name.sin_port = htons (port);
+-  memcpy ((unsigned char *)&sock_name.sin_addr, addr, 4);
++  memcpy ((unsigned char *)&sock_name.sin_addr, addr, sizeof(ip_address));
++#endif
+
+   if (!silent)
+     {
+@@ -99,7 +106,7 @@
+     }
+
+   /* Make an internet socket, stream type.  */
+-  sock = socket (AF_INET, SOCK_STREAM, 0);
++  sock = socket (family, SOCK_STREAM, 0);
+   if (sock < 0)
+     goto out;
+
+@@ -151,7 +158,7 @@
+   address_list_get_bounds (al, &start, &end);
+   for (i = start; i < end; i++)
+     {
+-      unsigned char addr[4];
++      ip_address addr;
+       int sock;
+       address_list_copy_one (al, i, addr);
+
+@@ -210,11 +217,11 @@
+ bindport (unsigned short *port)
+ {
+   int optval = 1;
+-  static struct sockaddr_in srv;
++  static SOCKADDR_IN srv={0};
+
+   msock = -1;
+   addr = (struct sockaddr *) &srv;
+-  if ((msock = socket (AF_INET, SOCK_STREAM, 0)) < 0)
++  if ((msock = socket (family, SOCK_STREAM, 0)) < 0)
+     return CONSOCKERR;
+   if (setsockopt (msock, SOL_SOCKET, SO_REUSEADDR,
+                  (char *)&optval, sizeof (optval)) < 0)
+@@ -222,14 +229,21 @@
+
+   if (opt.bind_address == NULL)
+     {
+-      srv.sin_family = AF_INET;
++#ifdef IPV6
++      srv.sin6_family = family;
++#else
++      srv.sin_family = family;
+       srv.sin_addr.s_addr = htonl (INADDR_ANY);
++#endif
+     }
+   else
+     srv = *opt.bind_address;
+-
++#ifdef IPV6
++  srv.sin6_port = htons (*port);
++#else
+   srv.sin_port = htons (*port);
+-  if (bind (msock, addr, sizeof (struct sockaddr_in)) < 0)
++#endif
++  if (bind (msock, addr, sizeof (SOCKADDR_IN)) < 0)
+     {
+       CLOSE (msock);
+       msock = -1;
+@@ -241,14 +255,18 @@
+       /* #### addrlen should be a 32-bit type, which int is not
+          guaranteed to be.  Oh, and don't try to make it a size_t,
+          because that can be 64-bit.  */
+-      int addrlen = sizeof (struct sockaddr_in);
++      int addrlen = sizeof (SOCKADDR_IN);
+       if (getsockname (msock, addr, &addrlen) < 0)
+        {
+          CLOSE (msock);
+          msock = -1;
+          return CONPORTERR;
+        }
++#ifdef IPV6
++      *port = ntohs (srv.sin6_port);
++#else
+       *port = ntohs (srv.sin_port);
++#endif
+     }
+   if (listen (msock, 1) < 0)
+     {
+@@ -292,7 +310,7 @@
+ uerr_t
+ acceptport (int *sock)
+ {
+-  int addrlen = sizeof (struct sockaddr_in);
++  int addrlen = sizeof (SOCKADDR_IN);
+
+ #ifdef HAVE_SELECT
+   if (select_fd (msock, opt.timeout, 0) <= 0)
+@@ -322,8 +340,8 @@
+ unsigned char *
+ conaddr (int fd)
+ {
+-  static unsigned char res[4];
+-  struct sockaddr_in mysrv;
++  static ip_address res;
++  SOCKADDR_IN  mysrv;
+   struct sockaddr *myaddr;
+   int addrlen = sizeof (mysrv);        /* see bindport() for discussion of
+                                    using `int' here. */
+@@ -331,7 +349,11 @@
+   myaddr = (struct sockaddr *) (&mysrv);
+   if (getsockname (fd, myaddr, (int *)&addrlen) < 0)
+     return NULL;
+-  memcpy (res, &mysrv.sin_addr, 4);
++#ifdef IPV6
++  memcpy (res, &mysrv.sin6_addr, sizeof(ip_address));
++#else
++  memcpy (res, &mysrv.sin_addr, sizeof(ip_address));
++#endif
+   return res;
+ }
+
+diff -ubr wget-1.8.1/src/host.c wget-1.8.1_ipv6/src/host.c
+--- wget-1.8.1/src/host.c       Tue Dec 11 08:32:57 2001
++++ wget-1.8.1_ipv6/src/host.c  Tue Jan 15 01:14:05 2002
+@@ -18,6 +18,7 @@
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+ #include <config.h>
++#include <netdb.h>
+
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -65,8 +66,13 @@
+ # endif
+ #endif
+
+-/* An IPv4 address is simply a 4-byte quantity. */
+-typedef unsigned char ipv4_address[4];
++#ifdef IPV6
++int     family  =       AF_INET6;
++#else
++int     family  =       AF_INET;
++#endif
++
++
+
+ /* Mapping between known hosts and to lists of their addresses. */
+
+@@ -77,7 +83,7 @@
+
+ struct address_list {
+   int count;                   /* number of adrresses */
+-  ipv4_address *addresses;     /* pointer to the string of addresses */
++  ip_address *addresses;       /* pointer to the string of addresses */
+
+   int faulty;                  /* number of addresses known not to
+                                   work. */
+@@ -101,7 +107,7 @@
+                       unsigned char *ip_store)
+ {
+   assert (index >= al->faulty && index < al->count);
+-  memcpy (ip_store, al->addresses + index, sizeof (ipv4_address));
++  memcpy (ip_store, al->addresses + index, sizeof (ip_address));
+ }
+
+ /* Check whether two address lists have all their IPs in common.  */
+@@ -114,7 +120,7 @@
+   if (al1->count != al2->count)
+     return 0;
+   return 0 == memcmp (al1->addresses, al2->addresses,
+-                     al1->count * sizeof (ipv4_address));
++                     al1->count * sizeof (ip_address));
+ }
+
+ /* Mark the INDEXth element of AL as faulty, so that the next time
+@@ -152,11 +158,11 @@
+   assert (count > 0);
+   al->count     = count;
+   al->faulty    = 0;
+-  al->addresses = xmalloc (count * sizeof (ipv4_address));
++  al->addresses = xmalloc (count * sizeof (ip_address));
+   al->refcount  = 1;
+
+   for (i = 0; i < count; i++)
+-    memcpy (al->addresses + i, h_addr_list[i], sizeof (ipv4_address));
++    memcpy (al->addresses + i, h_addr_list[i], sizeof (ip_address));
+
+   return al;
+ }
+@@ -169,9 +175,9 @@
+   struct address_list *al = xmalloc (sizeof (struct address_list));
+   al->count     = 1;
+   al->faulty    = 0;
+-  al->addresses = xmalloc (sizeof (ipv4_address));
++  al->addresses = xmalloc (sizeof (ip_address));
+   al->refcount  = 1;
+-  memcpy (al->addresses, addr, sizeof (ipv4_address));
++  memcpy (al->addresses, addr, sizeof (ip_address));
+
+   return al;
+ }
+@@ -233,13 +239,12 @@
+ lookup_host (const char *host, int silent)
+ {
+   struct address_list *al = NULL;
+-  unsigned long addr;
++  ip_address addr;
+   struct hostent *hptr;
+
+-  /* If the address is of the form d.d.d.d, no further lookup is
+-     needed.  */
+-  addr = (unsigned long)inet_addr (host);
+-  if ((int)addr != -1)
++  /* If the address is of the form that if valid for <family>,
++     no further lookup is needed.  */
++  if(0>=inet_pton(family,host,addr))
+     {
+       /* ADDR is defined to be in network byte order, which is what
+         this returns, so we can just copy it to STORE_IP.  However,
+@@ -248,15 +253,15 @@
+         we copy the correct four bytes.  */
+       int offset;
+ #ifdef WORDS_BIGENDIAN
+-      offset = sizeof (unsigned long) - sizeof (ipv4_address);
++      offset = sizeof (unsigned long) - sizeof (ip_address);
+ #else
+       offset = 0;
+ #endif
+       return address_list_new_one ((char *)&addr + offset);
+     }
+
+-  /* By now we know that the host name we got is not of the form
+-     d.d.d.d.  Try to find it in our cache of host names.  */
++  /* By now we know that the host name we got is not numerialcal represantation
++     for <family>.  Try to find it in our cache of host names.  */
+   if (host_name_addresses_map)
+     al = hash_table_get (host_name_addresses_map, host);
+
+@@ -270,8 +275,8 @@
+   if (!silent)
+     logprintf (LOG_VERBOSE, _("Resolving %s... "), host);
+
+-  /* Look up the host using gethostbyname().  */
+-  hptr = gethostbyname (host);
++  /* Look up the host using getipnodebyname().  */
++  hptr = gethostbyname2(host, family);
+   if (!hptr)
+     {
+       if (!silent)
+diff -ubr wget-1.8.1/src/host.h wget-1.8.1_ipv6/src/host.h
+--- wget-1.8.1/src/host.h       Tue Dec 11 08:32:58 2001
++++ wget-1.8.1_ipv6/src/host.h  Tue Jan 15 01:37:06 2002
+@@ -44,4 +44,26 @@
+
+ void host_cleanup PARAMS ((void));
+
++
++#define IPV6
++/*
++       IPv6 support added by Thomas Lussnig <lussnig@bewegungsmelder.de>
++       Date: 15.01.2001 02:36:05
++       If there are mistakes please inform me, but i will not work till the
++       morning on it.
++*/
++
++#ifdef IPV6
++#include <netdb.h>
++/* An IPv6 address is simply a 16-byte quantity. */
++typedef unsigned char ip_address[16];
++typedef struct sockaddr_in6    SOCKADDR_IN;
++#else
++/* An IPv4 address is simply a 4-byte quantity. */
++typedef unsigned char ip_address[4];
++typedef struct sockaddr_in     SOCKADDR_IN;
++#endif
++extern int     family; /* defined in host.c */
++
++
+ #endif /* HOST_H */
+Only in wget-1.8.1_ipv6/src: host.h~
+diff -ubr wget-1.8.1/src/init.c wget-1.8.1_ipv6/src/init.c
+--- wget-1.8.1/src/init.c       Thu Dec 13 19:19:03 2001
++++ wget-1.8.1_ipv6/src/init.c  Tue Jan 15 01:34:06 2002
+@@ -526,8 +526,8 @@
+ cmd_address (const char *com, const char *val, void *closure)
+ {
+   struct address_list *al;
+-  struct sockaddr_in sin;
+-  struct sockaddr_in **target = (struct sockaddr_in **)closure;
++  SOCKADDR_IN sin;
++  SOCKADDR_IN **target = (SOCKADDR_IN **)closure;
+
+   memset (&sin, '\0', sizeof (sin));
+
+@@ -538,11 +538,16 @@
+               exec_name, com, val);
+       return 0;
+     }
++#ifdef IPV6
++  sin.sin6_family = family;
++  sin.sin6_port = 0;
++  address_list_copy_one (al, 0, (unsigned char *)&sin.sin6_addr);
++#else
++  sin.sin_family = family;
++  sin.sin_port = 0;
+   address_list_copy_one (al, 0, (unsigned char *)&sin.sin_addr);
++#endif
+   address_list_release (al);
+-
+-  sin.sin_family = AF_INET;
+-  sin.sin_port = 0;
+
+   FREE_MAYBE (*target);
+
+diff -ubr wget-1.8.1/src/options.h wget-1.8.1_ipv6/src/options.h
+--- wget-1.8.1/src/options.h    Fri Nov 30 07:39:08 2001
++++ wget-1.8.1_ipv6/src/options.h       Tue Jan 15 01:05:44 2002
+@@ -19,6 +19,7 @@
+
+ /* Needed for FDP.  */
+ #include <stdio.h>
++#include "host.h"
+
+ struct options
+ {
+@@ -153,7 +154,7 @@
+   int page_requisites;         /* Whether we need to download all files
+                                   necessary to display a page properly. */
+
+-  struct sockaddr_in *bind_address; /* What local IP address to bind to. */
++  SOCKADDR_IN *bind_address;   /* What local IP address to bind to. */
+
+ #ifdef HAVE_SSL
+   char *sslcertfile;           /* external client cert to use. */
