@@ -8,7 +8,7 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.9
-Release:	0.3
+Release:	0.4
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://fly.srk.fer.hr/~hniksic/wget/%{name}-%{version}-rc1.tar.gz
@@ -114,7 +114,6 @@ Proxy сервер╕в, настроюван╕сть.
 %patch6 -p1
 
 %build
-rm -f aclocal.m4
 %{__libtoolize}
 %{__gettextize}
 %{__aclocal}
@@ -133,9 +132,8 @@ makeinfo --force %{name}.texi; touch *
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
-#echo "y" | 
-	%{__make} install \
-		DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install util/rmold.pl		$RPM_BUILD_ROOT%{_bindir}/rmold
 install doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
