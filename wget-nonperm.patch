@@ -1,0 +1,71 @@
+diff -urN wget-1.9.1/src/cookies.c wget-1.9.1-nonperm/src/cookies.c
+--- wget-1.9.1/src/cookies.c	2003-10-07 12:39:18.000000000 +0200
++++ wget-1.9.1-nonperm/src/cookies.c	2004-05-07 01:41:19.338297224 +0200
+@@ -1389,7 +1389,7 @@
+   struct cookie *cookie = (struct cookie *)value;
+   for (; cookie; cookie = cookie->next)
+     {
+-      if (!cookie->permanent)
++      if (!cookie->permanent && !opt.cookies_nonperm)
+ 	continue;
+       if (COOKIE_EXPIRED_P (cookie))
+ 	continue;
+diff -urN wget-1.9.1/src/init.c wget-1.9.1-nonperm/src/init.c
+--- wget-1.9.1/src/init.c	2004-05-07 01:42:07.261011864 +0200
++++ wget-1.9.1-nonperm/src/init.c	2004-05-07 01:37:49.756158552 +0200
+@@ -200,6 +200,7 @@
+   { "robots",		&opt.use_robots,	cmd_boolean },
+   { "savecookies",	&opt.cookies_output,	cmd_file },
+   { "saveheaders",	&opt.save_headers,	cmd_boolean },
++  { "savenonpermanent",	&opt.cookies_nonperm,	cmd_boolean },
+   { "serverresponse",	&opt.server_response,	cmd_boolean },
+   { "spanhosts",	&opt.spanhost,		cmd_boolean },
+   { "spider",		&opt.spider,		cmd_boolean },
+@@ -556,6 +557,7 @@
+ static int
+ setval_internal (int comind, const char *com, const char *val)
+ {
++  printf("%d %d\n", comind, countof(commands));
+   assert (0 <= comind && comind < countof (commands));
+   return ((*commands[comind].action) (com, val, commands[comind].closure));
+ }
+diff -urN wget-1.9.1/src/main.c wget-1.9.1-nonperm/src/main.c
+--- wget-1.9.1/src/main.c	2004-05-07 01:42:07.247013992 +0200
++++ wget-1.9.1-nonperm/src/main.c	2004-05-07 01:31:03.462924512 +0200
+@@ -210,6 +210,7 @@
+        --cookies=off         don't use cookies.\n\
+        --load-cookies=FILE   load cookies from FILE before session.\n\
+        --save-cookies=FILE   save cookies to FILE after session.\n\
++       --save-nonpermanent   save even non-permanent cookies after session.\n\
+        --post-data=STRING    use the POST method; send STRING as the data.\n\
+        --post-file=FILE      use the POST method; send contents of FILE.\n\
+ \n"), stdout);
+@@ -304,6 +305,7 @@
+     { "retr-symlinks", no_argument, NULL, 137 },
+     { "retry-connrefused", no_argument, NULL, 174 },
+     { "save-headers", no_argument, NULL, 's' },
++    { "save-nonpermanent", no_argument, NULL, 154 },
+     { "server-response", no_argument, NULL, 'S' },
+     { "span-hosts", no_argument, NULL, 'H' },
+     { "spider", no_argument, NULL, 132 },
+@@ -545,6 +547,9 @@
+ 	case 177:
+ 	  setoptval ("strictcomments", "on");
+ 	  break;
++	case 154:
++	  setoptval ("savenonpermanent", "on");
++	  break;
+ 
+ 	  /* Options accepting an argument: */
+ 	case 129:
+diff -urN wget-1.9.1/src/options.h wget-1.9.1-nonperm/src/options.h
+--- wget-1.9.1/src/options.h	2003-10-11 15:57:11.000000000 +0200
++++ wget-1.9.1-nonperm/src/options.h	2004-05-07 01:20:22.933299816 +0200
+@@ -180,6 +180,7 @@
+   int   cookies;
+   char *cookies_input;
+   char *cookies_output;
++  int	cookies_nonperm;
+ 
+   char *post_data;		/* POST query string */
+   char *post_file_name;		/* File to post */
