@@ -59,11 +59,11 @@ gzip -9nf $RPM_BUILD_ROOT/usr/share/{info/wget.info*,man/man1/*} \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/install-info /usr/share/info/wget.info.gz /etc/info-dir
+/sbin/install-info %{_infodir}/wget.info.gz /etc/info-dir
 
 %postun
 if [ "$1" = "0" ]; then
-	/sbin/install-info --delete /usr/share/info/wget.info.gz /etc/info-dir
+	/sbin/install-info --delete %{_infodir}/wget.info.gz /etc/info-dir
 fi
 
 %files
@@ -80,8 +80,8 @@ fi
 %lang(pl) /usr/share/locale/pl/LC_MESSAGES/wget.mo
 %lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
 
-/usr/share/man/man1/*
-/usr/share/info/wget.info*
+%{_mandir}/man1/*
+%{_infodir}/wget.info*
 
 %verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
 
