@@ -1,18 +1,18 @@
-Summary:     Command-line HTTP and FTP client
-Summary(pl): Wsadowy klient HTTP/FTP 
-Name:        wget
-Version:     1.5.3
-Release:     5
-Copyright:   GPL
-Group:       Networking/Utilities
-Group(pl):   Sieciowe/Narzêdzia
-Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Patch0:      %{name}-man.patch
-Patch1:      %{name}-pl.po.patch
-Patch2:      %{name}-info.patch
-Prereq:      /sbin/install-info
-URL:         http://sunsite.auc.dk/ftp/pub/infosystems/wget/
-BuildRoot:   /tmp/%{name}-%{version}-root
+Summary:	Command-line HTTP and FTP client
+Summary(pl):	Wsadowy klient HTTP/FTP 
+Name:		wget
+Version:	1.5.3
+Release:	5
+Copyright:	GPL
+Group:		Networking/Utilities
+Group(pl):	Sieciowe/Narzêdzia
+Source:		ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Patch0:		wget-man.patch
+Patch1:		wget-pl.po.patch
+Patch2:		wget-info.patch
+Prereq:		/sbin/install-info
+URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 wget is a command-line program to fetch files via HTTP or FTP.  It
