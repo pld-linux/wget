@@ -100,7 +100,7 @@ rm -f missing
 libtoolize --copy --force
 #autoheader
 aclocal
-autoconf
+%{__autoconf}
 %configure \
 	--with-ssl
 #%{__make} CFLAGS="$CFLAGS -DHAVE_NLS -DHAVE_LOCALE_H -DINET6"
