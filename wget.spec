@@ -1,5 +1,3 @@
-%bcond_with fancy	pornografic progress bar
-
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es):	Cliente en lМnea de comando para bajar archivos WWW/FTP con recursiСn opcional
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
@@ -120,7 +118,7 @@ Proxy сервер╕в, настроюван╕сть.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%{?with_fancy:%patch9 -p1}
+%patch9 -p1
 %patch10 -p1
 rm -f doc/wget.info*
 
