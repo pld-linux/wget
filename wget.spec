@@ -4,8 +4,8 @@ Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocol
 Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
-Version:	1.7
-Release:	7
+Version:	1.8.1
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
@@ -13,9 +13,9 @@ Source1:	%{name}.pl.po
 Source2:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ah.patch
-Patch2:		ftp://ftp.kame.net/pub/kame/misc/%{name}-17-v6-20010716a.diff.gz
-Patch3:		%{name}-ipv6-fix.patch
-Patch4:		%{name}-ac.patch
+#Patch2:		ftp://ftp.kame.net/pub/kame/misc/%{name}-17-v6-20010716a.diff.gz
+#Patch3:		%{name}-ipv6-fix.patch
+#Patch4:		%{name}-ac.patch
 Patch5:		%{name}-use_AM_GNU_GETTEXT.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
@@ -87,16 +87,17 @@ baixando o arquivo até que ele seja completamente recebido.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+#%patch2 -p1
+#%patch3 -p1
+#%patch4 -p1
 %patch5 -p1
 install %{SOURCE1} po/pl.po
 
 %build
-echo '#undef ENABLE_IPV6' >> acconfig.h
+#echo '#undef ENABLE_IPV6' >> acconfig.h
+rm -f missing
 libtoolize --copy --force
-autoheader
+#autoheader
 aclocal
 autoconf
 %configure \
