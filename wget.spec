@@ -62,6 +62,8 @@ install -c util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/%{name}.info*,%{_mandir}/man1/*} \
     AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
+%find_lang wget
+ 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -73,24 +75,14 @@ if [ "$1" = "0" ]; then
 	/sbin/install-info --delete %{_infodir}/%{name}.info.gz /etc/info-dir
 fi
 
-%files
+%files -f wget.lang
 %defattr(644,root,root,755)
 %doc {AUTHORS,ChangeLog,MAILING-LIST,NEWS,TODO,README,rmold.README}.gz
-
+%verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
 %attr(755,root,root) %{_bindir}/*
-
-%lang(cs)    %{_datadir}/locale/cs/LC_MESSAGES/%{name}.mo
-%lang(de)    %{_datadir}/locale/de/LC_MESSAGES/%{name}.mo
-%lang(hr)    %{_datadir}/locale/hr/LC_MESSAGES/%{name}.mo
-%lang(it)    %{_datadir}/locale/it/LC_MESSAGES/%{name}.mo
-%lang(no)    %{_datadir}/locale/no/LC_MESSAGES/%{name}.mo
-%lang(pl)    %{_datadir}/locale/pl/LC_MESSAGES/%{name}.mo
-%lang(pt_BR) %{_datadir}/locale/pt_BR/LC_MESSAGES/%{name}.mo
 
 %{_mandir}/man1/*
 %{_infodir}/%{name}.info*
-
-%verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
 
 %changelog
 * Thu May 20 1999 Piotr Czerwiñski <pius@pld.org.pl> 
