@@ -59,9 +59,7 @@ go jako zadanie z cron'a.
 install %{SOURCE1} po/pl.po
 
 %build
-autoheader
-autoconf
-%configure \
+%configure2_13 \
 	--with-ssl \
 	--enable-ipv6
 %{__make}
