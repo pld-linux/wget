@@ -1,0 +1,89 @@
+diff -Nru wget-1.6/doc/Makefile.in wget-1.6.new/doc/Makefile.in
+--- wget-1.6/doc/Makefile.in	Tue Jan  2 02:20:58 2001
++++ wget-1.6.new/doc/Makefile.in	Tue Jan  2 02:22:39 2001
+@@ -90,45 +90,28 @@
+ 
+ # install info pages, creating install directory if necessary
+ install.info: wget.info
+-	$(top_srcdir)/mkinstalldirs $(infodir)
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(infodir)
+ 	-for file in wget.info wget.info-*[0-9]; do \
+-	   test -f $$file && $(INSTALL_DATA) $$file $(infodir)/$$file ; \
++	   test -f $$file && $(INSTALL_DATA) $$file $(DESTDIR)$(infodir)/$$file ; \
+ 	done
+ 
+ # install man page, creating install directory if necessary
+ install.man:
+-	$(top_srcdir)/mkinstalldirs $(mandir)/man$(manext)
+-	$(INSTALL_DATA) $(srcdir)/$(MAN) $(mandir)/man$(manext)/$(MAN)
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(mandir)/man$(manext)
++	$(INSTALL_DATA) $(srcdir)/$(MAN) $(DESTDIR)$(mandir)/man$(manext)/$(MAN)
+ 
+ # install sample.wgetrc
+ install.wgetrc:
+-	$(top_srcdir)/mkinstalldirs $(sysconfdir)
+-	@if test -f $(WGETRC); then \
+-	  if cmp -s $(srcdir)/sample.wgetrc $(WGETRC); then echo ""; \
+-	     else \
+-	     echo ' $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(WGETRC).new'; \
+-	     $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(WGETRC).new; \
+-	     echo; \
+-	     echo "WARNING: Differing \`$(WGETRC)'"; \
+-	     echo "         exists and has been spared.  You might want to"; \
+-	     echo "         consider merging in the new lines from"; \
+-	     echo "         \`$(WGETRC).new'."; \
+-	     echo; \
+-	     echo "<Hit RETURN to acknowledge>\c"; \
+-	     read user_input; \
+-	     echo; \
+-	  fi; \
+-	else \
+-	  $(INSTALL_DATA) $(srcdir)/sample.wgetrc $(WGETRC); \
+-	fi
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(sysconfdir)
++	$(INSTALL_DATA) $(srcdir)/sample.wgetrc $(DESTDIR)$(WGETRC)
+ 
+ # uninstall info pages
+ uninstall.info:
+-	$(RM) $(infodir)/wget.info*
++	$(RM) $(DESTDIR)$(infodir)/wget.info*
+ 
+ # uninstall man page
+ uninstall.man:
+-	$(RM) $(mandir)/man$(manext)/$(MAN)
++	$(RM) $(DESTDIR)$(mandir)/man$(manext)/$(MAN)
+ 
+ #
+ # Dependencies for cleanup
+diff -Nru wget-1.6/po/Makefile.in.in wget-1.6.new/po/Makefile.in.in
+--- wget-1.6/po/Makefile.in.in	Tue Jan  2 02:20:58 2001
++++ wget-1.6.new/po/Makefile.in.in	Tue Jan  2 02:20:07 2001
+@@ -92,8 +92,8 @@
+ 	for cat in $$catalogs; do \
+ 	  cat=`basename $$cat`; \
+ 	  case "$$cat" in \
+-	    *.gmo) destdir=$(gnulocaledir);; \
+-	    *)     destdir=$(localedir);; \
++	    *.gmo) destdir=$(DESTDIR)$(gnulocaledir);; \
++	    *)     destdir=$(DESTDIR)$(localedir);; \
+ 	  esac; \
+ 	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+ 	  dir=$$destdir/$$lang/LC_MESSAGES; \
+diff -Nru wget-1.6/src/Makefile.in wget-1.6.new/src/Makefile.in
+--- wget-1.6/src/Makefile.in	Tue Jan  2 02:20:58 2001
++++ wget-1.6.new/src/Makefile.in	Tue Jan  2 02:20:07 2001
+@@ -100,11 +100,11 @@
+ uninstall: uninstall.bin
+ 
+ install.bin: wget$(exeext)
+-	$(top_srcdir)/mkinstalldirs $(bindir)
+-	$(INSTALL_PROGRAM) wget$(exeext) $(bindir)/wget$(exeext)
++	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(bindir)
++	$(INSTALL_PROGRAM) wget$(exeext) $(DESTDIR)$(bindir)/wget$(exeext)
+ 
+ uninstall.bin:
+-	$(RM) $(bindir)/wget$(exeext)
++	$(RM) $(DESTDIR)$(bindir)/wget$(exeext)
+ 
+ #
+ # Dependencies for cleanup

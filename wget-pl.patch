@@ -1,0 +1,264 @@
+--- wget-1.8.1/po/pl.po.orig	Sat Jun  2 18:57:16 2001
++++ wget-1.8.1/po/pl.po	Fri May 17 11:34:07 2002
+@@ -15,7 +15,7 @@
+ 
+ #: src/ftp-ls.c:779
+ msgid "Usupported listing type, trying Unix listing parser.\n"
+-msgstr ""
++msgstr "Nieobs³ugiwany rodzaj listingu, próbujê u¿yæ uniksowego parsera.\n"
+ 
+ #: src/ftp-ls.c:824 src/ftp-ls.c:826
+ #, c-format
+@@ -97,7 +97,7 @@
+ 
+ #: src/ftp.c:266
+ msgid "Server error, can't determine system type.\n"
+-msgstr ""
++msgstr "B³±d serwera, nie mo¿na okre¶liæ typu systemu.\n"
+ 
+ #: src/ftp.c:276 src/ftp.c:538 src/ftp.c:610 src/ftp.c:654
+ msgid "done.    "
+@@ -256,27 +256,29 @@
+ #. Remote file is older, file sizes can be compared and
+ #. are both equal.
+ #: src/ftp.c:1277
+-#, fuzzy, c-format
++#, c-format
+ msgid "Remote file no newer than local file `%s' -- not retrieving.\n"
+-msgstr ""
+-"Plik po stronie serwera starszy ni¿ plik lokalny `%s' -- nie przesy³am.\n"
++msgstr "Plik po stronie serwera nie nowszy ni¿ plik lokalny `%s' -- nie ¶ci±gam.\n"
+ 
+ #. Remote file is newer or sizes cannot be matched
+ #: src/ftp.c:1284
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "Remote file is newer than local file `%s' -- retrieving.\n"
+ "\n"
+ msgstr ""
+-"Plik po stronie serwera starszy ni¿ plik lokalny `%s' -- nie przesy³am.\n"
++"Plik po stronie serwera nowszy ni¿ plik lokalny `%s' -- ¶ci±gam.\n"
++"\n"
+ 
+ #. Sizes do not match
+ #: src/ftp.c:1291
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "The sizes do not match (local %ld) -- retrieving.\n"
+ "\n"
+-msgstr "Rozmiary nie pasuj± (lokalny %ld) -- ¶ci±ganie.\n"
++msgstr ""
++"Rozmiary siê ró¿ni± (lokalny %ld) -- ¶ci±gam.\n"
++"\n"
+ 
+ #: src/ftp.c:1308
+ msgid "Invalid name of the symlink, skipping.\n"
+@@ -442,35 +444,35 @@
+ #. this is fatal
+ #: src/http.c:549
+ msgid "Failed to set up an SSL context\n"
+-msgstr ""
++msgstr "Nie uda³o siê ustawiæ kontekstu SSL\n"
+ 
+ #: src/http.c:555
+ #, c-format
+ msgid "Failed to load certificates from %s\n"
+-msgstr ""
++msgstr "Nie uda³o siê wczytaæ certyfikatów z %s\n"
+ 
+ #: src/http.c:559 src/http.c:567
+ msgid "Trying without the specified certificate\n"
+-msgstr ""
++msgstr "Próbujê bez podanego certyfikatu\n"
+ 
+ #: src/http.c:563
+ #, c-format
+ msgid "Failed to get certificate key from %s\n"
+-msgstr ""
++msgstr "Nie uda³o siê uzyskaæ klucza certyfikatu z %s\n"
+ 
+ #: src/http.c:657 src/http.c:1470
+ msgid "Unable to establish SSL connection.\n"
+-msgstr ""
++msgstr "Nie uda³o siê ustanowiæ po³±czenia SSL.\n"
+ 
+ #: src/http.c:665
+-#, fuzzy, c-format
++#, c-format
+ msgid "Reusing connection to %s:%hu.\n"
+-msgstr "Nast±pi± próby po³±czenia z %s:%hu.\n"
++msgstr "Ponowne u¿ycie po³±czenia z %s:%hu.\n"
+ 
+ #: src/http.c:841
+-#, fuzzy, c-format
++#, c-format
+ msgid "Failed writing HTTP request: %s.\n"
+-msgstr "Nie powiod³o siê wysy³anie ¿±dania HTTP.\n"
++msgstr "Nie powiod³o siê wysy³anie ¿±dania HTTP: %s.\n"
+ 
+ #: src/http.c:846
+ #, c-format
+@@ -632,7 +634,7 @@
+ #: src/init.c:354 src/init.c:360
+ #, c-format
+ msgid "%s: Error in %s at line %d.\n"
+-msgstr "%s: B³±d w %s w lini %d.\n"
++msgstr "%s: B³±d w %s w linii %d.\n"
+ 
+ #: src/init.c:391
+ #, c-format
+@@ -705,7 +705,7 @@
+ "\n"
+ msgstr ""
+ "Start:\n"
+-"  -V,  --version                     wy¶wietl wersjê Wget'a i zakoñcz\n"
++"  -V,  --version                     wy¶wietl wersjê Wgeta i zakoñcz\n"
+ "                                     dzia³anie.\n"
+ "  -h,  --help                        wy¶wietl t± pomoc.\n"
+ "  -b,  --background                  przejd¼ w t³o po wystartowaniu.\n"
+@@ -711,7 +713,6 @@
+ "\n"
+ 
+ #: src/main.c:142
+-#, fuzzy
+ msgid ""
+ "Logging and input file:\n"
+ "  -o,  --output-file=FILE     log messages to FILE.\n"
+@@ -738,13 +739,14 @@
+ "                                     liczby komunikatów bez bycia cicho.\n"
+ "  -i,  --input-file=PLIK             wczytuj URLe z PLIK.\n"
+ "  -F,  --force-html                  traktuj plik wej¶ciowy jako plik HTML.\n"
+-"  -B,  --base=URL                    dodaje adres URL do relatywnych "
+-"odno¶ników\n"
+-"                                     w -F -i pliku.\n"
++"  -B,  --base=URL                    dodaje adres URL do wzglêdnych "
++"                                     odno¶ników w pliku po -F -i.\n"
++"       --sslcertfile=PLIK            opcjonalny certyfikat klienta.\n"
++"       --sslcertkey=KLUCZ            opcjonalny plik z kluczem dla\n"
++"                                     certyfikatu.\n"
+ "\n"
+ 
+ #: src/main.c:155
+-#, fuzzy
+ msgid ""
+ "Download:\n"
+ "       --bind-address=ADDRESS   bind to ADDRESS (hostname or IP) on local "
+@@ -769,14 +771,13 @@
+ "\n"
+ msgstr ""
+ "¦ci±ganie:\n"
+-"       --bind-address=ADRES          u¿yj lokalnego adresu ADRES (host lub "
++"       --bind-address=ADRES          u¿yj lokalnego adresu ADRES (nazwa lub "
+ "IP).\n"
+ "  -t,  --tries=LICZBA                ustaw liczbê ponownych prób na LICZBA\n"
+ "                                     (0 = bez limitu)\n"
+ "  -O   --output-document=PLIK        zapisz dokumenty do PLIK.\n"
+-"  -nc, --no-clobber                  nie clobber'uj istniej±cych plików.\n"
+-"  -c,  --continue                    zrestartuj ¶ci±ganie istniej±cego "
+-"pliku.\n"
++"  -nc, --no-clobber                  nie ¶ci±gaj ponownie istniej±cych plików.\n"
++"  -c,  --continue                    kontynuuj ¶ci±ganie urwanego pliku.\n"
+ "       --dot-style=STILE             ustaw tryb wizualizacji postêpów\n"
+ "                                     w ¶ci±ganiu\n"
+ "  -N,  --timestamping                nie ¶ci±gaj plików je¶li s± starsze "
+@@ -785,8 +786,9 @@
+ "  -S,  --server-response             wy¶wietlaj odpowiedzi serwera.\n"
+ "       --spider                      nie ¶ci±gaj czegokolwiek.\n"
+ "  -T,  --timeout=SEKUND              ustaw timeout odczytywania na SEKUND.\n"
+-"  -w,  --wait=SEKUND                 czekaj SEKUND pomiêdzy ponown± prób±\n"
+-"                                     ¶ci±gania\n"
++"  -w,  --wait=SEKUND                 czekaj SEKUND pomiêdzy próbami ¶ci±gania\n"
++"       --waitretry=SEKUND            czekaj 1..SEKUND pomiêdzy ponownymi\n"
++"                                     próbami ¶ci±gania\n"
+ "  -Y,  --proxy=on/off                w³±cz/wy³±cz proxy.\n"
+ "  -Q,  --quota=ROZMIAR               ustaw quotê ¶ci±gania na ROZMIAR.\n"
+ "\n"
+@@ -849,7 +851,6 @@
+ "\n"
+ 
+ #: src/main.c:191
+-#, fuzzy
+ msgid ""
+ "FTP options:\n"
+ "  -nr, --dont-remove-listing   don't remove `.listing' files.\n"
+@@ -860,14 +861,14 @@
+ "\n"
+ msgstr ""
+ "Opcje FTP:\n"
+-"       --retr-symlinks               ¶ci±gaj dowi±zania symbolicze FTP.\n"
++"  -nr, --dont-remove-listing         nie usuwaj plików `.listing'.\n"
+ "  -g,  --glob=on/off                 w³±cz/wy³±cz mo¿liwo¶æ u¿ywania\n"
+ "                                     znaków globalnych.\n"
+ "       --passive-ftp                 u¿yj \"pasywnego\" trybu ¶ci±gania.\n"
++"       --retr-symlinks               ¶ci±gaj dowi±zania symbolicze FTP.\n"
+ "\n"
+ 
+ #: src/main.c:197
+-#, fuzzy
+ msgid ""
+ "Recursive retrieval:\n"
+ "  -r,  --recursive          recursive web-suck -- use with care!\n"
+@@ -887,13 +888,12 @@
+ "  -l,  --level=NUMER                 maksymalna g³êboko¶æ podczas pracy\n"
+ "                                     rekursywnej (0 - bez limitu).\n"
+ "       --delete-after                kasuj ¶ci±gniête pliki.\n"
+-"  -k,  --convert-links               konwertuj dowi±zania symboliczne\n"
+-"                                     na relatywne.\n"
++"  -k,  --convert-links               konwertuj odno¶niki bezwzglêdne na\n"
++"                                     wzglêdne.\n"
+ "  -K,  --backup-converted            przed konwersj± pliku X zapisz jego\n"
+ "                                     orygina³ jako X.orig.\n"
+ "  -m,  --mirror                      skrót odpowiadaj±cy opcjom -r -N -l inf "
+ "-nr.\n"
+-"  -nr, --dont-remove-listing         nie usuwaj plików `.listing'.\n"
+ "  -p,  --page-requisites             ¶ci±gaj wszystkie pliki graficzne itp. "
+ "potrzebne\n"
+ "                                     by poprawnie wy¶wietliæ stronê HTML.\n"
+@@ -944,7 +944,7 @@
+ 
+ #: src/main.c:221
+ msgid "Mail bug reports and suggestions to <bug-wget@gnu.org>.\n"
+-msgstr "Informacje o b³êdaj przesy³aj do <bug-wget@gnu.org>.\n"
++msgstr "Informacje o b³êdach przesy³aj do <bug-wget@gnu.org>.\n"
+ 
+ #: src/main.c:409
+ #, c-format
+@@ -1046,7 +1046,7 @@
+ "\n"
+ "Przes³ano CTRL+Break, przekierowywanie wyj¶cia do `%s'.\n"
+ "Wykonanie kontynuowane w tle.\n"
+-"Mo¿na zatrzymaæ Wget'a poprzez wci¶niêcie CTRL+ALT+DELETE.\n"
++"Mo¿na zatrzymaæ Wgeta poprzez wci¶niêcie CTRL+ALT+DELETE.\n"
+ 
+ #. parent, no error
+ #: src/mswindows.c:140 src/utils.c:451
+@@ -1072,8 +1072,7 @@
+ #, c-format
+ msgid "%s: %s:%d: warning: \"%s\" token appears before any machine name\n"
+ msgstr ""
+-"%s: %s:%d: ostrze¿enie: \"%s\" znaki (token) pojawiaj± sie przed nazw± "
+-"maszyny\n"
++"%s: %s:%d: ostrze¿enie: znaki \"%s\" pojawiaj± sie przed ka¿d± nazw± maszyny\n"
+ 
+ #: src/netrc.c:398
+ #, c-format
+@@ -1145,7 +1144,7 @@
+ 
+ #: src/url.c:1345
+ msgid "nothing to do.\n"
+-msgstr ""
++msgstr "nie ma nic do roboty.\n"
+ 
+ #: src/url.c:1353 src/url.c:1377
+ #, c-format
+@@ -1155,7 +1154,7 @@
+ #: src/url.c:1368
+ #, c-format
+ msgid "Unable to delete `%s': %s\n"
+-msgstr ""
++msgstr "Nie mogê skazowaæ `%s': %s\n"
+ 
+ #: src/url.c:1558
+ #, c-format
