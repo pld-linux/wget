@@ -2,12 +2,12 @@ Summary:     Command-line HTTP and FTP client
 Summary(pl): Wsadowy klient HTTP/FTP 
 Name:        wget
 Version:     1.5.3
-Release:     1
+Release:     2
 Copyright:   GPL
 Group:       Networking/Utilities
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Patch0:      wget-man.patch
-Patch1:      wget-pl.po.patch
+Patch0:      %{name}-man.patch
+Patch1:      %{name}-pl.po.patch
 Prereq:      /sbin/install-info
 BuildRoot:   /tmp/%{name}-%{version}-root
 
@@ -18,12 +18,12 @@ retries several times before giving up, so it is well-suited to running
 from cron jobs.
 
 %description -l pl
-wget jest klientem FTP/HTTP przeznaczonym do ¶ci±gania zasobów zasobów
-wsadowo. Umo¿liwia ¶ci±ganie zasobów z podkatalogami, a tak¿e opcje
-umo¿liwiaj±ce wykonanie lokalnej kopi zasobów (mirror). W razie nie mo¿no¶ci
-dostania siê do zasobów mo¿e automatycznie ponawiaæ próby kopiowania
-zasobów. Jest tak¿e dobrze przystosowany do tego ¿eby uruchamiaæ go jako
-zadanie z cron'a.
+Wget jest klientem FTP/HTTP przeznaczonym do ¶ci±gania zasobów wsadowo. 
+Umo¿liwia ¶ci±ganie zasobów z podkatalogami, a tak¿e ma opcje umo¿liwiaj±ce 
+wykonanie lokalnej kopi zasobów (mirror). W razie nie mo¿no¶ci dostania siê 
+do zasobów lub gdy po³±czenie z serwerem FTP/HTTP zostanie zerwane mo¿e 
+automatycznie ponawiaæ próby kopiowania. Jest tak¿e dobrze przystosowany do 
+tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 
 %prep
 %setup -q
@@ -31,8 +31,10 @@ zadanie z cron'a.
 %patch1 -p1
 
 %build
-CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS=-s \
-	./configure --prefix=/usr --sysconfdir=/etc
+CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
+./configure \
+	--prefix=/usr \
+	--sysconfdir=/etc
 make
 tail -6 util/README >rmold.README
 
@@ -55,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644, root, root, 755)
 %doc AUTHORS ChangeLog MAILING-LIST NEWS README TODO rmold.README
 %verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
-%attr(711, root, root) /usr/bin/*
+%attr(755, root, root) /usr/bin/*
 %attr(644, root,  man) /usr/man/man1/*
 /usr/info/wget.info*
 %lang(cs) /usr/share/locale/cs/LC_MESSAGES/wget.mo
@@ -64,15 +66,18 @@ rm -rf $RPM_BUILD_ROOT
 %lang(it) /usr/share/locale/it/LC_MESSAGES/wget.mo
 %lang(no) /usr/share/locale/no/LC_MESSAGES/wget.mo
 %lang(pl) /usr/share/locale/pl/LC_MESSAGES/wget.mo
-%lang(pt) /usr/share/locale/pt_BR/LC_MESSAGES/wget.mo
+%lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
 
 %changelog
+* Tue Sep 12 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+  [1.5.2-2]
+- fixed pl translation.
+
 * Mon Sep  7 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.5.2-2]
 - added wget-pl.po.patch patch with polish translation 
   (Adam Kozubowicz <tapir@interdata.com.pl>,
-- added wget-man.patch patch with wget man page,
-- changed permission on binaries to 711.
+- added wget-man.patch patch with wget man page.
 
 * Sat Aug  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.5.2-1]
@@ -92,7 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 - added URL,
 - removed Packager field from spec (if you want recompile package and
   redistribute this package later put this in your private .rpmrc). 
-- Buildroot changed to /tmp/lftp-%%{PACKAGE_VERSION}-root,
+- Buildroot changed to /tmp/wget-%%{PACKAGE_VERSION}-root,
 - added %%{PACKAGE_VERSION} to Source url,
 - replaced "mkdir -p" with "install -d" in %install,
 - base datadir changed to /usr/share,
