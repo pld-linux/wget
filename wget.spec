@@ -3,9 +3,12 @@ Summary(es):	Cliente en lМnea de comando para bajar archivos WWW/FTP con recursi
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
 Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursЦo opcional
+Summary(ru):	Утилита для получения файлов по протоколам HTTP и FTP
+Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
+Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.8.2
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
@@ -62,10 +65,6 @@ GNU wget ╓о HTTP ╓╚ FTP ╔в╔М╔х╔Ё╔К╓н╓и╓а╓И╓╚╓Р╩хмя╓╧╓К╓Ё╓х╓╛╓г╓╜╓К
 Range ╓н╩хмя║╒╔в╔М╔╜╔╥║╪╔╣║╪╔п╓н╔╣╔щ║╪╔х╓хюъдЙ╓нмф╟в╓╣╓Р╢ч╓С╓юфцд╖╓Р
 ╓Б╓ц╓ф╓╓╓ч╓╧║ё
 
-╓Б╓╥ HTTP ╓╚ FTP ╓гбГнл╓н╔у╔║╔╓╔К╓Р╪Хфю╓╧╓Ки╛мв╓╛╓╒╓ц╓©╓Й║╒Web
-╔╣╔╓╔х╓Д FTP ╔г╔ё╔Л╔╞╔х╔Й╓Р╔ъ╔И║╪╓╧╓К╔Ф║╪╔ф╔ё╔Й╔ф╔ё║╪╓╛и╛мв╓й╓Иwget
-╓Р╔╓╔С╔╧╔х║╪╔К ╓╥╓й╓╣╓╓║ё
-
 %description -l pl
 Wget jest klientem FTP/HTTP przeznaczonym do ╤ci╠gania zasobСw
 wsadowo. Umo©liwia ╤ci╠ganie zasobСw z podkatalogami, a tak©e ma opcje
@@ -80,6 +79,26 @@ O GNU wget И uma ferramenta de rede para baixar arquivos usando HTTP e
 FTP. Ele funciona em modo nЦo interativo, podendo trabalhar em
 background. Funciona muito bem, mesmo em conexУes lentas ou instАveis,
 baixando o arquivo atИ que ele seja completamente recebido.
+
+%description -l ru
+GNU Wget - это утилита командной строки для получения файлов по
+протоколам FTP и HTTP. Среди возможностей Wget - работа в фоновом
+режиме когда вы выходите из системы, рекурсивное извлечение каталогов,
+выбор файлов по шаблону, сравнение времени удаленных и локальных
+файлов, сохранение времени удаленных файлов при загрузке,
+использование REST с FTP серверами и Range с HTTP серверами для
+загрузки файлов по медленным или нестабильным каналам, поддержка Proxy
+серверов, конфигурируемость.
+
+%description -l uk
+GNU Wget - це утил╕та командного рядка для отримання файл╕в по
+протоколам FTP та HTTP. Серед можливостей Wget - робота в фоновому
+режим╕ коли ви виходите ╕з системи, рекурсивне отримання каталог╕в,
+виб╕р файл╕в по шаблону, пор╕вняння часу в╕ддалених та локальних
+файл╕в, збереження часу в╕ддалених файл╕в при завантаженн╕,
+використання REST з FTP серверами та Range з HTTP серверами для
+завантаження файл╕в по пов╕льним чи нестаб╕льним каналам, п╕дтримка
+Proxy сервер╕в, настроюван╕сть.
 
 %prep
 %setup -q
