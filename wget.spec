@@ -10,7 +10,7 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.9.1
-Release:	6.4
+Release:	7
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
@@ -26,7 +26,7 @@ Patch5:		%{name}-wgetrc_path.patch
 Patch6:		%{name}-back-to-ipv4.patch
 Patch7:		%{name}-home_etc.patch
 Patch8:		%{name}-strptime.patch
-Patch9:		%{name}-porn.patch
+#Patch9:		%{name}-porn.patch
 Patch10:	%{name}-nonperm.patch
 Patch11:	%{name}-1.9.1-LFS.patch
 URL:		http://sunsite.dk/wget/
@@ -123,7 +123,7 @@ Proxy сервер╕в, настроюван╕сть.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
+#%patch9 -p1
 %patch10 -p1
 %patch11 -p1
 rm -f doc/wget.info*
