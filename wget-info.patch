@@ -1,0 +1,16 @@
+diff -Nru wget-1.5.3/doc/wget.texi wget-1.5.3.new/doc/wget.texi
+--- wget-1.5.3/doc/wget.texi	Fri Sep 11 02:34:56 1998
++++ wget-1.5.3.new/doc/wget.texi	Sun Jan  3 18:28:57 1999
+@@ -17,10 +17,9 @@
+ @set VERSION 1.5.3
+ @set UPDATED Sep 1998
+ 
+-@dircategory Net Utilities
+-@dircategory World Wide Web
++@dircategory Net utilities:
+ @direntry
+-* Wget: (wget).         The non-interactive network downloader.
++* Wget: (wget)				The non-interactive network downloader
+ @end direntry
+ 
+ @ifinfo
