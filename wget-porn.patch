@@ -1,0 +1,26 @@
+--- ../../wget-1.9.1/src/progress.c	2003-09-23 22:48:10.000000000 +0200
++++ src/progress.c	2004-02-12 15:48:58.839263832 +0100
+@@ -703,7 +703,7 @@
+       assert (dlsz <= progress_size);
+       assert (insz <= dlsz);
+ 
+-      *p++ = '[';
++      *p++ = '8';
+       begin = p;
+ 
+       /* Print the initial portion of the download with '+' chars, the
+@@ -715,12 +715,12 @@
+ 	{
+ 	  for (i = 0; i < dlsz - 1; i++)
+ 	    *p++ = '=';
+-	  *p++ = '>';
++	  *p++ = 'D';
+ 	}
+ 
+       while (p - begin < progress_size)
+ 	*p++ = ' ';
+-      *p++ = ']';
++      *p++ = 'o';
+     }
+   else if (progress_size)
+     {
