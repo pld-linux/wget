@@ -2719,9 +2719,9 @@ diff -urN wget-1.5.3.orig/src/init.c wget-1.5.3/src/init.c
    { "httpproxy",	&opt.http_proxy,	cmd_string },
    { "httpuser",		&opt.http_user,		cmd_string },
    { "ignorelength",	&opt.ignore_length,	cmd_boolean },
+   { "includedirectories", &opt.includes,	cmd_directory_vector },
 +  { "inet",		&opt.inet,		cmd_boolean },
 +  { "inet6",		&opt.inet6,		cmd_boolean },
-   { "includedirectories", &opt.includes,	cmd_directory_vector },
    { "input",		&opt.input_filename,	cmd_string },
    { "killlonger",	&opt.kill_longer,	cmd_boolean },
 diff -urN wget-1.5.3.orig/src/main.c wget-1.5.3/src/main.c
