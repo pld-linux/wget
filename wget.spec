@@ -114,6 +114,7 @@ Proxy сервер╕в, настроюван╕сть.
 %build
 rm -f aclocal.m4
 %{__libtoolize}
+%{__gettextize}
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}
