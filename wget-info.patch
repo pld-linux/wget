@@ -1,16 +1,14 @@
-diff -Nru wget-1.5.3/doc/wget.texi wget-1.5.3.new/doc/wget.texi
---- wget-1.5.3/doc/wget.texi	Fri Sep 11 02:34:56 1998
-+++ wget-1.5.3.new/doc/wget.texi	Sun Jan  3 18:28:57 1999
-@@ -17,10 +17,9 @@
- @set VERSION 1.5.3
- @set UPDATED Sep 1998
+--- wget-1.9-beta4/doc/wget.texi.orig	2003-10-12 22:41:49.000000000 +0200
++++ wget-1.9-beta4/doc/wget.texi	2003-10-12 22:44:56.185263424 +0200
+@@ -21,9 +21,9 @@
+ @set Wget Wget
+ @c man title Wget The non-interactive network downloader.
  
--@dircategory Net Utilities
--@dircategory World Wide Web
+-@dircategory Network Applications
 +@dircategory Net utilities:
  @direntry
 -* Wget: (wget).         The non-interactive network downloader.
 +* Wget: (wget).				The non-interactive network downloader
  @end direntry
  
- @ifinfo
+ @ifnottex

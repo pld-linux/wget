@@ -17,11 +17,11 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac.patch
-Patch3:		%{name}-ht.patch
-Patch4:		%{name}-filename.patch
-Patch5:		%{name}-lame_fs.patch
-Patch6:		%{name}-pl.patch
-Patch7:		%{name}-wgetrc_path.patch
+#Patch3:		%{name}-ht.patch -- obsolete
+#Patch4:		%{name}-filename.patch	-- obsolete
+Patch2:		%{name}-lame_fs.patch
+Patch3:		%{name}-pl.patch
+Patch4:		%{name}-wgetrc_path.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -105,16 +105,16 @@ Proxy сервер╕в, настроюван╕сть.
 
 %prep
 %setup -q -n %{name}-%{version}-beta4
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
-#%patch3 -p0
-#%patch4 -p1
-#%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+#%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+
+# WGET_STRUCT_UTIMBUF and some IPv6-related macros
+tail +77 aclocal.m4 | head -n 162 > acinclude.m4
 
 %build
-rm -f missing
 %{__libtoolize}
 %{__aclocal}
 %{__autoheader}
@@ -132,7 +132,7 @@ makeinfo --force %{name}.texi; touch *
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 
-echo "y" | \
+#echo "y" | 
 	%{__make} install \
 		DESTDIR=$RPM_BUILD_ROOT
 
