@@ -2,7 +2,7 @@ Summary:	Command-line HTTP and FTP client
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.5.3
-Release:	8
+Release:	9
 Copyright:	GPL
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
