@@ -5,7 +5,10 @@ Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
 Version:	1.8.1
-Release:	1
+#
+Release:	0.1
+# Je¿eli siê ³atka ipv6 na³o¿y i zadzia³a to podbijcie do 1
+# (nie mam zdrowia pisaæ tego po angielsku)
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
@@ -16,6 +19,7 @@ Patch1:		%{name}-ah.patch
 #Patch2:		ftp://ftp.kame.net/pub/kame/misc/%{name}-17-v6-20010716a.diff.gz
 #Patch3:		%{name}-ipv6-fix.patch
 #Patch4:		%{name}-ac.patch
+Patch2:		%{name}-%{version}-ipv6.patch
 Patch5:		%{name}-use_AM_GNU_GETTEXT.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
@@ -87,7 +91,7 @@ baixando o arquivo até que ele seja completamente recebido.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%patch2 -p1
+%patch2 -p1
 #%patch3 -p1
 #%patch4 -p1
 %patch5 -p1
