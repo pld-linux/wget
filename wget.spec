@@ -11,7 +11,7 @@ Patch0:		wget-man.patch
 Patch1:		wget-pl.po.patch
 Patch2:		wget-info.patch
 Patch3:		wget-1.5.3-ipv6.patch
-BuildPrereq:	autoconf >= 2.13-8
+Patch4:		wget-DESTDIR.patch
 Prereq:		/sbin/install-info
 URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:	/tmp/%{name}-%{version}-root
@@ -38,13 +38,12 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 autoconf
-CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure %{_target_platform} \
-	--prefix=%{_prefix} \
-	--sysconfdir=%{_sysconfdir}
+LDFLAGS="-s"; export LDFLAGS
+%configure 
 make
 tail -6 util/README >rmold.README
 
@@ -54,12 +53,9 @@ tail -6 util/README >rmold.README
 rm -rf $RPM_BUILD_ROOT
 
 make install \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	infodir=$RPM_BUILD_ROOT%{_infodir}
+	DESTDIR=$RPM_BUILD_ROOT
 
-install -c util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
+install -m755 util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
 gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/%{name}.info*,%{_mandir}/man1/*} \
     AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
