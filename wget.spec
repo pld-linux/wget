@@ -2,13 +2,14 @@ Summary:     Command-line HTTP and FTP client
 Summary(pl): Wsadowy klient HTTP/FTP 
 Name:        wget
 Version:     1.5.3
-Release:     3
+Release:     4
 Copyright:   GPL
 Group:       Networking/Utilities
+Group(pl):   Sieciowe/Narzêdzia
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Patch0:      wget-man.patch
-Patch1:      wget-pl.po.patch
-Patch2:      wget-info.patch
+Patch0:      %{name}-man.patch
+Patch1:      %{name}-pl.po.patch
+Patch2:      %{naem}-info.patch
 Prereq:      /sbin/install-info
 URL:         http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:   /tmp/%{name}-%{version}-root
@@ -43,10 +44,12 @@ tail -6 util/README >rmold.README
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
 install -c util/rmold.pl $RPM_BUILD_ROOT/usr/bin/rmold
 
 gzip -9nf $RPM_BUILD_ROOT/usr/{info/wget.info*,man/man1/*}
+gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -61,7 +64,8 @@ fi
 
 %files
 %defattr(644, root, root, 755)
-%doc AUTHORS ChangeLog MAILING-LIST NEWS README TODO rmold.README
+%doc AUTHORS.gz ChangeLog.gz MAILING-LIST.gz NEWS.gz TODO.gz
+%doc README.gz rmold.README.gz
 %verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
 %attr(755, root, root) /usr/bin/*
 %attr(644, root,  man) /usr/man/man1/*
@@ -75,6 +79,11 @@ fi
 %lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
 
 %changelog
+* Thu Feb 10 1999 Micha³ Kuratczyk <kurkens@polbox.com>
+  [1.5.2-4]
+- added Group(pl)
+- added gzipping documentation
+
 * Mon Dec 27 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.5.2-3]
 - standarized {un}registering info pages (added wget-info.patch),
