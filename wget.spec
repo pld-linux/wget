@@ -2,7 +2,7 @@ Summary:	Command-line HTTP and FTP client
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.5.3
-Release:	5
+Release:	6
 Copyright:	GPL
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
@@ -60,17 +60,16 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/install-info /usr/info/wget.info.gz /etc/info-dir
 
 %postun
-if [ $1 = 0 ]; then
+if [ "$1" = "0" ]; then
 	/sbin/install-info --delete /usr/info/wget.info.gz /etc/info-dir
 fi
 
 %files
 %defattr(644,root,root,755)
 %doc {AUTHORS,ChangeLog,MAILING-LIST,NEWS,TODO,README,rmold.README}.gz
-%verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
+
 %attr(755,root,root) /usr/bin/*
-/usr/man/man1/*
-/usr/info/wget.info*
+
 %lang(cs) /usr/share/locale/cs/LC_MESSAGES/wget.mo
 %lang(de) /usr/share/locale/de/LC_MESSAGES/wget.mo
 %lang(hr) /usr/share/locale/hr/LC_MESSAGES/wget.mo
@@ -79,7 +78,19 @@ fi
 %lang(pl) /usr/share/locale/pl/LC_MESSAGES/wget.mo
 %lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
 
+/usr/man/man1/*
+/usr/info/wget.info*
+
+%verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
+
 %changelog
+* Wed Apr 21 1999 Piotr Czerwiñski <pius@pld.org.pl>
+  [1.5.3-6]
+- replacements in %files,
+- recompiled on rpm 3,
+- force making info pages (new makeinfo don't accept @xfer{} without "." or
+  "," after this markup) by Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>.
+
 * Fri Apr  2 1999 Piotr Czerwiñski <pius@pld.org.pl>
   [1.5.2-5]
 - removed man group from man pages,
