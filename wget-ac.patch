@@ -1,6 +1,5 @@
-diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
---- wget-1.9-b5.org/configure.in	2003-10-12 23:55:54.000000000 +0200
-+++ wget-1.9-b5/configure.in	2003-10-13 00:24:45.000000000 +0200
+--- wget-1.9.1/configure.in.orig	2003-11-08 20:15:35.000000000 +0100
++++ wget-1.9.1/configure.in	2003-11-16 11:46:45.947950144 +0100
 @@ -46,14 +46,14 @@
  dnl Get cannonical host
  dnl
@@ -39,7 +38,7 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
  
  wget_need_md5=no
  
-@@ -382,7 +382,7 @@
+@@ -383,7 +383,7 @@
      dnl AC_MSG_RESULT doesn't look right here, but I'm not sure what
      dnl to use instead.
      AC_MSG_RESULT([Compiling in support for SSL in $ssl_root])
@@ -48,31 +47,33 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
      AC_SUBST(SSL_INCLUDES)
      SSL_OBJ='gen_sslfunc$o'
      AC_SUBST(SSL_OBJ)
-@@ -424,7 +424,7 @@
-   dnl specific to the Solaris MD5 library.
-   if test x"$found_md5" = xno; then
-     AC_CHECK_LIB(md5, md5_calc, [
--      AC_DEFINE(HAVE_SOLARIS_MD5)
-+      AC_DEFINE(HAVE_SOLARIS_MD5,,[Use Solaris MD5])
-       LIBS="-lmd5 $LIBS"
-       found_md5=yes
-     ])
-@@ -434,19 +434,19 @@
+@@ -431,7 +431,7 @@
+       AC_COMPILE_IFELSE([#include <md5.h>
+                         ], [
+         AC_MSG_RESULT(yes)
+-        AC_DEFINE(HAVE_SOLARIS_MD5)
++        AC_DEFINE(HAVE_SOLARIS_MD5,,[Use Solaris MD5])
+         LIBS="-lmd5 $LIBS"
+         found_md5=yes
+         AC_MSG_NOTICE([using the Solaris MD5 implementation])
+@@ -443,7 +443,7 @@
    dnl implementation.
    if test x"$found_md5" = xno; then
      if test x"$ssl_success" = xyes; then
 -      AC_DEFINE(HAVE_OPENSSL_MD5)
 +      AC_DEFINE(HAVE_OPENSSL_MD5,,[Use OpenSSL MD5])
        found_md5=yes
+       AC_MSG_NOTICE([using the OpenSSL MD5 implementation])
      fi
-   fi
+@@ -451,13 +451,13 @@
  
    dnl If none of the above worked, use the one we ship with Wget.
    if test x"$found_md5" = xno; then
 -    AC_DEFINE(HAVE_BUILTIN_MD5)
 +    AC_DEFINE(HAVE_BUILTIN_MD5,,[Use builtin MD5])
-     found_md5=yes
      MD5_OBJ="$MD5_OBJ gnu-md5\$o"
+     found_md5=yes
+     AC_MSG_NOTICE([using the GNU MD5 implementation])
    fi
  fi
 -AC_DEFINE(HAVE_MD5)
@@ -80,7 +81,7 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
  AC_SUBST(MD5_OBJ)
  
  dnl **********************************************************************
-@@ -530,7 +530,7 @@
+@@ -541,7 +541,7 @@
  dnl new language was added.
  
  dnl internationalization macros
@@ -89,7 +90,7 @@ diff -urN wget-1.9-b5.org/configure.in wget-1.9-b5/configure.in
  
  dnl
  dnl Find makeinfo.  If makeinfo is not found, look for Emacs.  If
-@@ -563,6 +563,4 @@
+@@ -574,6 +574,4 @@
  dnl Create output
  dnl
  AC_OUTPUT([Makefile src/Makefile doc/Makefile util/Makefile po/Makefile.in

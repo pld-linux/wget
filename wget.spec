@@ -7,12 +7,12 @@ Summary(ru):	Утилита для получения файлов по протоколам HTTP и FTP
 Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
-Version:	1.9
-Release:	2
+Version:	1.9.1
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
-# Source0-md5:	18ac093db70801b210152dd69b4ef08a
+# Source0-md5:	e6051f1e1487ec0ebfdbda72bedc70ad
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -24,7 +24,7 @@ Patch5:		%{name}-wgetrc_path.patch
 Patch6:		%{name}-back-to-ipv4.patch
 Patch7:		%{name}-home_etc.patch
 URL:		http://sunsite.dk/wget/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
@@ -115,6 +115,8 @@ Proxy сервер╕в, настроюван╕сть.
 %patch6 -p1
 %patch7 -p1
 
+rm -f doc/wget.info*
+
 %build
 %{__libtoolize}
 %{__gettextize}
@@ -126,9 +128,6 @@ Proxy сервер╕в, настроюван╕сть.
 	--enable-ipv6
 %{__make}
 tail -6 util/README >rmold.README
-
-cd doc
-makeinfo --force %{name}.texi; touch *
 
 %install
 rm -rf $RPM_BUILD_ROOT
