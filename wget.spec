@@ -8,7 +8,7 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.8.2
-Release:	5
+Release:	6
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
