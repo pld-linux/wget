@@ -1,6 +1,5 @@
 # TODO
 # - -porn patch does not work with LFS
-# - -back-to-ipv4 patch closes socket -1
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es):	Cliente en lМnea de comando para bajar archivos WWW/FTP con recursiСn opcional
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
@@ -11,7 +10,7 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.9.1
-Release:	6.3
+Release:	6.4
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
