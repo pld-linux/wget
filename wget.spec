@@ -127,7 +127,7 @@ rm -f doc/wget.info*
 	--with-ssl \
 	--enable-ipv6
 %{__make}
-tail -6 util/README >rmold.README
+tail -n 6 util/README >rmold.README
 
 %install
 rm -rf $RPM_BUILD_ROOT
