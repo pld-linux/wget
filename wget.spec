@@ -5,7 +5,7 @@ Summary(pl):	Wsadowy klient HTTP/FTP
 Summary(pt_BR):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
 Name:		wget
 Version:	1.7
-Release:	5
+Release:	6
 License:	GPL
 Group:		Networking/Utilities
 Group(de):	Netzwerkwesen/Werkzeuge
@@ -14,6 +14,7 @@ Group(pl):	Sieciowe/Narzêdzia
 Group(pt_BR):	Rede/Utilitários
 Source0:	ftp://ftp.gnu.org/pub/gnu/wget/%{name}-%{version}.tar.gz
 Source1:	%{name}.pl.po
+Source2:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ah.patch
 Patch2:		ftp://ftp.kame.net/pub/kame/misc/%{name}-17-v6-20010716a.diff.gz
@@ -121,6 +122,8 @@ echo "y" | \
 install util/rmold.pl		$RPM_BUILD_ROOT%{_bindir}/rmold
 install doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 
+bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+
 gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %find_lang %{name}
@@ -140,4 +143,6 @@ rm -rf $RPM_BUILD_ROOT
 %verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
+%lang(hu) %{_mandir}/hu/man1/*
+%lang(pl) %{_mandir}/pl/man1/*
 %{_infodir}/*.info*
