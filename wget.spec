@@ -13,12 +13,8 @@ Source2:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ah.patch
 Patch2:		http://www14.u-page.so-net.ne.jp/db3/h-yamamo/ipv6/patches/%{name}-1.8.1-v6-20219.patch.gz
-#Patch2:		%{name}-ipv6.patch
-#Patch3:		%{name}-ipv6-fix.patch
-#Patch4:		%{name}-ac.patch
-#Patch2:		%{name}-%{version}-ipv6.patch
-Patch5:		%{name}-use_AM_GNU_GETTEXT.patch
-Patch6:		%{name}-pl.patch
+Patch3:		%{name}-use_AM_GNU_GETTEXT.patch
+Patch4:		%{name}-pl.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -90,20 +86,16 @@ baixando o arquivo até que ele seja completamente recebido.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
-#%patch4 -p1
-%patch5 -p1
-%patch6 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 rm -f missing
-libtoolize --copy --force
-#autoheader
+%{__libtoolize}
 aclocal
 %{__autoconf}
 %configure \
 	--with-ssl
-#%{__make} CFLAGS="$CFLAGS -DHAVE_NLS -DHAVE_LOCALE_H -DINET6"
 %{__make} CFLAGS="%{rpmcflags} -DHAVE_NLS -DHAVE_LOCALE_H -DINET6"
 tail -6 util/README >rmold.README
 
@@ -123,8 +115,6 @@ install doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 
 bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-gzip -9nf AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
-
 %find_lang %{name}
 
 %clean
@@ -138,7 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc *.gz
+%doc AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 %verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
