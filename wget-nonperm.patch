@@ -1,7 +1,24 @@
 diff -urN wget-1.9.1/src/cookies.c wget-1.9.1-nonperm/src/cookies.c
 --- wget-1.9.1/src/cookies.c	2003-10-07 12:39:18.000000000 +0200
-+++ wget-1.9.1-nonperm/src/cookies.c	2004-05-07 01:41:19.338297224 +0200
-@@ -1389,7 +1389,7 @@
++++ wget-1.9.1-nonperm/src/cookies.c	2004-05-07 14:51:38.690337912 +0200
+@@ -1357,14 +1357,12 @@
+ 	 malloced.)  */
+       *expires_e = '\0';
+       sscanf (expires_b, "%lf", &expiry);
+-      if (expiry < cookies_now)
++      if ( expiry < cookies_now && !opt.cookies_nonperm)
+ 	/* ignore stale cookie. */
+ 	goto abort;
+       cookie->expiry_time = expiry;
+ 
+-      /* If the cookie has survived being saved into an external file,
+-	 it is obviously permanent.  */
+-      cookie->permanent = 1;
++      cookie->permanent = (opt.cookies_nonperm && expiry < cookies_now) ? 0 : 1 ;
+ 
+       store_cookie (jar, cookie);
+ 
+@@ -1389,7 +1387,7 @@
    struct cookie *cookie = (struct cookie *)value;
    for (; cookie; cookie = cookie->next)
      {
@@ -11,32 +28,24 @@ diff -urN wget-1.9.1/src/cookies.c wget-1.9.1-nonperm/src/cookies.c
        if (COOKIE_EXPIRED_P (cookie))
  	continue;
 diff -urN wget-1.9.1/src/init.c wget-1.9.1-nonperm/src/init.c
---- wget-1.9.1/src/init.c	2004-05-07 01:42:07.261011864 +0200
-+++ wget-1.9.1-nonperm/src/init.c	2004-05-07 01:37:49.756158552 +0200
-@@ -200,6 +200,7 @@
-   { "robots",		&opt.use_robots,	cmd_boolean },
-   { "savecookies",	&opt.cookies_output,	cmd_file },
-   { "saveheaders",	&opt.save_headers,	cmd_boolean },
-+  { "savenonpermanent",	&opt.cookies_nonperm,	cmd_boolean },
-   { "serverresponse",	&opt.server_response,	cmd_boolean },
-   { "spanhosts",	&opt.spanhost,		cmd_boolean },
-   { "spider",		&opt.spider,		cmd_boolean },
-@@ -556,6 +557,7 @@
- static int
- setval_internal (int comind, const char *com, const char *val)
- {
-+  printf("%d %d\n", comind, countof(commands));
-   assert (0 <= comind && comind < countof (commands));
-   return ((*commands[comind].action) (com, val, commands[comind].closure));
- }
+--- wget-1.9.1/src/init.c	2004-05-07 14:58:12.331495360 +0200
++++ wget-1.9.1-nonperm/src/init.c	2004-05-07 14:52:20.800936128 +0200
+@@ -128,6 +128,7 @@
+   { "continue",		&opt.always_rest,	cmd_boolean },
+   { "convertlinks",	&opt.convert_links,	cmd_boolean },
+   { "cookies",		&opt.cookies,		cmd_boolean },
++  { "cookiesnonperm",	&opt.cookies_nonperm,	cmd_boolean },
+   { "cutdirs",		&opt.cut_dirs,		cmd_number },
+ #ifdef ENABLE_DEBUG
+   { "debug",		&opt.debug,		cmd_boolean },
 diff -urN wget-1.9.1/src/main.c wget-1.9.1-nonperm/src/main.c
---- wget-1.9.1/src/main.c	2004-05-07 01:42:07.247013992 +0200
-+++ wget-1.9.1-nonperm/src/main.c	2004-05-07 01:31:03.462924512 +0200
+--- wget-1.9.1/src/main.c	2004-05-07 14:58:12.285502352 +0200
++++ wget-1.9.1-nonperm/src/main.c	2004-05-07 14:40:25.103738640 +0200
 @@ -210,6 +210,7 @@
         --cookies=off         don't use cookies.\n\
         --load-cookies=FILE   load cookies from FILE before session.\n\
         --save-cookies=FILE   save cookies to FILE after session.\n\
-+       --save-nonpermanent   save even non-permanent cookies after session.\n\
++       --cookies-nonperm     save and load even non-permanent cookies.\n\
         --post-data=STRING    use the POST method; send STRING as the data.\n\
         --post-file=FILE      use the POST method; send contents of FILE.\n\
  \n"), stdout);
@@ -44,7 +53,7 @@ diff -urN wget-1.9.1/src/main.c wget-1.9.1-nonperm/src/main.c
      { "retr-symlinks", no_argument, NULL, 137 },
      { "retry-connrefused", no_argument, NULL, 174 },
      { "save-headers", no_argument, NULL, 's' },
-+    { "save-nonpermanent", no_argument, NULL, 154 },
++    { "cookies-nonperm", no_argument, NULL, 154 },
      { "server-response", no_argument, NULL, 'S' },
      { "span-hosts", no_argument, NULL, 'H' },
      { "spider", no_argument, NULL, 132 },
@@ -53,7 +62,7 @@ diff -urN wget-1.9.1/src/main.c wget-1.9.1-nonperm/src/main.c
  	  setoptval ("strictcomments", "on");
  	  break;
 +	case 154:
-+	  setoptval ("savenonpermanent", "on");
++	  setoptval ("cookiesnonperm", "on");
 +	  break;
  
  	  /* Options accepting an argument: */
