@@ -14,7 +14,6 @@ Patch2:		wget-info.patch
 Patch3:		wget-1.5.3-ipv6.patch
 Patch4:		wget-DESTDIR.patch
 patch5:		wget-symlink.patch
-Prereq:		/usr/sbin/fix-info-dir
 URL:		http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -81,10 +80,10 @@ gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/%{name}.info*,%{_mandir}/man1/*} \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun
-/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+[ -x /usr/sbin/fix-info-dir ] && /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
