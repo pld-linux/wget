@@ -2,10 +2,12 @@ Summary:     Command-line HTTP and FTP client
 Summary(pl): Wsadowy klient HTTP/FTP 
 Name:        wget
 Version:     1.5.2
-Release:     1
+Release:     2
 Copyright:   GPL
 Group:       Networking/Utilities
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Patch0:      wget-man.patch
+Patch1:      wget-pl.po.patch
 Prereq:      /sbin/install-info
 BuildRoot:   /tmp/%{name}-%{version}-root
 
@@ -25,6 +27,8 @@ zadanie z cron'a.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS=-s \
@@ -52,15 +56,23 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog MAILING-LIST NEWS README TODO rmold.README
 %verify(not md5 size mtime) %config(noreplace) /etc/wgetrc
 %attr(755, root, root) /usr/bin/*
+%attr(644, root,  man) /usr/man/man1/*
 /usr/info/wget.info*
 %lang(cs) /usr/share/locale/cs/LC_MESSAGES/wget.mo
 %lang(de) /usr/share/locale/de/LC_MESSAGES/wget.mo
 %lang(hr) /usr/share/locale/hr/LC_MESSAGES/wget.mo
 %lang(it) /usr/share/locale/it/LC_MESSAGES/wget.mo
 %lang(no) /usr/share/locale/no/LC_MESSAGES/wget.mo
+%lang(pl) /usr/share/locale/pl/LC_MESSAGES/wget.mo
 %lang(pt) /usr/share/locale/pt_BR/LC_MESSAGES/wget.mo
 
 %changelog
+* Mon Sep  7 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.5.2-2]
+- added wget-pl.po.patch patch with polish translation 
+  (Adam Kozubowicz <tapir@interdata.com.pl>,
+- added wget-man.patch patch with wget man page.
+
 * Sat Aug  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [1.5.2-1]
 - added pl translation.
