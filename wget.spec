@@ -27,7 +27,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel < 0.11
 BuildRequires:	libtool
-BuildRequires:	openssl-devel >= 0.9.6a
+BuildRequires:	openssl-devel >= 0.9.6m
 BuildRequires:	texinfo
 BuildRequires:	perl-devel
 Provides:	webclient
