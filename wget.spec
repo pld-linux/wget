@@ -8,7 +8,7 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.9
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
@@ -22,6 +22,7 @@ Patch3:		%{name}-lame_fs.patch
 Patch4:		%{name}-pl.patch
 Patch5:		%{name}-wgetrc_path.patch
 Patch6:		%{name}-back-to-ipv4.patch
+Patch7:		%{name}-home_etc.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -112,6 +113,7 @@ Proxy сервер╕в, настроюван╕сть.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %{__libtoolize}
