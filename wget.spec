@@ -52,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
 install -c util/rmold.pl $RPM_BUILD_ROOT/usr/bin/rmold
 
-gzip -9nf $RPM_BUILD_ROOT/usr/share/{info/wget.info*,man/man1/*} \
+gzip -9nf $RPM_BUILD_ROOT%{_datadir}/{info/wget.info*,man/man1/*} \
     AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %clean
@@ -72,13 +72,13 @@ fi
 
 %attr(755,root,root) /usr/bin/*
 
-%lang(cs) /usr/share/locale/cs/LC_MESSAGES/wget.mo
-%lang(de) /usr/share/locale/de/LC_MESSAGES/wget.mo
-%lang(hr) /usr/share/locale/hr/LC_MESSAGES/wget.mo
-%lang(it) /usr/share/locale/it/LC_MESSAGES/wget.mo
-%lang(no) /usr/share/locale/no/LC_MESSAGES/wget.mo
-%lang(pl) /usr/share/locale/pl/LC_MESSAGES/wget.mo
-%lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/wget.mo
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/wget.mo
+%lang(hr) %{_datadir}/locale/hr/LC_MESSAGES/wget.mo
+%lang(it) %{_datadir}/locale/it/LC_MESSAGES/wget.mo
+%lang(no) %{_datadir}/locale/no/LC_MESSAGES/wget.mo
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/wget.mo
+%lang(pt) %{_datadir}/locale/pt*/LC_MESSAGES/wget.mo
 
 %{_mandir}/man1/*
 %{_infodir}/wget.info*
@@ -145,8 +145,8 @@ fi
 - Buildroot changed to /tmp/wget-%%{PACKAGE_VERSION}-root,
 - added %%{PACKAGE_VERSION} to Source url,
 - replaced "mkdir -p" with "install -d" in %install,
-- base datadir changed to /usr/share,
-- added %lang macros for /usr/share/locale/*/LC_MESSAGES/wget.mo files,
+- base datadir changed to %{_datadir},
+- added %lang macros for %{_datadir}/locale/*/LC_MESSAGES/wget.mo files,
 - added %defattr and %attr macros in %files (allows building package from
   non-root account).
 
