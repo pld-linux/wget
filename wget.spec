@@ -1,8 +1,9 @@
-Summary:	Command-line HTTP and FTP client
+Summary:	A utility for retrieving files using the HTTP or FTP protocols
+Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
 Summary(pl):	Wsadowy klient HTTP/FTP 
 Name:		wget
 Version:	1.5.3
-Release:	9
+Release:	10
 Copyright:	GPL
 Group:		Networking/Utilities
 Group(pl):	Sieciowe/Narzêdzia
@@ -23,6 +24,17 @@ wget is a command-line program to fetch files via HTTP or FTP. It
 supports recursive retrieval and mirroring options, and it automatically
 retries several times before giving up, so it is well-suited to running
 from cron jobs.
+
+%description -l fr
+GNU Wget est un utilitaire pour récupérer des fichiers qui peut utiliser
+indifféremment les protocoles HTTP ou FTP. Parmi les caractéristiques de
+Wget, citons la capacité à récupérer des fichiers en arrière-plan alors que
+vous n'êtes pas connecté, la récupération récursive de répertoires, la
+capacité de récupérer des fichiers en appliquant un filtre sur le nom ou sur
+la date, la gestion de Rest avec les serveurs FTP et de Range avec les
+serveurs HTTP pour récupérer des fichiers avec une connexion lente ou
+instable, le support des serveurs Proxy... Wget est particulièrement
+configurable.
 
 %description -l pl
 Wget jest klientem FTP/HTTP przeznaczonym do ¶ci±gania zasobów wsadowo. 
@@ -52,13 +64,12 @@ tail -6 util/README >rmold.README
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make install \
-	DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
 
-install -m755 util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
+install util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 
 gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/%{name}.info*,%{_mandir}/man1/*} \
-    AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
+	AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
 
 %find_lang %{name}
  
