@@ -2,13 +2,15 @@ Summary:     Command-line HTTP and FTP client
 Summary(pl): Wsadowy klient HTTP/FTP 
 Name:        wget
 Version:     1.5.3
-Release:     2
+Release:     3
 Copyright:   GPL
 Group:       Networking/Utilities
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Patch0:      %{name}-man.patch
-Patch1:      %{name}-pl.po.patch
+Patch0:      wget-man.patch
+Patch1:      wget-pl.po.patch
+Patch2:      wget-info.patch
 Prereq:      /sbin/install-info
+URL:         http://sunsite.auc.dk/ftp/pub/infosystems/wget/
 BuildRoot:   /tmp/%{name}-%{version}-root
 
 %description
@@ -29,6 +31,7 @@ tego, ¿eby uruchamiaæ go jako zadanie z cron'a.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
@@ -41,17 +44,20 @@ tail -6 util/README >rmold.README
 %install
 rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
-gzip -9nf $RPM_BUILD_ROOT/usr/info/wget.info*
 install -c util/rmold.pl $RPM_BUILD_ROOT/usr/bin/rmold
+
+gzip -9nf $RPM_BUILD_ROOT/usr/{info/wget.info*,man/man1/*}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/install-info /usr/info/wget.info.gz /usr/info/dir
+/sbin/install-info /usr/info/wget.info.gz /etc/info-dir
 
 %postun
-/sbin/install-info --delete /usr/info/wget.info.gz /usr/info/dir
+if [ $1 = 0 ]; then
+	/sbin/install-info --delete /usr/info/wget.info.gz /etc/info-dir
+fi
 
 %files
 %defattr(644, root, root, 755)
@@ -69,6 +75,12 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt) /usr/share/locale/pt*/LC_MESSAGES/wget.mo
 
 %changelog
+* Mon Dec 27 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [1.5.2-3]
+- standarized {un}registering info pages (added wget-info.patch),
+- added URL,
+- added gzipping man pages.
+
 * Tue Sep 12 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
   [1.5.2-2]
 - fixed pl translation.
