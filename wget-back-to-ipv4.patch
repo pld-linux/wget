@@ -18,16 +18,32 @@
    /* Construct the name of the executable, without the directory part.  */
    exec_name = strrchr (argv[0], PATH_SEPARATOR);
    if (!exec_name)
+
 diff -urN wget-1.9.1.org/src/ftp-basic.c wget-1.9.1/src/ftp-basic.c
 --- wget-1.9.1.org/src/ftp-basic.c	2003-11-08 20:17:55.000000000 +0100
-+++ wget-1.9.1/src/ftp-basic.c	2005-04-25 00:08:41.000000000 +0200
-@@ -276,6 +276,9 @@
++++ wget-1.9.1/src/ftp-basic.c	2005-04-25 00:18:36.000000000 +0200
+@@ -261,6 +261,7 @@
+   char *request, *respline;
+   ip_address in_addr;
+   unsigned short port;
++  int af = AF_INET6;
+ 
+   char ipv6 [8 * (4 * 3 + 3) + 8];
+   char *bytes;
+@@ -276,10 +277,15 @@
      /* Huh?  This is not BINDERR! */
      return BINDERR;
    inet_ntop (AF_INET6, &in_addr, ipv6, sizeof (ipv6));
 +  
-+  if (strncmp(ipv6, "::ffff:", 7) == 0)
++  if (strncmp(ipv6, "::ffff:", 7) == 0) {
 +      memmove(ipv6, ipv6 + 7, sizeof(ipv6) - 7);
++      af = AF_INET;
++  }
  
    /* Construct the argument of EPRT (of the form |2|IPv6.ascii|PORT.ascii|). */
    bytes = alloca (3 + strlen (ipv6) + 1 + numdigit (port) + 1 + 1);
+-  sprintf (bytes, "|2|%s|%u|", ipv6, port);
++  sprintf (bytes, "|%s|%s|%u|", (af == AF_INET6) ? "2" : "1", ipv6, port);
+   /* Send PORT request.  */
+   request = ftp_request ("EPRT", bytes);
+   if (0 > iwrite (RBUF_FD (rbuf), request, strlen (request)))
