@@ -1,3 +1,16 @@
+diff -Nurb wget-1.9.1.bef/doc/wget.texi wget-1.9.1.new/doc/wget.texi
+--- wget-1.9.1.bef/doc/wget.texi	2005-05-29 09:12:59.000000000 +0200
++++ wget-1.9.1.new/doc/wget.texi	2005-05-29 14:43:11.000000000 +0200
+@@ -2436,6 +2436,9 @@
+ @item use_proxy = on/off
+ Turn proxy support on/off.  The same as @samp{-Y}.
+ 
++@item user_agent = @var{agent-string}
++Identify as @var{agent-string} to the @sc{http} server.
++
+ @item verbose = on/off
+ Turn verbose on/off---the same as @samp{-v}/@samp{-nv}.
+ 
 diff -Nurb wget-1.9.1.bef/src/http.c wget-1.9.1.new/src/http.c
 --- wget-1.9.1.bef/src/http.c	2005-05-29 09:12:59.000000000 +0200
 +++ wget-1.9.1.new/src/http.c	2005-05-29 12:43:11.000000000 +0200
