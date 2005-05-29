@@ -29,6 +29,7 @@ Patch8:		%{name}-strptime.patch
 Patch9:		%{name}-porn.patch
 Patch10:	%{name}-nonperm.patch
 Patch11:	%{name}-1.9.1-LFS.patch
+Patch12:	%{name}-user_agent_conf.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -126,6 +127,7 @@ Proxy сервер╕в, настроюван╕сть.
 #%%patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 rm -f doc/wget.info*
 
 mv -f po/{no,nb}.po
