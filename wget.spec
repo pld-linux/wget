@@ -1,5 +1,3 @@
-# TODO
-# - -porn patch does not work with LFS
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es):	Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
 Summary(fr):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
@@ -9,12 +7,12 @@ Summary(ru):	õÔÉÌÉÔÁ ÄÌÑ ÐÏÌÕÞÅÎÉÑ ÆÁÊÌÏ× ÐÏ ÐÒÏÔÏËÏÌÁÍ HTTP É FTP
 Summary(uk):	õÔÉÌ¦ÔÁ ÄÌÑ ÏÔÒÉÍÁÎÎÑ ÆÁÊÌ¦× ÐÏ ÐÒÏÔÏËÏÌÁÍ HTTP ÔÁ FTP
 Summary(zh_CN):	[Í¨Ñ¶]¹¦ÄÜÇ¿´óµÄÏÂÔØ³ÌÐò,Ö§³Ö¶ÏµãÐø´«
 Name:		wget
-Version:	1.9.1
-Release:	10
+Version:	1.10
+Release:	0.1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
-# Source0-md5:	e6051f1e1487ec0ebfdbda72bedc70ad
+# Source0-md5:	caddc199d2cb31969e32b19fd365b0c5
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -23,13 +21,9 @@ Patch2:		%{name}-m4.patch
 Patch3:		%{name}-lame_fs.patch
 Patch4:		%{name}-pl.patch
 Patch5:		%{name}-wgetrc_path.patch
-Patch6:		%{name}-back-to-ipv4.patch
 Patch7:		%{name}-home_etc.patch
 Patch8:		%{name}-strptime.patch
 Patch9:		%{name}-porn.patch
-Patch10:	%{name}-nonperm.patch
-Patch11:	%{name}-1.9.1-LFS.patch
-Patch12:	%{name}-user_agent_conf.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -121,14 +115,10 @@ Proxy ÓÅÒ×ÅÒ¦×, ÎÁÓÔÒÏÀ×ÁÎ¦ÓÔØ.
 #%%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 %patch7 -p1
 %patch8 -p1
 #%%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-rm -f doc/wget.info*
+rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 
 mv -f po/{no,nb}.po
 
@@ -138,10 +128,9 @@ mv -f po/{no,nb}.po
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}
+LDFLAGS="%{rpmldflags} -lrt"; export LDFLAGS
 %configure \
-	--with-ssl \
-	--enable-LFS \
-	--enable-ipv6
+	--with-ssl
 %{__make}
 tail -n 6 util/README >rmold.README
 
