@@ -17,7 +17,6 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac.patch
-Patch2:		%{name}-m4.patch
 Patch3:		%{name}-lame_fs.patch
 Patch4:		%{name}-pl.patch
 Patch5:		%{name}-wgetrc_path.patch
@@ -112,7 +111,6 @@ Proxy сервер╕в, настроюван╕сть.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%%patch2 -p1
 #%%patch3 -p1
 %patch4 -p1
 %patch5 -p1
