@@ -26,6 +26,7 @@ Patch8:		%{name}-strptime.patch
 Patch9:		%{name}-porn.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
+BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	intltool
 BuildRequires:	libtool
