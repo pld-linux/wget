@@ -1,86 +1,5 @@
 --- wget-1.9.1/configure.in.orig	2003-11-08 20:15:35.000000000 +0100
 +++ wget-1.9.1/configure.in	2003-11-16 11:46:45.947950144 +0100
-@@ -46,14 +46,14 @@
- dnl Get cannonical host
- dnl
- AC_CANONICAL_HOST
--AC_DEFINE_UNQUOTED(OS_TYPE, "$host_os")
-+AC_DEFINE_UNQUOTED(OS_TYPE, "$host_os", [OS type])
- 
- dnl
- dnl Process features.
- dnl
- AC_ARG_WITH(socks,
- [  --with-socks            use the socks library],
--[AC_DEFINE(HAVE_SOCKS)])
-+[AC_DEFINE(HAVE_SOCKS,,[Use the socks library])])
- 
- AC_ARG_WITH(ssl,
- [[  --with-ssl[=SSL-ROOT]   link with SSL support [default=auto]
-@@ -62,17 +62,17 @@
- AC_ARG_ENABLE(opie,
- [  --disable-opie          disable support for opie or s/key FTP login],
- USE_OPIE=$enableval, USE_OPIE=yes)
--test x"${USE_OPIE}" = xyes && AC_DEFINE(USE_OPIE)
-+test x"${USE_OPIE}" = xyes && AC_DEFINE(USE_OPIE,,[FTP opie or s/key login support])
- 
- AC_ARG_ENABLE(digest,
- [  --disable-digest        disable support for HTTP digest authorization],
- USE_DIGEST=$enableval, USE_DIGEST=yes)
--test x"${USE_DIGEST}" = xyes && AC_DEFINE(USE_DIGEST)
-+test x"${USE_DIGEST}" = xyes && AC_DEFINE(USE_DIGEST,,[HTTP digest authorization support])
- 
- AC_ARG_ENABLE(debug,
- [  --disable-debug         disable support for debugging output],
- ENABLE_DEBUG=$enableval, ENABLE_DEBUG=yes)
--test x"${ENABLE_DEBUG}" = xyes && AC_DEFINE(ENABLE_DEBUG)
-+test x"${ENABLE_DEBUG}" = xyes && AC_DEFINE(ENABLE_DEBUG,,[Support for debugging output])
- 
- wget_need_md5=no
- 
-@@ -383,7 +383,7 @@
-     dnl AC_MSG_RESULT doesn't look right here, but I'm not sure what
-     dnl to use instead.
-     AC_MSG_RESULT([Compiling in support for SSL in $ssl_root])
--    AC_DEFINE(HAVE_SSL)
-+    AC_DEFINE(HAVE_SSL,,[SSL support])
-     AC_SUBST(SSL_INCLUDES)
-     SSL_OBJ='gen_sslfunc$o'
-     AC_SUBST(SSL_OBJ)
-@@ -431,7 +431,7 @@
-       AC_COMPILE_IFELSE([#include <md5.h>
-                         ], [
-         AC_MSG_RESULT(yes)
--        AC_DEFINE(HAVE_SOLARIS_MD5)
-+        AC_DEFINE(HAVE_SOLARIS_MD5,,[Use Solaris MD5])
-         LIBS="-lmd5 $LIBS"
-         found_md5=yes
-         AC_MSG_NOTICE([using the Solaris MD5 implementation])
-@@ -443,7 +443,7 @@
-   dnl implementation.
-   if test x"$found_md5" = xno; then
-     if test x"$ssl_success" = xyes; then
--      AC_DEFINE(HAVE_OPENSSL_MD5)
-+      AC_DEFINE(HAVE_OPENSSL_MD5,,[Use OpenSSL MD5])
-       found_md5=yes
-       AC_MSG_NOTICE([using the OpenSSL MD5 implementation])
-     fi
-@@ -451,13 +451,13 @@
- 
-   dnl If none of the above worked, use the one we ship with Wget.
-   if test x"$found_md5" = xno; then
--    AC_DEFINE(HAVE_BUILTIN_MD5)
-+    AC_DEFINE(HAVE_BUILTIN_MD5,,[Use builtin MD5])
-     MD5_OBJ="$MD5_OBJ gnu-md5\$o"
-     found_md5=yes
-     AC_MSG_NOTICE([using the GNU MD5 implementation])
-   fi
- fi
--AC_DEFINE(HAVE_MD5)
-+AC_DEFINE(HAVE_MD5,,[Have MD5])
- AC_SUBST(MD5_OBJ)
- 
- dnl **********************************************************************
 @@ -541,7 +541,7 @@
  dnl new language was added.
  
@@ -89,15 +8,7 @@
 +AM_GNU_GETTEXT
  
  dnl
- dnl Find makeinfo.  If makeinfo is not found, look for Emacs.  If
-@@ -574,6 +574,4 @@
- dnl Create output
- dnl
- AC_OUTPUT([Makefile src/Makefile doc/Makefile util/Makefile po/Makefile.in
--           windows/Makefile],
--[WGET_PROCESS_PO
--test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h])
-+           windows/Makefile])
+ dnl Find makeinfo.  We used to provide support for Emacs processing
 diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
 --- wget-1.9-b5.org/Makefile.in	2003-10-12 23:55:54.000000000 +0200
 +++ wget-1.9-b5/Makefile.in	2003-10-13 00:29:14.000000000 +0200
@@ -119,10 +30,9 @@ diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
  
  # Regenerate libtool if ltconfig and/or ltmain are updated
  libtool: $(LIBTOOL_DEPS)
-diff -urN wget-1.9-b5.org/src/main.c wget-1.9-b5/src/main.c
---- wget-1.9-b5.org/src/main.c	2003-10-12 23:55:54.000000000 +0200
-+++ wget-1.9-b5/src/main.c	2003-10-13 00:14:16.000000000 +0200
-@@ -44,11 +44,11 @@
+--- wget-1.10/src/main.c.orig	2005-06-22 03:25:18.000000000 +0200
++++ wget-1.10/src/main.c	2005-06-22 03:25:48.000000000 +0200
+@@ -43,11 +43,11 @@
  #ifdef HAVE_SIGNAL_H
  # include <signal.h>
  #endif
@@ -133,22 +43,21 @@ diff -urN wget-1.9-b5.org/src/main.c wget-1.9-b5/src/main.c
  #endif /* HAVE_LOCALE_H */
 -#endif /* HAVE_NLS */
 +#endif /* ENABLE_NLS */
+ #include <assert.h>
+ 
  #include <errno.h>
- #ifndef errno
- extern int errno;
-@@ -98,9 +98,9 @@
+@@ -90,8 +90,8 @@
  static void
  i18n_initialize (void)
  {
--  /* If HAVE_NLS is defined, assume the existence of the three
-+  /* If ENABLE_NLS is defined, assume the existence of the three
-      functions invoked here.  */
+-  /* HAVE_NLS implies existence of functions invoked here.  */
 -#ifdef HAVE_NLS
++  /* ENABLE_NLS implies existence of functions invoked here.  */
 +#ifdef ENABLE_NLS
    /* Set the current locale.  */
-   /* Here we use LC_MESSAGES instead of LC_ALL, for two reasons.
-      First, message catalogs are all of I18N Wget uses anyway.
-@@ -117,7 +117,7 @@
+   /* Where possible, sets only LC_MESSAGES and LC_CTYPE.  Other
+      categories, such as numeric, time, or collation, break code that
+@@ -110,7 +110,7 @@
    /* Set the text message domain.  */
    bindtextdomain ("wget", LOCALEDIR);
    textdomain ("wget");
@@ -156,25 +65,26 @@ diff -urN wget-1.9-b5.org/src/main.c wget-1.9-b5/src/main.c
 +#endif /* ENABLE_NLS */
  }
  
- /* Print the usage message.  */
-diff -urN wget-1.9-b5.org/src/wget.h wget-1.9-b5/src/wget.h
---- wget-1.9-b5.org/src/wget.h	2003-10-12 23:55:54.000000000 +0200
-+++ wget-1.9-b5/src/wget.h	2003-10-13 00:14:16.000000000 +0200
-@@ -54,14 +54,12 @@
+ /* Definition of command-line options. */
+--- wget-1.10/src/wget.h.orig	2005-06-22 03:26:51.000000000 +0200
++++ wget-1.10/src/wget.h	2005-06-22 03:27:04.000000000 +0200
+@@ -50,16 +50,16 @@
  
  /* `gettext (FOO)' is long to write, so we use `_(FOO)'.  If NLS is
     unavailable, _(STRING) simply returns STRING.  */
 -#ifdef HAVE_NLS
 +#ifdef ENABLE_NLS
  # define _(string) gettext (string)
--# ifdef HAVE_LIBINTL_H
+ # ifdef HAVE_LIBINTL_H
  #  include <libintl.h>
--# endif /* HAVE_LIBINTL_H */
+ # else  /* not HAVE_LIBINTL_H */
+    const char *gettext ();
+ # endif /* not HAVE_LIBINTL_H */
 -#else  /* not HAVE_NLS */
 +#else  /* not ENABLE_NLS */
- # define _(string) string
+ # define _(string) (string)
 -#endif /* not HAVE_NLS */
 +#endif /* not ENABLE_NLS */
  
- /* No-op version of gettext, used for constant strings. */
- #define N_(string) (string)
+ /* A pseudo function call that serves as a marker for the automated
+    extraction of messages, but does not call gettext().  The run-time
