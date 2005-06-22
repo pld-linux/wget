@@ -1,11 +1,12 @@
 --- wget-1.9.1/configure.in.orig	2003-11-08 20:15:35.000000000 +0100
 +++ wget-1.9.1/configure.in	2003-11-16 11:46:45.947950144 +0100
-@@ -541,7 +541,7 @@
+@@ -541,7 +541,8 @@
  dnl new language was added.
  
  dnl internationalization macros
 -WGET_WITH_NLS
 +AM_GNU_GETTEXT
++WGET_WITH_NLS
  
  dnl
  dnl Find makeinfo.  We used to provide support for Emacs processing
