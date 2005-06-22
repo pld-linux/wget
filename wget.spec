@@ -26,8 +26,8 @@ Patch8:		%{name}-strptime.patch
 Patch9:		%{name}-porn.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
-BuildRequires:	automake
 BuildRequires:	gettext-devel
+BuildRequires:	intltool
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	texinfo
@@ -111,7 +111,7 @@ Proxy сервер╕в, настроюван╕сть.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#%%patch2 -p1
 #%%patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -123,12 +123,13 @@ rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 mv -f po/{no,nb}.po
 
 %build
+mv ac{local,include}.m4
 %{__libtoolize}
 %{__gettextize}
+intltoolize --copy --force
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}
-LDFLAGS="%{rpmldflags} -lrt"; export LDFLAGS
 %configure \
 	--with-ssl
 %{__make}
