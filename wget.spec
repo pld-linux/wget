@@ -17,12 +17,10 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac.patch
-Patch3:		%{name}-lame_fs.patch
-Patch4:		%{name}-pl.patch
-Patch5:		%{name}-wgetrc_path.patch
-Patch7:		%{name}-home_etc.patch
-Patch8:		%{name}-strptime.patch
-Patch9:		%{name}-porn.patch
+Patch2:		%{name}-pl.patch
+Patch3:		%{name}-wgetrc_path.patch
+Patch4:		%{name}-home_etc.patch
+Patch5:		%{name}-strptime.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -111,12 +109,10 @@ Proxy сервер╕в, настроюван╕сть.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%%patch3 -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch7 -p1
-%patch8 -p1
-#%%patch9 -p1
 rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 
 mv -f po/{no,nb}.po
