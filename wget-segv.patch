@@ -1,0 +1,24 @@
+--- wget-1.10/src/ftp-basic.c.orig	2005-05-17 00:08:57.000000000 +0200
++++ wget-1.10/src/ftp-basic.c	2005-07-13 21:03:36.903241688 +0200
+@@ -70,8 +70,10 @@
+     {
+       char *p;
+       char *line = fd_read_line (fd);
+-      if (!line)
++      if (!line) {
++	*ret_line = NULL;
+ 	return FTPRERR;
++      }
+ 
+       /* Strip trailing CRLF before printing the line, so that
+ 	 escnonprint doesn't include bogus \012 and \015. */
+--- wget-1.10/src/ftp.c.orig	2005-05-17 14:53:08.000000000 +0200
++++ wget-1.10/src/ftp.c	2005-07-13 21:04:38.771836232 +0200
+@@ -1023,6 +1023,7 @@
+   err = ftp_response (csock, &respline);
+   if (err != FTPOK)
+     {
++      if(respline != NULL)
+       xfree (respline);
+       /* The control connection is decidedly closed.  Print the time
+ 	 only if it hasn't already been printed.  */
