@@ -7,12 +7,12 @@ Summary(ru):	Утилита для получения файлов по протоколам HTTP и FTP
 Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
-Version:	1.10
-Release:	2
+Version:	1.10.1
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
-# Source0-md5:	caddc199d2cb31969e32b19fd365b0c5
+# Source0-md5:	879a15cc9093796b8a5035ff0d0d25ad
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -20,13 +20,10 @@ Patch1:		%{name}-ac.patch
 Patch2:		%{name}-pl.patch
 Patch3:		%{name}-wgetrc_path.patch
 Patch4:		%{name}-home_etc.patch
-Patch5:		%{name}-strptime.patch
-Patch6:		%{name}-segv.patch
 URL:		http://sunsite.dk/wget/
-BuildRequires:	autoconf >= 2.50
+BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	gettext-devel
-BuildRequires:	intltool
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	texinfo
@@ -113,18 +110,14 @@ Proxy сервер╕в, настроюван╕сть.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 
 mv -f po/{no,nb}.po
 
 %build
-mv ac{local,include}.m4
 %{__libtoolize}
 %{__gettextize}
-intltoolize --copy --force
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoheader}
 %{__autoconf}
 %configure \
@@ -160,7 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS TODO README MAILING-LIST rmold.README
-%verify(not md5 size mtime) %config(noreplace) %{_sysconfdir}/%{name}rc
+%verify(not md5 mtime size) %config(noreplace) %{_sysconfdir}/%{name}rc
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
