@@ -1,15 +1,19 @@
---- wget-1.9.1/configure.in.orig	2003-11-08 20:15:35.000000000 +0100
-+++ wget-1.9.1/configure.in	2003-11-16 11:46:45.947950144 +0100
-@@ -541,7 +541,8 @@
- dnl new language was added.
+--- wget-1.10.1/configure.in.orig	2005-08-11 23:35:27.000000000 +0200
++++ wget-1.10.1/configure.in	2005-08-28 13:42:34.625493608 +0200
+@@ -437,6 +437,7 @@
+ ALL_LINGUAS=`(cd ${srcdir}/po && ls *.po | sed -e 's/\.po$//' | tr '\012' ' ')`
  
  dnl internationalization macros
--WGET_WITH_NLS
 +AM_GNU_GETTEXT
-+WGET_WITH_NLS
+ WGET_WITH_NLS
  
  dnl
- dnl Find makeinfo.  We used to provide support for Emacs processing
+@@ -473,5 +474,4 @@
+ #include "config-post.h"
+ ])
+ AC_CONFIG_FILES([stamp-h], [echo timestamp > stamp-h])
+-AC_CONFIG_COMMANDS([default], [WGET_PROCESS_PO])
+ AC_OUTPUT
 diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
 --- wget-1.9-b5.org/Makefile.in	2003-10-12 23:55:54.000000000 +0200
 +++ wget-1.9-b5/Makefile.in	2003-10-13 00:29:14.000000000 +0200
@@ -89,3 +93,32 @@ diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
  
  /* A pseudo function call that serves as a marker for the automated
     extraction of messages, but does not call gettext().  The run-time
+--- wget-1.10.1/m4/wget.m4.orig	2005-06-27 00:06:49.000000000 +0200
++++ wget-1.10.1/m4/wget.m4	2005-08-28 13:31:58.190246472 +0200
+@@ -156,7 +156,7 @@
+ # program @code{ansi2knr}, which comes with Ghostscript.
+ # @end defmac
+ 
+-AC_DEFUN(AM_PROG_CC_STDC,
++AC_DEFUN([AM_PROG_CC_STDC],
+ [AC_REQUIRE([AC_PROG_CC])
+ AC_MSG_CHECKING([for ${CC-cc} option to accept ANSI C])
+ AC_CACHE_VAL(am_cv_prog_cc_stdc,
+@@ -390,7 +390,7 @@
+ dnl This is not strictly an Autoconf macro, because it is run from
+ dnl within `config.status' rather than from within configure.  This
+ dnl is why special rules must be applied for it.
+-AC_DEFUN(WGET_PROCESS_PO,
++AC_DEFUN([WGET_PROCESS_PO],
+   [
+    dnl I wonder what the following several lines do...
+    if test "x$srcdir" != "x."; then
+@@ -426,7 +426,7 @@
+ 
+ dnl AM_PATH_PROG_WITH_TEST(VARIABLE, PROG-TO-CHECK-FOR,
+ dnl   TEST-PERFORMED-ON-FOUND_PROGRAM [, VALUE-IF-NOT-FOUND [, PATH]])
+-AC_DEFUN(AM_PATH_PROG_WITH_TEST,
++AC_DEFUN([AM_PATH_PROG_WITH_TEST],
+ [# Extract the first word of "$2", so it can be a program name with args.
+ set dummy $2; ac_word=[$]2
+ AC_MSG_CHECKING([for $ac_word])
