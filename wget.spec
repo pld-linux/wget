@@ -7,12 +7,12 @@ Summary(ru):	Утилита для получения файлов по протоколам HTTP и FTP
 Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
-Version:	1.10.1
+Version:	1.10.2
 Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
-# Source0-md5:	879a15cc9093796b8a5035ff0d0d25ad
+# Source0-md5:	795fefbb7099f93e2d346b026785c4b8
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
