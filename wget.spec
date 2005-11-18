@@ -8,7 +8,7 @@ Summary(uk):	Утил╕та для отримання файл╕в по протоколам HTTP та FTP
 Summary(zh_CN):	[м╗я╤]╧╕дэг©╢С╣добтьЁлпР,ж╖Ёж╤о╣ЦпЬ╢╚
 Name:		wget
 Version:	1.10.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
@@ -20,6 +20,7 @@ Patch1:		%{name}-ac.patch
 Patch2:		%{name}-pl.patch
 Patch3:		%{name}-wgetrc_path.patch
 Patch4:		%{name}-home_etc.patch
+Patch5:		%{name}-noabort.patch
 URL:		http://sunsite.dk/wget/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
@@ -110,6 +111,7 @@ Proxy сервер╕в, настроюван╕сть.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 
 mv -f po/{no,nb}.po
