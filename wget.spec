@@ -21,7 +21,7 @@ Patch2:		%{name}-pl.patch
 Patch3:		%{name}-wgetrc_path.patch
 Patch4:		%{name}-home_etc.patch
 Patch5:		%{name}-noabort.patch
-URL:		http://sunsite.dk/wget/
+URL:		http://wget.sunsite.dk/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	gettext-devel
