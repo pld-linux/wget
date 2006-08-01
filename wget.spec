@@ -8,7 +8,7 @@ Summary(uk):	õÔÉÌ¦ÔÁ ÄÌÑ ÏÔÒÉÍÁÎÎÑ ÆÁÊÌ¦× ÐÏ ÐÒÏÔÏËÏÌÁÍ HTTP ÔÁ FTP
 Summary(zh_CN):	[Í¨Ñ¶]¹¦ÄÜÇ¿´óµÄÏÂÔØ³ÌÐò,Ö§³Ö¶ÏµãÐø´«
 Name:		wget
 Version:	1.10.2
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Utilities
 Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
@@ -26,7 +26,7 @@ BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
-BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	openssl-devel >= 0.9.8b
 BuildRequires:	texinfo
 BuildRequires:	perl-devel
 Provides:	webclient
