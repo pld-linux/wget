@@ -1,11 +1,11 @@
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
-Summary(es.UTF-8):   Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
-Summary(fr.UTF-8):   Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
-Summary(pl.UTF-8):   Wsadowy klient HTTP/FTP
-Summary(pt_BR.UTF-8):   Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
-Summary(ru.UTF-8):   Утилита для получения файлов по протоколам HTTP и FTP
-Summary(uk.UTF-8):   Утиліта для отримання файлів по протоколам HTTP та FTP
-Summary(zh_CN.UTF-8):   [通讯]功能强大的下载程序,支持断点续传
+Summary(es.UTF-8):	Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
+Summary(fr.UTF-8):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
+Summary(pl.UTF-8):	Wsadowy klient HTTP/FTP
+Summary(pt_BR.UTF-8):	Cliente na linha de comando para baixar arquivos WWW/FTP com recursão opcional
+Summary(ru.UTF-8):	Утилита для получения файлов по протоколам HTTP и FTP
+Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
+Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
 Version:	1.10.2
 Release:	4
