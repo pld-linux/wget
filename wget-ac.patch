@@ -18,11 +18,11 @@ diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
 --- wget-1.9-b5.org/Makefile.in	2003-10-12 23:55:54.000000000 +0200
 +++ wget-1.9-b5/Makefile.in	2003-10-13 00:29:14.000000000 +0200
 @@ -82,7 +82,7 @@
- infodir='$(infodir)' mandir='$(mandir)' manext='$(manext)'
+ manext='$(manext)'
  
  # subdirectories in the distribution
--SUBDIRS = src doc po util windows
-+SUBDIRS = src doc intl po util windows
+-SUBDIRS = src doc po tests util windows
++SUBDIRS = src doc intl po tests util windows
  
  # default target
  all: libtool src/config.h Makefile $(SUBDIRS)
@@ -33,25 +33,20 @@ diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
 -	cd po && $(MAKE) $(MAKEDEFS) $@
 +	cd po && $(MAKE) $(MAKEDEFS) install
  
- # Regenerate libtool if ltconfig and/or ltmain are updated
- libtool: $(LIBTOOL_DEPS)
+ # create tag files for Emacs
+ TAGS:
 --- wget-1.10/src/main.c.orig	2005-06-22 03:25:18.000000000 +0200
 +++ wget-1.10/src/main.c	2005-06-22 03:25:48.000000000 +0200
-@@ -43,11 +43,11 @@
- #ifdef HAVE_SIGNAL_H
- # include <signal.h>
- #endif
+@@ -43,7 +43,7 @@
+ #endif /* HAVE_UNISTD_H */
+ #include <string.h>
+ #include <signal.h>
 -#ifdef HAVE_NLS
 +#ifdef ENABLE_NLS
- #ifdef HAVE_LOCALE_H
  # include <locale.h>
- #endif /* HAVE_LOCALE_H */
--#endif /* HAVE_NLS */
-+#endif /* ENABLE_NLS */
+ #endif
  #include <assert.h>
- 
- #include <errno.h>
-@@ -90,8 +90,8 @@
+@@ -90,13 +90,13 @@
  static void
  i18n_initialize (void)
  {
@@ -60,9 +55,7 @@ diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
 +  /* ENABLE_NLS implies existence of functions invoked here.  */
 +#ifdef ENABLE_NLS
    /* Set the current locale.  */
-   /* Where possible, sets only LC_MESSAGES and LC_CTYPE.  Other
-      categories, such as numeric, time, or collation, break code that
-@@ -110,7 +110,7 @@
+   setlocale (LC_ALL, "");
    /* Set the text message domain.  */
    bindtextdomain ("wget", LOCALEDIR);
    textdomain ("wget");
@@ -73,7 +66,7 @@ diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
  /* Definition of command-line options. */
 --- wget-1.10/src/wget.h.orig	2005-06-22 03:26:51.000000000 +0200
 +++ wget-1.10/src/wget.h	2005-06-22 03:27:04.000000000 +0200
-@@ -50,16 +50,16 @@
+@@ -50,20 +50,20 @@
  
  /* `gettext (FOO)' is long to write, so we use `_(FOO)'.  If NLS is
     unavailable, _(STRING) simply returns STRING.  */
@@ -88,37 +81,12 @@ diff -urN wget-1.9-b5.org/Makefile.in wget-1.9-b5/Makefile.in
 -#else  /* not HAVE_NLS */
 +#else  /* not ENABLE_NLS */
  # define _(string) (string)
+ # define ngettext(sing, plur, num)  ((num) == 1 ? (sing) : (plur))
+ # undef HAVE_WCHAR_H
+ # undef HAVE_WCWIDTH
+ # undef HAVE_MBTOWC
 -#endif /* not HAVE_NLS */
 +#endif /* not ENABLE_NLS */
- 
- /* A pseudo function call that serves as a marker for the automated
-    extraction of messages, but does not call gettext().  The run-time
---- wget-1.10.1/m4/wget.m4.orig	2005-06-27 00:06:49.000000000 +0200
-+++ wget-1.10.1/m4/wget.m4	2005-08-28 13:31:58.190246472 +0200
-@@ -156,7 +156,7 @@
- # program @code{ansi2knr}, which comes with Ghostscript.
- # @end defmac
- 
--AC_DEFUN(AM_PROG_CC_STDC,
-+AC_DEFUN([AM_PROG_CC_STDC],
- [AC_REQUIRE([AC_PROG_CC])
- AC_MSG_CHECKING([for ${CC-cc} option to accept ANSI C])
- AC_CACHE_VAL(am_cv_prog_cc_stdc,
-@@ -390,7 +390,7 @@
- dnl This is not strictly an Autoconf macro, because it is run from
- dnl within `config.status' rather than from within configure.  This
- dnl is why special rules must be applied for it.
--AC_DEFUN(WGET_PROCESS_PO,
-+AC_DEFUN([WGET_PROCESS_PO],
-   [
-    dnl I wonder what the following several lines do...
-    if test "x$srcdir" != "x."; then
-@@ -426,7 +426,7 @@
- 
- dnl AM_PATH_PROG_WITH_TEST(VARIABLE, PROG-TO-CHECK-FOR,
- dnl   TEST-PERFORMED-ON-FOUND_PROGRAM [, VALUE-IF-NOT-FOUND [, PATH]])
--AC_DEFUN(AM_PATH_PROG_WITH_TEST,
-+AC_DEFUN([AM_PATH_PROG_WITH_TEST],
- [# Extract the first word of "$2", so it can be a program name with args.
- set dummy $2; ac_word=[$]2
- AC_MSG_CHECKING([for $ac_word])
+
+ #if HAVE_WCWIDTH && HAVE_MBTOWC
+ # define USE_NLS_PROGRESS_BAR 1

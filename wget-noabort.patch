@@ -2,12 +2,12 @@ err was uninitialized here (FTPOK in most cases), causing later
 confusion in ftp_loop_internal() and abort()
 --- wget-1.10.2/src/ftp.c.orig	2005-08-09 00:23:09.000000000 +0200
 +++ wget-1.10.2/src/ftp.c	2005-11-17 00:29:22.510795976 +0100
-@@ -918,7 +918,7 @@
+@@ -908,7 +908,7 @@
        if (dtsock < 0)
- 	{
- 	  logprintf (LOG_NOTQUIET, "accept: %s\n", strerror (errno));
--	  return err;
-+	  return CONERROR;
- 	}
+         {
+           logprintf (LOG_NOTQUIET, "accept: %s\n", strerror (errno));
+-          return err;
++          return CONERROR;
+         }
      }
  
