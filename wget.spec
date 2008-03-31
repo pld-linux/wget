@@ -30,7 +30,7 @@ BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
-BuildRequires:	openssl-devel >= 0.9.8b
+BuildRequires:	openssl-devel >= 0.9.7m
 BuildRequires:	texinfo
 BuildRequires:	perl-devel
 Provides:	webclient
