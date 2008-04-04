@@ -13,9 +13,9 @@ Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
 Version:	1.11.1
 Release:	2
-License:	GPL
+License:	GPL v3+
 Group:		Networking/Utilities
-Source0:	ftp://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
+Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.gz
 # Source0-md5:	9ce16ff30a236e474e3c19d988e1f119
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
@@ -148,10 +148,10 @@ rm -f $RPM_BUILD_ROOT%{_mandir}/README*
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p	/sbin/postshell
+%post	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun	-p	/sbin/postshell
+%postun	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files -f %{name}.lang
