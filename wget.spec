@@ -24,6 +24,7 @@ Patch1:		%{name}-ac.patch
 Patch2:		%{name}-wgetrc_path.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-noabort.patch
+Patch5:		wget-ssl-certs.patch
 URL:		http://wget.sunsite.dk/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
@@ -114,6 +115,7 @@ Proxy серверів, настроюваність.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 
 %build
