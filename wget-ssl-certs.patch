@@ -6,6 +6,6 @@
  #follow_ftp = off
 +
 +# file with the bundle of CA's.
-+ca_certificate = /etc/openssl/ca-certificates.crt
++ca_certificate = /etc/certs/ca-certificates.crt
 +# directory where hash list of CA's is stored.
 +ca-directory = /etc/openssl/certs
