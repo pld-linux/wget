@@ -2,6 +2,7 @@
 # - add --delete-remote patches:
 #  - http://wget-bugs.ferrara.linux.it/issue9
 #  - or http://osdir.com/ml/web.wget.patches/2005-09/msg00006.html
+# - add http://article.gmane.org/gmane.comp.web.wget.patches/2333
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es.UTF-8):	Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
 Summary(fr.UTF-8):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
