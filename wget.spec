@@ -26,7 +26,7 @@ Patch2:		%{name}-wgetrc_path.patch
 Patch3:		%{name}-home_etc.patch
 Patch4:		%{name}-noabort.patch
 Patch5:		wget-ssl-certs.patch
-URL:		http://wget.sunsite.dk/
+URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	gettext-devel
