@@ -1,13 +1,12 @@
 diff -Nru wget-1.8.2.orig/src/init.c wget-1.8.2/src/init.c
 --- wget-1.8.2.orig/src/init.c	Sat Mar  1 12:06:06 2003
 +++ wget-1.8.2/src/init.c	Mon Nov  3 10:31:43 2003
-@@ -325,6 +325,9 @@
+@@ -354,6 +354,7 @@
+   static char buf[PATH_MAX];
+   static char *home;
  
- #ifndef WINDOWS
-   /* If that failed, try $HOME/.wgetrc.  */
-+	home = getenv("HOME_ETC");
-+	home = home ? xstrdup(home) : NULL;
-+	if (!home)
-   home = home_dir ();
-   if (home)
++  home = getenv("HOME_ETC");
+   if (!home)
      {
+       home = getenv ("HOME");
+

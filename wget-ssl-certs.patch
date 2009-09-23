@@ -1,9 +1,9 @@
 --- wget-1.11.4/doc/sample.wgetrc~	2008-11-03 18:47:16.000000000 +0200
 +++ wget-1.11.4/doc/sample.wgetrc	2008-11-03 18:51:32.512671690 +0200
 @@ -110,3 +110,8 @@
- # To have Wget follow FTP links from HTML files by default, set this
- # to on:
- #follow_ftp = off
+ 
+ # Force the default remote server encoding
+ #remoteencoding = UTF-8
 +
 +# file with the bundle of CA's.
 +ca_certificate = /etc/certs/ca-certificates.crt

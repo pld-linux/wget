@@ -12,19 +12,17 @@ Summary(ru.UTF-8):	Утилита для получения файлов по п
 Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
-Version:	1.11.4
-Release:	2
+Version:	1.12
+Release:	1
 License:	GPL v3+
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.bz2
-# Source0-md5:	f5076a8c2ec2b7f334cb6e3059820f9c
+# Source0-md5:	308a5476fc096a8a525d07279a6f6aa3
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-ac.patch
 Patch2:		%{name}-wgetrc_path.patch
 Patch3:		%{name}-home_etc.patch
-Patch4:		%{name}-noabort.patch
 Patch5:		wget-ssl-certs.patch
 URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.59
@@ -112,10 +110,8 @@ Proxy серверів, настроюваність.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %patch5 -p1
 rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 

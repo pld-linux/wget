@@ -28,7 +28,7 @@ diff -Nur wget-1.10/doc.orig/sample.wgetrc wget-1.10/doc/sample.wgetrc
 @@ -7,7 +7,7 @@
  ## not contain a comprehensive list of commands -- look at the manual
  ## to find out what you can put into this file.
- ## 
+ ##
 -## Wget initialization file can reside in /usr/local/etc/wgetrc
 +## Wget initialization file can reside in /etc/wgetrc
  ## (global, for all users) or $HOME/.wgetrc (for a single user).
