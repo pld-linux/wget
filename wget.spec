@@ -13,7 +13,7 @@ Summary(uk.UTF-8):	Утиліта для отримання файлів по п
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
 Version:	1.12
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.bz2
@@ -21,17 +21,19 @@ Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.bz2
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
+# http://savannah.gnu.org/bugs/?23934
+Patch1:		%{name}-subjectAltNames.patch
 Patch2:		%{name}-wgetrc_path.patch
 Patch3:		%{name}-home_etc.patch
-Patch5:		wget-ssl-certs.patch
+Patch5:		%{name}-ssl-certs.patch
 URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7m
-BuildRequires:	texinfo
 BuildRequires:	perl-devel
+BuildRequires:	texinfo
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -110,6 +112,7 @@ Proxy серверів, настроюваність.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch5 -p1
@@ -135,11 +138,12 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 	DESTDIR=$RPM_BUILD_ROOT \
 	GETTEXT_PACKAGE=wget
 
-install util/rmold.pl		$RPM_BUILD_ROOT%{_bindir}/rmold
-install doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
+install -p util/rmold.pl		$RPM_BUILD_ROOT%{_bindir}/rmold
+cp -a doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 rm -f $RPM_BUILD_ROOT%{_mandir}/README*
+rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 %find_lang %{name}
 
@@ -156,8 +160,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README MAILING-LIST rmold.README
 %verify(not md5 mtime size) %config(noreplace) %{_sysconfdir}/%{name}rc
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/*
-%lang(hu) %{_mandir}/hu/man1/*
-%lang(pl) %{_mandir}/pl/man1/*
+%attr(755,root,root) %{_bindir}/rmold
+%attr(755,root,root) %{_bindir}/wget
+%{_mandir}/man1/wget.1*
+%{_mandir}/hu/man1/wget.1*
+%{_mandir}/pl/man1/wget.1*
 %{_infodir}/*.info*
