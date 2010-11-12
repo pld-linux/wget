@@ -14,7 +14,7 @@ Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
 Version:	1.12
 Release:	3
-License:	GPL v3+
+License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.bz2
 # Source0-md5:	308a5476fc096a8a525d07279a6f6aa3
@@ -27,9 +27,9 @@ Patch2:		%{name}-wgetrc_path.patch
 Patch3:		%{name}-home_etc.patch
 Patch5:		%{name}-ssl-certs.patch
 URL:		http://www.gnu.org/software/wget/
-BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake
-BuildRequires:	gettext-devel
+BuildRequires:	autoconf >= 2.61
+BuildRequires:	automake >= 1:1.9
+BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7m
 BuildRequires:	perl-devel
@@ -116,11 +116,10 @@ Proxy серверів, настроюваність.
 %patch2 -p1
 %patch3 -p1
 %patch5 -p1
-rm -f doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
+%{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
 
 %build
 %{__libtoolize}
-cp -f /usr/share/automake/config.* .
 %{__gettextize}
 %{__aclocal} -I m4
 %{__autoheader}
@@ -138,7 +137,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 	DESTDIR=$RPM_BUILD_ROOT \
 	GETTEXT_PACKAGE=wget
 
-install -p util/rmold.pl		$RPM_BUILD_ROOT%{_bindir}/rmold
+install -p util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 cp -a doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
@@ -165,4 +164,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/wget.1*
 %{_mandir}/hu/man1/wget.1*
 %{_mandir}/pl/man1/wget.1*
-%{_infodir}/*.info*
+%{_infodir}/wget.info*
