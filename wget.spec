@@ -3,6 +3,10 @@
 #  - http://wget-bugs.ferrara.linux.it/issue9
 #  - or http://osdir.com/ml/web.wget.patches/2005-09/msg00006.html
 # - add http://article.gmane.org/gmane.comp.web.wget.patches/2333
+#
+# Conditional build:
+%bcond_with	gnutls	# use GnuTLS (wget default) instead of OpenSSL
+#
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es.UTF-8):	Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
 Summary(fr.UTF-8):	Un utilitaire pour recuperer des fichiers en utilisant les protocoles HTTP ou FTP
@@ -24,12 +28,14 @@ Patch0:		%{name}-info.patch
 Patch1:		%{name}-wgetrc_path.patch
 Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}-ssl-certs.patch
+Patch4:		%{name}-pl.po-update.patch
 URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-devel >= 0.17
-BuildRequires:	libtool
-BuildRequires:	openssl-devel >= 0.9.7m
+%{?with_gnutls:BuildRequires:	gnutls-devel}
+BuildRequires:	libidn-devel
+%{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
 BuildRequires:	perl-devel
 BuildRequires:	texinfo
 Provides:	webclient
@@ -113,16 +119,17 @@ Proxy серверів, настроюваність.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion
+%patch4 -p1
+%{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion po/stamp-po
 
 %build
-%{__libtoolize}
 %{__gettextize}
 %{__aclocal} -I m4
 %{__autoheader}
 %{__autoconf}
+%{__automake}
 %configure \
-	--with-ssl
+	--with-ssl%{!?with_gnutls:=openssl}
 %{__make}
 tail -n 6 util/README >rmold.README
 
@@ -138,7 +145,7 @@ install -p util/rmold.pl $RPM_BUILD_ROOT%{_bindir}/rmold
 cp -a doc/sample.wgetrc	$RPM_BUILD_ROOT%{_sysconfdir}/wgetrc
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
-rm -f $RPM_BUILD_ROOT%{_mandir}/README*
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/README*
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
 %find_lang %{name}
