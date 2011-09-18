@@ -1,0 +1,11 @@
+--- wget-1.13.3/src/main.c.orig	2011-08-29 10:01:24.000000000 +0200
++++ wget-1.13.3/src/main.c	2011-09-18 10:04:20.637186255 +0200
+@@ -710,7 +710,7 @@
+   size_t i;
+ 
+   if (printf (_("GNU Wget %s, a non-interactive network retriever.\n"),
+-              version_string))
++              version_string) < 0)
+     exit (3);
+   if (print_usage (0) < 0)
+     exit (3);
