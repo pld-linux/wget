@@ -1,5 +1,5 @@
---- wget-1.13.1/po/pl.po.orig	2011-08-16 15:23:05.000000000 +0200
-+++ wget-1.13.1/po/pl.po	2011-08-18 19:54:21.999526021 +0200
+--- wget-1.13.4/po/pl.po.orig	2011-09-13 10:17:49.000000000 +0200
++++ wget-1.13.4/po/pl.po	2011-09-19 19:02:18.484493358 +0200
 @@ -2,7 +2,7 @@
  # Copyright (C) 2002, 2008, 2009 Free Software Foundation, Inc.
  # This file is distributed under the same license as the wget package.
@@ -14,11 +14,11 @@
  msgid ""
  msgstr ""
 -"Project-Id-Version: wget 1.12-pre7\n"
-+"Project-Id-Version: wget 1.13.1\n"
++"Project-Id-Version: wget 1.13.4\n"
  "Report-Msgid-Bugs-To: bug-wget@gnu.org\n"
- "POT-Creation-Date: 2011-08-30 17:13+0200\n"
+ "POT-Creation-Date: 2011-09-13 10:17+0200\n"
 -"PO-Revision-Date: 2010-08-09 19:32+0200\n"
-+"PO-Revision-Date: 2011-08-18 19:53+0200\n"
++"PO-Revision-Date: 2011-09-19 19:02+0200\n"
  "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
  "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
  "Language: pl\n"
@@ -52,7 +52,7 @@
  msgstr ""
 +"Analiza systemowego pliku wgetrc nie powiod³a siê, proszê sprawdziæ '%s' lub okre¶liæ inny plik przy u¿yciu opcji --config\n"
  
- #: src/init.c:623
+ #: src/init.c:624
  #, c-format
 @@ -1134,9 +1135,8 @@
  "                               (-i -F) wzglêdem URL-a.\n"
@@ -116,7 +116,7 @@
  msgstr ""
 +"Podano jednocze¶nie opcje --no-clobber i --convert-links; zostanie u¿yta tylko --convert-links.\n"
  
- #: src/main.c:1105
+ #: src/main.c:1132
  #, c-format
 @@ -1992,13 +1989,14 @@
  msgstr "Nie znaleziono URL-i w %s.\n"
