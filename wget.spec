@@ -17,7 +17,7 @@ Summary(uk.UTF-8):	Утиліта для отримання файлів по п
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
 Version:	1.13.4
-Release:	1
+Release:	2
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.xz
@@ -123,6 +123,13 @@ Proxy серверів, настроюваність.
 %patch3 -p1
 %patch4 -p1
 %{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion po/stamp-po
+
+# temp hack for 1.13.4
+test -e build-aux/bzr-version-gen || cat <<EOF > build-aux/bzr-version-gen
+#!/bin/sh
+echo -n %{version}
+EOF
+chmod +x build-aux/bzr-version-gen
 
 %build
 %{__gettextize}
