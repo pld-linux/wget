@@ -135,6 +135,9 @@ Proxy серверів, настроюваність.
 %{__make}
 tail -n 6 util/README >rmold.README
 
+# 1.13.4 tarball was buggy and produced empty version.
+grep %{version} src/version.c
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
