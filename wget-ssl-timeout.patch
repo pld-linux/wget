@@ -1,0 +1,281 @@
+From ae80fd2ec75fafdbec9895b9d973f2966209d588 Mon Sep 17 00:00:00 2001
+From: mancha <mancha1@hush.com>
+Date: Sun, 05 May 2013 05:16:58 +0000
+Subject: gnutls: do not abort on non-fatal alerts during handshake
+
+Signed-off-by: mancha <mancha1@hush.com>
+---
+(limited to 'src/gnutls.c')
+
+diff --git a/src/gnutls.c b/src/gnutls.c
+index 769b005..54422fc 100644
+--- a/src/gnutls.c
++++ b/src/gnutls.c
+@@ -376,8 +376,9 @@ ssl_connect_wget (int fd, const char *hostname)
+ {
+   struct wgnutls_transport_context *ctx;
+   gnutls_session_t session;
+-  int err;
++  int err,alert;
+   gnutls_init (&session, GNUTLS_CLIENT);
++  const char *str;
+ 
+   /* We set the server name but only if it's not an IP address. */
+   if (! is_valid_ip_address (hostname))
+@@ -440,10 +441,28 @@ ssl_connect_wget (int fd, const char *hostname)
+       return false;
+     }
+ 
+-  err = gnutls_handshake (session);
++  /* We don't stop the handshake process for non-fatal errors */
++  do
++    {
++      err = gnutls_handshake (session);
++      if (err < 0)
++        {
++          logprintf (LOG_NOTQUIET, "GnuTLS: %s\n", gnutls_strerror (err));
++          if (err == GNUTLS_E_WARNING_ALERT_RECEIVED ||
++              err == GNUTLS_E_FATAL_ALERT_RECEIVED)
++            {
++              alert = gnutls_alert_get (session);
++              str = gnutls_alert_get_name (alert);
++              if (str == NULL)
++                str = "(unknown)";
++              logprintf (LOG_NOTQUIET, "GnuTLS: received alert [%d]: %s\n", alert, str);
++            }
++        }
++    }
++  while (err == GNUTLS_E_WARNING_ALERT_RECEIVED && gnutls_error_is_fatal (err) == 0);
++
+   if (err < 0)
+     {
+-      logprintf (LOG_NOTQUIET, "GnuTLS: %s\n", gnutls_strerror (err));
+       gnutls_deinit (session);
+       return false;
+     }
+--
+cgit v0.9.0.2
+From 91f0f99e9a607cc72cd5dc8aa1f57a299f30948e Mon Sep 17 00:00:00 2001
+From: Tim Ruehsen <tim.ruehsen@gmx.de>
+Date: Thu, 11 Jul 2013 12:29:20 +0000
+Subject: gnutls: honor connect timeout
+
+---
+diff --git a/src/gnutls.c b/src/gnutls.c
+index 54422fc..06f9020 100644
+--- a/src/gnutls.c
++++ b/src/gnutls.c
+@@ -374,6 +374,9 @@ static struct transport_implementation wgnutls_transport =
+ bool
+ ssl_connect_wget (int fd, const char *hostname)
+ {
++#ifdef F_GETFL
++  int flags = 0;
++#endif
+   struct wgnutls_transport_context *ctx;
+   gnutls_session_t session;
+   int err,alert;
+@@ -441,11 +444,54 @@ ssl_connect_wget (int fd, const char *hostname)
+       return false;
+     }
+ 
++  if (opt.connect_timeout)
++    {
++#ifdef F_GETFL
++      flags = fcntl (fd, F_GETFL, 0);
++      if (flags < 0)
++        return flags;
++      if (fcntl (fd, F_SETFL, flags | O_NONBLOCK))
++        return -1;
++#else
++      /* XXX: Assume it was blocking before.  */
++      const int one = 1;
++      if (ioctl (fd, FIONBIO, &one) < 0)
++        return -1;
++#endif
++    }
++
+   /* We don't stop the handshake process for non-fatal errors */
+   do
+     {
+       err = gnutls_handshake (session);
+-      if (err < 0)
++
++      if (opt.connect_timeout && err == GNUTLS_E_AGAIN)
++        {
++          if (gnutls_record_get_direction (session))
++            {
++              /* wait for writeability */
++              err = select_fd (fd, opt.connect_timeout, WAIT_FOR_WRITE);
++            }
++          else
++            {
++              /* wait for readability */
++              err = select_fd (fd, opt.connect_timeout, WAIT_FOR_READ);
++            }
++
++          if (err <= 0)
++            {
++              if (err == 0)
++                {
++                  errno = ETIMEDOUT;
++                  err = -1;
++                }
++              break;
++            }
++
++          if (err <= 0)
++            break;
++        }
++      else if (err < 0)
+         {
+           logprintf (LOG_NOTQUIET, "GnuTLS: %s\n", gnutls_strerror (err));
+           if (err == GNUTLS_E_WARNING_ALERT_RECEIVED ||
+@@ -461,6 +507,18 @@ ssl_connect_wget (int fd, const char *hostname)
+     }
+   while (err == GNUTLS_E_WARNING_ALERT_RECEIVED && gnutls_error_is_fatal (err) == 0);
+ 
++  if (opt.connect_timeout)
++    {
++#ifdef F_GETFL
++      if (fcntl (fd, F_SETFL, flags) < 0)
++        return -1;
++#else
++      const int zero = 0;
++      if (ioctl (fd, FIONBIO, &zero) < 0)
++        return -1;
++#endif
++    }
++
+   if (err < 0)
+     {
+       gnutls_deinit (session);
+--
+cgit v0.9.0.2
+From b8f036d16c508efde5bacfab9a96d8b6c6aeeeb2 Mon Sep 17 00:00:00 2001
+From: Karsten Hopp <karsten@redhat.com>
+Date: Thu, 11 Jul 2013 09:27:35 +0000
+Subject: Fix timeout option when used with SSL
+
+Previously wget didn't honor the --timeout option if the remote host did
+not answer SSL handshake
+
+Signed-off-by: Tomas Hozza <thozza@redhat.com>
+---
+diff --git a/src/openssl.c b/src/openssl.c
+index 3924e41..e2eec4f 100644
+--- a/src/openssl.c
++++ b/src/openssl.c
+@@ -251,24 +251,50 @@ ssl_init (void)
+   return false;
+ }
+ 
+-struct openssl_transport_context {
++struct openssl_transport_context
++{
+   SSL *conn;                    /* SSL connection handle */
+   char *last_error;             /* last error printed with openssl_errstr */
+ };
+ 
+-static int
+-openssl_read (int fd, char *buf, int bufsize, void *arg)
++struct openssl_read_args
+ {
+-  int ret;
+-  struct openssl_transport_context *ctx = arg;
++  int fd;
++  struct openssl_transport_context *ctx;
++  char *buf;
++  int bufsize;
++  int retval;
++};
++
++static void openssl_read_callback(void *arg)
++{
++  struct openssl_read_args *args = (struct openssl_read_args *) arg;
++  struct openssl_transport_context *ctx = args->ctx;
+   SSL *conn = ctx->conn;
++  char *buf = args->buf;
++  int bufsize = args->bufsize;
++  int ret;
++
+   do
+     ret = SSL_read (conn, buf, bufsize);
+-  while (ret == -1
+-         && SSL_get_error (conn, ret) == SSL_ERROR_SYSCALL
++  while (ret == -1 && SSL_get_error (conn, ret) == SSL_ERROR_SYSCALL
+          && errno == EINTR);
++  args->retval = ret;
++}
+ 
+-  return ret;
++static int
++openssl_read (int fd, char *buf, int bufsize, void *arg)
++{
++  struct openssl_read_args args;
++  args.fd = fd;
++  args.buf = buf;
++  args.bufsize = bufsize;
++  args.ctx = (struct openssl_transport_context*) arg;
++
++  if (run_with_timeout(opt.read_timeout, openssl_read_callback, &args)) {
++    return -1;
++  }
++  return args.retval;
+ }
+ 
+ static int
+@@ -386,6 +412,19 @@ static struct transport_implementation openssl_transport = {
+   openssl_peek, openssl_errstr, openssl_close
+ };
+ 
++struct scwt_context
++{
++  SSL *ssl;
++  int result;
++};
++
++static void
++ssl_connect_with_timeout_callback(void *arg)
++{
++  struct scwt_context *ctx = (struct scwt_context *)arg;
++  ctx->result = SSL_connect(ctx->ssl);
++}
++
+ /* Perform the SSL handshake on file descriptor FD, which is assumed
+    to be connected to an SSL server.  The SSL handle provided by
+    OpenSSL is registered with the file descriptor FD using
+@@ -398,6 +437,7 @@ bool
+ ssl_connect_wget (int fd, const char *hostname)
+ {
+   SSL *conn;
++  struct scwt_context scwt_ctx;
+   struct openssl_transport_context *ctx;
+ 
+   DEBUGP (("Initiating SSL handshake.\n"));
+@@ -425,7 +465,14 @@ ssl_connect_wget (int fd, const char *hostname)
+   if (!SSL_set_fd (conn, FD_TO_SOCKET (fd)))
+     goto error;
+   SSL_set_connect_state (conn);
+-  if (SSL_connect (conn) <= 0 || conn->state != SSL_ST_OK)
++
++  scwt_ctx.ssl = conn;
++  if (run_with_timeout(opt.read_timeout, ssl_connect_with_timeout_callback,
++                       &scwt_ctx)) {
++    DEBUGP (("SSL handshake timed out.\n"));
++    goto timeout;
++  }
++  if (scwt_ctx.result <= 0 || conn->state != SSL_ST_OK)
+     goto error;
+ 
+   ctx = xnew0 (struct openssl_transport_context);
+@@ -441,6 +488,7 @@ ssl_connect_wget (int fd, const char *hostname)
+  error:
+   DEBUGP (("SSL handshake failed.\n"));
+   print_errors ();
++ timeout:
+   if (conn)
+     SSL_free (conn);
+   return false;
+--
+cgit v0.9.0.2
