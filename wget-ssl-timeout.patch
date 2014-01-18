@@ -279,3 +279,34 @@ index 3924e41..e2eec4f 100644
    return false;
 --
 cgit v0.9.0.2
+From 3b6a3e84a013b53b03a8965e91aa0e9478c77841 Mon Sep 17 00:00:00 2001
+From: Tim Ruehsen <tim.ruehsen@gmx.de>
+Date: Thu, 26 Dec 2013 20:17:07 +0000
+Subject: fix GnuTLS connect timeout
+
+---
+diff --git a/src/gnutls.c b/src/gnutls.c
+index 9b4b1ec..4f0fa96 100644
+--- a/src/gnutls.c
++++ b/src/gnutls.c
+@@ -526,8 +526,7 @@ ssl_connect_wget (int fd, const char *hostname)
+               break;
+             }
+ 
+-          if (err <= 0)
+-            break;
++           err = GNUTLS_E_AGAIN;
+         }
+       else if (err < 0)
+         {
+@@ -543,7 +542,7 @@ ssl_connect_wget (int fd, const char *hostname)
+             }
+         }
+     }
+-  while (err == GNUTLS_E_WARNING_ALERT_RECEIVED && gnutls_error_is_fatal (err) == 0);
++  while (err && gnutls_error_is_fatal (err) == 0);
+ 
+   if (opt.connect_timeout)
+     {
+--
+cgit v0.9.0.2
