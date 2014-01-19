@@ -16,20 +16,18 @@ Summary(ru.UTF-8):	Утилита для получения файлов по п
 Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
-Version:	1.14
-Release:	5
+Version:	1.15
+Release:	1
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.xz
-# Source0-md5:	316f6f59292c9098ad81fd54f658c579
+# Source0-md5:	7a279d5ac5594919124d5526e7143e28
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-wgetrc_path.patch
 Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}-ssl-certs.patch
-Patch4:		%{name}-pod.patch
-Patch5:		%{name}-ssl-timeout.patch
 URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
@@ -122,8 +120,6 @@ Proxy серверів, настроюваність.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
 %{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion po/stamp-po
 
 # temp hack for 1.13.4

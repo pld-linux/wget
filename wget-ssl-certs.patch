@@ -2,8 +2,8 @@
 +++ wget-1.11.4/doc/sample.wgetrc	2008-11-03 18:51:32.512671690 +0200
 @@ -110,3 +110,8 @@
  
- # Force the default remote server encoding
- #remoteencoding = UTF-8
+ # Tune HTTPS security (auto, SSLv2, SSLv3, TLSv1, PFS)
+ #secureprotocol = auto
 +
 +# file with the bundle of CA's.
 +ca_certificate = /etc/certs/ca-certificates.crt
