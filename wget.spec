@@ -35,11 +35,14 @@ BuildRequires:	gettext-devel >= 0.17
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 BuildRequires:	libidn-devel
 BuildRequires:	libpsl-devel
+BuildRequires:	libuuid-devel
 %{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
+BuildRequires:	pcre-devel
 BuildRequires:	perl-devel
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
 BuildRequires:	xz
+BuildRequires:	zlib-devel
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
