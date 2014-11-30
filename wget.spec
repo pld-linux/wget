@@ -48,6 +48,7 @@ BuildRequires:	zlib-devel
 BuildRequires:	perl-HTTP-Daemon
 BuildRequires:	perl-HTTP-Message
 BuildRequires:	perl-IO-Socket-SSL
+BuildRequires:	python3-modules
 %endif
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
