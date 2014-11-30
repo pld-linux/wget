@@ -5,6 +5,7 @@
 # - add http://article.gmane.org/gmane.comp.web.wget.patches/2333
 #
 # Conditional build:
+%bcond_without	tests
 %bcond_with	gnutls	# use GnuTLS (wget default) instead of OpenSSL
 #
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
@@ -43,6 +44,11 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
 BuildRequires:	xz
 BuildRequires:	zlib-devel
+%if %{with tests}
+BuildRequires:	perl-HTTP-Daemon
+BuildRequires:	perl-HTTP-Message
+BuildRequires:	perl-IO-Socket-SSL
+%endif
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -124,6 +130,7 @@ Proxy серверів, настроюваність.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+
 %{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion po/stamp-po
 
 # temp hack for 1.13.4
@@ -146,6 +153,8 @@ tail -n 6 util/README >rmold.README
 
 # 1.13.4 tarball was buggy and produced empty version.
 grep %{version} src/version.c
+
+%{?with_tests:%{__make} check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
