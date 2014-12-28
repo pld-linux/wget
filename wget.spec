@@ -32,7 +32,7 @@ Patch3:		%{name}-ssl-certs.patch
 URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-devel >= 0.17
+BuildRequires:	gettext-tools >= 0.17
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 BuildRequires:	libidn-devel
 BuildRequires:	libpsl-devel
