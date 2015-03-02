@@ -17,12 +17,12 @@ Summary(ru.UTF-8):	Утилита для получения файлов по п
 Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
-Version:	1.16.1
-Release:	2
+Version:	1.16.2
+Release:	1
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.xz
-# Source0-md5:	78942cc0cce0a23e18114d982789e360
+# Source0-md5:	50b67a11971ecc6d142e634e8436fc0f
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -48,7 +48,7 @@ BuildRequires:	zlib-devel
 BuildRequires:	perl-HTTP-Daemon
 BuildRequires:	perl-HTTP-Message
 BuildRequires:	perl-IO-Socket-SSL
-BuildRequires:	python3-modules
+BuildRequires:	python3-modules >= 1:3.0
 %endif
 Provides:	webclient
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
