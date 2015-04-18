@@ -18,7 +18,7 @@ Summary(uk.UTF-8):	Утиліта для отримання файлів по п
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
 Version:	1.16.3
-Release:	1
+Release:	2
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.xz
@@ -29,6 +29,7 @@ Patch0:		%{name}-info.patch
 Patch1:		%{name}-wgetrc_path.patch
 Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}-ssl-certs.patch
+Patch4:		user.xdg.origin.url.patch
 URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
@@ -131,6 +132,7 @@ Proxy серверів, настроюваність.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion po/stamp-po
 

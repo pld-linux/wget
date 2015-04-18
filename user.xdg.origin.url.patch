@@ -1,0 +1,93 @@
+From 2c968b81d9d9c4025379242b5f560aab441e1430 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Date: Sat, 7 Dec 2013 20:45:00 +0200
+Subject: [PATCH] Set the 'user.xdg.origin.url' xattr for downloaded files
+
+---
+ src/ftp.c  |  2 ++
+ src/http.c |  2 ++
+ src/url.c  | 20 ++++++++++++++++++++
+ src/url.h  |  4 ++++
+ 4 files changed, 28 insertions(+)
+
+diff --git a/src/ftp.c b/src/ftp.c
+index 1902242..eeffd88 100644
+--- a/src/ftp.c
++++ b/src/ftp.c
+@@ -1299,6 +1299,8 @@ Error in server response, closing control connection.\n"));
+   else
+     fp = output_stream;
+ 
++  set_xa (u, fileno(fp));
++
+   if (passed_expected_bytes)
+     {
+       print_length (passed_expected_bytes, restval, true);
+diff --git a/src/http.c b/src/http.c
+index 53c9818..c99c417 100644
+--- a/src/http.c
++++ b/src/http.c
+@@ -3123,6 +3123,8 @@ read_header:
+       return err;
+     }
+ 
++  set_xa (u, fileno(fp));
++
+   err = read_response_body (hs, sock, fp, contlen, contrange,
+                             chunked_transfer_encoding,
+                             u->url, warc_timestamp_str,
+diff --git a/src/url.c b/src/url.c
+index df63e1c..b41d5ac 100644
+--- a/src/url.c
++++ b/src/url.c
+@@ -37,6 +37,7 @@ as that of the covered work.  */
+ #include <unistd.h>
+ #include <errno.h>
+ #include <assert.h>
++#include <attr/xattr.h>
+ 
+ #include "utils.h"
+ #include "url.h"
+@@ -2200,6 +2201,25 @@ are_urls_equal (const char *u1, const char *u2)
+   return (*p == 0 && *q == 0 ? true : false);
+ }
+ 
++int
++set_xa (const struct url *origin, int fd)
++{
++  const char *url;
++  int res;
++
++  url = url_string(origin, URL_AUTH_HIDE);
++  res = fsetxattr(fd, XA_ORIGIN, url, strlen(url), 0);
++  if (res != 0)
++    {
++      if (errno == ENOTSUP)
++        res = 0;
++      else
++        logprintf (LOG_NOTQUIET, "fsetxattr: %s\n", strerror (errno));
++    }
++
++  return res;
++}
++
+ #ifdef TESTING
+ /* Debugging and testing support for path_simplify. */
+ 
+diff --git a/src/url.h b/src/url.h
+index b1c46c1..72234e9 100644
+--- a/src/url.h
++++ b/src/url.h
+@@ -132,4 +132,8 @@ bool schemes_are_similar_p (enum url_scheme a, enum url_scheme b);
+ 
+ bool are_urls_equal (const char *u1, const char *u2);
+ 
++#define XA_ORIGIN "user.xdg.origin.url"
++
++int set_xa (const struct url *, int);
++
+ #endif /* URL_H */
+-- 
+2.3.3
+
+
