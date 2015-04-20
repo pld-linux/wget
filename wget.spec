@@ -31,6 +31,7 @@ Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}-ssl-certs.patch
 Patch4:		user.xdg.origin.url.patch
 URL:		http://www.gnu.org/software/wget/
+BuildRequires:	attr-devel
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-tools >= 0.17
