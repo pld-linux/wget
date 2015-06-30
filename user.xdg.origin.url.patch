@@ -91,3 +91,23 @@ index b1c46c1..72234e9 100644
 2.3.3
 
 
+commit 8a15b84d4be480514c650db1a34cbb2122d6590d
+Author: Mantas Mikulėnas <grawity@gmail.com>
+Date:   Tue Jun 30 14:56:59 2015 +0300
+
+    Ignore 'Operation not permitted' when writing to /dev/null
+
+diff --git a/src/url.c b/src/url.c
+index 30cb86f..cff8683 100644
+--- a/src/url.c
++++ b/src/url.c
+@@ -2242,7 +2242,7 @@ set_xa (const struct url *origin, int fd)
+   res = fsetxattr(fd, XA_ORIGIN, url, strlen(url), 0);
+   if (res != 0)
+     {
+-      if (errno == ENOTSUP)
++      if (errno == ENOTSUP || errno == EPERM)
+         res = 0;
+       else
+         logprintf (LOG_NOTQUIET, "fsetxattr: %s\n", strerror (errno));
+
