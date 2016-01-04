@@ -36,7 +36,9 @@ BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-tools >= 0.17
 %{?with_gnutls:BuildRequires:	gnutls-devel}
+BuildRequires:	gpgme-devel >= 0.4.2
 BuildRequires:	libidn-devel
+BuildRequires:	libmetalink-devel
 BuildRequires:	libpsl-devel
 BuildRequires:	libuuid-devel
 %{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
