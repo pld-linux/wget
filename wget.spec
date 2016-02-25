@@ -153,7 +153,15 @@ chmod +x build-aux/bzr-version-gen
 %{__autoconf}
 %{__automake}
 %configure \
-	--with-ssl%{!?with_gnutls:=openssl}
+	--with-ssl%{!?with_gnutls:=openssl} \
+	--with-libpsl \
+	--enable-largefile \
+	--enable-opie \
+	--enable-digest \
+	--enable-ntlm \
+	--enable-nls \
+	--enable-ipv6 \
+	%{nil}
 %{__make}
 tail -n 6 util/README >rmold.README
 
