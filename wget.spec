@@ -153,16 +153,16 @@ chmod +x build-aux/bzr-version-gen
 %{__autoconf}
 %{__automake}
 %configure \
-	--with-ssl%{!?with_gnutls:=openssl} \
-	--with-libpsl \
-	--enable-largefile \
-	--enable-opie \
 	--enable-digest \
-	--enable-ntlm \
-	--enable-nls \
 	--enable-ipv6 \
 	--enable-iri \
+	--enable-largefile \
+	--enable-nls \
+	--enable-ntlm \
+	--enable-opie \
 	--enable-pcre \
+	--with-libpsl \
+	--with-ssl%{!?with_gnutls:=openssl} \
 	--with-zlib \
 	%{nil}
 %{__make}
