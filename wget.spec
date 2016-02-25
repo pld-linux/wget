@@ -34,7 +34,7 @@ URL:		http://www.gnu.org/software/wget/
 BuildRequires:	attr-devel
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-tools >= 0.17
+BuildRequires:	gettext-devel >= 0.17
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 BuildRequires:	gpgme-devel >= 0.4.2
 BuildRequires:	libidn-devel
@@ -44,6 +44,7 @@ BuildRequires:	libuuid-devel
 %{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
 BuildRequires:	pcre-devel
 BuildRequires:	perl-devel
+BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
 BuildRequires:	xz
