@@ -153,6 +153,7 @@ chmod +x build-aux/bzr-version-gen
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-debug \
 	--enable-digest \
 	--enable-ipv6 \
 	--enable-iri \
