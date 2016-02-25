@@ -161,6 +161,9 @@ chmod +x build-aux/bzr-version-gen
 	--enable-ntlm \
 	--enable-nls \
 	--enable-ipv6 \
+	--enable-iri \
+	--enable-pcre \
+	--with-zlib \
 	%{nil}
 %{__make}
 tail -n 6 util/README >rmold.README
