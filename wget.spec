@@ -162,6 +162,7 @@ chmod +x build-aux/bzr-version-gen
 	--enable-opie \
 	--enable-pcre \
 	--with-libpsl \
+	--with-metalink \
 	--with-ssl%{!?with_gnutls:=openssl} \
 	--with-zlib \
 	%{nil}
