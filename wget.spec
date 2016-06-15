@@ -163,6 +163,7 @@ chmod +x build-aux/bzr-version-gen
 	--enable-ntlm \
 	--enable-opie \
 	--enable-pcre \
+	--disable-silent-rules \
 	--with-libpsl \
 	--with-metalink \
 	--with-ssl%{!?with_gnutls:=openssl} \
