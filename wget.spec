@@ -5,7 +5,7 @@
 # - add http://article.gmane.org/gmane.comp.web.wget.patches/2333
 #
 # Conditional build:
-%bcond_without	tests
+%bcond_without	tests	# check target
 %bcond_with	gnutls	# use GnuTLS (wget default) instead of OpenSSL
 
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
@@ -17,12 +17,12 @@ Summary(ru.UTF-8):	Утилита для получения файлов по п
 Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
-Version:	1.18
-Release:	2
+Version:	1.19
+Release:	1
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.xz
-# Source0-md5:	af9ca95a4bb8ac4a9bf10aeae66fa5ec
+# Source0-md5:	1814393c5955a6148ff6d82c4a9e3c21
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -34,10 +34,10 @@ URL:		http://www.gnu.org/software/wget/
 BuildRequires:	attr-devel
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-devel >= 0.17
+BuildRequires:	gettext-tools >= 0.18.1
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 BuildRequires:	gpgme-devel >= 0.4.2
-BuildRequires:	libidn-devel
+BuildRequires:	libidn2-devel
 BuildRequires:	libmetalink-devel
 BuildRequires:	libpsl-devel
 BuildRequires:	libuuid-devel
