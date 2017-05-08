@@ -18,7 +18,7 @@ Summary(uk.UTF-8):	Утиліта для отримання файлів по п
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
 Version:	1.19.1
-Release:	1
+Release:	2
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.xz
@@ -39,7 +39,7 @@ BuildRequires:	gettext-tools >= 0.18.1
 BuildRequires:	gpgme-devel >= 0.4.2
 BuildRequires:	libidn2-devel
 BuildRequires:	libmetalink-devel
-BuildRequires:	libpsl-devel
+BuildRequires:	libpsl-devel >= 0.16.0
 BuildRequires:	libuuid-devel
 %{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
 BuildRequires:	pcre-devel
@@ -56,6 +56,7 @@ BuildRequires:	perl-IO-Socket-SSL
 BuildRequires:	python3-modules >= 1:3.0
 %endif
 Provides:	webclient
+Requires:	libpsl >= 0.16.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqfiles		%{_bindir}/rmold
