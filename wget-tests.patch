@@ -8,7 +8,7 @@
 +                # pubring.kbx, dirmngr.conf, gpg.conf can be created by libgpgme if $HOME doesn't contain the .gnupg directory.
  					 # setting $HOME to CWD (in base_test.py) breaks two Metalink tests, so we skip this file here.
 -                if name == 'pubring.kbx':
-+                if name == 'pubring.kbx' or name == 'dirmngr.conf' or name == 'gpg.conf':
++                if name in [ 'pubring.kbx', 'dirmngr.conf', 'gpg.conf' ]:
                      continue
  
                  f = {'content': ''}
