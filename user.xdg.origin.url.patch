@@ -47,7 +47,7 @@ index df63e1c..b41d5ac 100644
  #include <unistd.h>
  #include <errno.h>
  #include <assert.h>
-+#include <attr/xattr.h>
++#include <sys/xattr.h>
  
  #include "utils.h"
  #include "url.h"
