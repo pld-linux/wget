@@ -30,6 +30,7 @@ Patch1:		%{name}-wgetrc_path.patch
 Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}-ssl-certs.patch
 Patch4:		user.xdg.origin.url.patch
+Patch5:		%{name}-tests.patch
 URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
@@ -137,6 +138,7 @@ Proxy серверів, настроюваність.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %{__rm} doc/wget.info doc/sample.wgetrc.munged_for_texi_inclusion po/stamp-po
 
