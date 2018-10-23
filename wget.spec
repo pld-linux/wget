@@ -6,6 +6,7 @@
 #
 # Conditional build:
 %bcond_without	tests	# check target
+%bcond_without	metalink # build without metalink support
 %bcond_with	gnutls	# use GnuTLS (wget default) instead of OpenSSL
 
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
@@ -35,9 +36,9 @@ BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-tools >= 0.18.1
 %{?with_gnutls:BuildRequires:	gnutls-devel}
-BuildRequires:	gpgme-devel >= 0.4.2
+%{?with_metalink:BuildRequires:	gpgme-devel >= 0.4.2}
 BuildRequires:	libidn2-devel
-BuildRequires:	libmetalink-devel
+%{?with_metalink:BuildRequires:	libmetalink-devel}
 BuildRequires:	libpsl-devel >= 0.16.0
 BuildRequires:	libuuid-devel
 %{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
@@ -164,7 +165,7 @@ chmod +x build-aux/bzr-version-gen
 	--enable-pcre \
 	--disable-silent-rules \
 	--with-libpsl \
-	--with-metalink \
+	%{__with_without metalink} \
 	--with-ssl%{!?with_gnutls:=openssl} \
 	--with-zlib \
 	%{nil}
