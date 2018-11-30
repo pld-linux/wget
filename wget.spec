@@ -18,12 +18,12 @@ Summary(ru.UTF-8):	Утилита для получения файлов по п
 Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
-Version:	1.19.5
-Release:	2
+Version:	1.20
+Release:	1
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.lz
-# Source0-md5:	4ee511011a15f4207bea8b2993c343ee
+# Source0-md5:	659508fdb82d64dfbeb57b2513b06c3a
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -32,9 +32,9 @@ Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}-ssl-certs.patch
 Patch4:		user.xdg.origin.url.patch
 URL:		http://www.gnu.org/software/wget/
-BuildRequires:	autoconf >= 2.61
+BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-tools >= 0.18.1
+BuildRequires:	gettext-tools >= 0.19.8
 %{?with_gnutls:BuildRequires:	gnutls-devel}
 %{?with_metalink:BuildRequires:	gpgme-devel >= 0.4.2}
 BuildRequires:	libidn2-devel
@@ -42,7 +42,7 @@ BuildRequires:	libidn2-devel
 BuildRequires:	libpsl-devel >= 0.16.0
 BuildRequires:	libuuid-devel
 %{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
-BuildRequires:	pcre-devel
+BuildRequires:	pcre2-8-devel
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
