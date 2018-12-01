@@ -35,13 +35,15 @@ URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-tools >= 0.19.8
-%{?with_gnutls:BuildRequires:	gnutls-devel}
+# >= 3.6.3 for TLSv1.3
+%{?with_gnutls:BuildRequires:	gnutls-devel >= 3.0.16}
 %{?with_metalink:BuildRequires:	gpgme-devel >= 0.4.2}
 BuildRequires:	libidn2-devel
 %{?with_metalink:BuildRequires:	libmetalink-devel}
 BuildRequires:	libpsl-devel >= 0.16.0
 BuildRequires:	libuuid-devel
-%{!?with_gnutls:BuildRequires:	openssl-devel >= 0.9.7m}
+# >= 1.1.0 for TLSv1.3
+%{!?with_gnutls:BuildRequires:	openssl-devel >= 1.0.1}
 BuildRequires:	pcre2-8-devel
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig
@@ -56,6 +58,8 @@ BuildRequires:	perl-IO-Socket-SSL
 BuildRequires:	python3-modules >= 1:3.0
 %endif
 Provides:	webclient
+%{?with_gnutls:Requires:	gnutls-libs >= 3.0.16}
+%{!?with_gnutls:Requires:	openssl >= 1.0.1}
 Requires:	libpsl >= 0.16.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
