@@ -152,6 +152,8 @@ echo -n %{version}
 EOF
 chmod +x build-aux/bzr-version-gen
 
+%{__sed} -i -e '1s,/usr/bin/env perl,%{__perl},' util/rmold.pl
+
 %build
 %{__gettextize}
 %{__aclocal} -I m4
