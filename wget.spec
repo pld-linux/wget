@@ -32,7 +32,7 @@ Patch2:		%{name}-home_etc.patch
 Patch3:		%{name}-ssl-certs.patch
 Patch4:		user.xdg.origin.url.patch
 URL:		http://www.gnu.org/software/wget/
-BuildRequires:	autoconf >= 2.63
+BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-tools >= 0.19.8
 # >= 3.6.3 for TLSv1.3
@@ -198,7 +198,8 @@ bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/README*
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
-%find_lang %{name}
+# "wget" and "wget-gnulib" domains
+%find_lang %{name} --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -212,7 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README MAILING-LIST rmold.README
-%verify(not md5 mtime size) %config(noreplace) %{_sysconfdir}/%{name}rc
+%verify(not md5 mtime size) %config(noreplace) %{_sysconfdir}/wgetrc
 %attr(755,root,root) %{_bindir}/rmold
 %attr(755,root,root) %{_bindir}/wget
 %{_mandir}/man1/wget.1*
