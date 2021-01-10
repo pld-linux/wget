@@ -18,12 +18,12 @@ Summary(ru.UTF-8):	Утилита для получения файлов по п
 Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
-Version:	1.21
+Version:	1.21.1
 Release:	1
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.lz
-# Source0-md5:	c10e69697250635fa2275ed0ab4e9439
+# Source0-md5:	727157baf52b0071eaa353e6ff1c8269
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
