@@ -1,5 +1,6 @@
---- wget-1.9-beta4/doc/wget.texi.orig	2003-10-12 22:41:49.000000000 +0200
-+++ wget-1.9-beta4/doc/wget.texi	2003-10-12 22:44:56.185263424 +0200
+diff -urNp -x '*.orig' wget-1.21.1.org/doc/wget.texi wget-1.21.1/doc/wget.texi
+--- wget-1.21.1.org/doc/wget.texi	2021-01-08 23:51:43.000000000 +0100
++++ wget-1.21.1/doc/wget.texi	2021-05-06 00:07:21.138635623 +0200
 @@ -21,9 +21,9 @@
  @set Wget Wget
  @c man title Wget The non-interactive network downloader.
@@ -11,8 +12,8 @@
 +* Wget: (wget).				Non-interactive network downloader
  @end direntry
  
- @ifnottex
-@@ -988,7 +988,7 @@ whose encoding does not match the one us
+ @copying
+@@ -1129,7 +1129,7 @@ whose encoding does not match the one us
  @cindex IPv6
  @item -4
  @itemx --inet4-only
@@ -21,4 +22,3 @@
  @itemx --inet6-only
  Force connecting to IPv4 or IPv6 addresses.  With @samp{--inet4-only}
  or @samp{-4}, Wget will only connect to IPv4 hosts, ignoring AAAA
-

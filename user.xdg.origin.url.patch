@@ -13,11 +13,10 @@ Subject: [PATCH] Set the 'user.xdg.origin.url' xattr for downloaded files
  src/url.h  |  4 ++++
  4 files changed, 28 insertions(+)
 
-diff --git a/src/ftp.c b/src/ftp.c
-index 1902242..eeffd88 100644
---- a/src/ftp.c
-+++ b/src/ftp.c
-@@ -1299,6 +1299,8 @@ Error in server response, closing control connection.\n"));
+diff -urNp -x '*.orig' wget-1.21.1.org/src/ftp.c wget-1.21.1/src/ftp.c
+--- wget-1.21.1.org/src/ftp.c	2021-01-08 23:51:43.000000000 +0100
++++ wget-1.21.1/src/ftp.c	2021-05-06 00:07:54.231635623 +0200
+@@ -1534,6 +1534,8 @@ Error in server response, closing contro
    else
      fp = output_stream;
  
@@ -26,24 +25,22 @@ index 1902242..eeffd88 100644
    if (passed_expected_bytes)
      {
        print_length (passed_expected_bytes, restval, true);
-diff --git a/src/http.c b/src/http.c
-index 53c9818..c99c417 100644
---- a/src/http.c
-+++ b/src/http.c
-@@ -3123,6 +3123,8 @@ read_header:
-       return err;
+diff -urNp -x '*.orig' wget-1.21.1.org/src/http.c wget-1.21.1/src/http.c
+--- wget-1.21.1.org/src/http.c	2021-01-08 23:51:43.000000000 +0100
++++ wget-1.21.1/src/http.c	2021-05-06 00:07:54.232635623 +0200
+@@ -4181,6 +4181,8 @@ gethttp (const struct url *u, struct url
      }
+ #endif
  
 +  set_xa (u, fileno(fp));
 +
    err = read_response_body (hs, sock, fp, contlen, contrange,
                              chunked_transfer_encoding,
                              u->url, warc_timestamp_str,
-diff --git a/src/url.c b/src/url.c
-index df63e1c..b41d5ac 100644
---- a/src/url.c
-+++ b/src/url.c
-@@ -37,6 +37,7 @@ as that of the covered work.  */
+diff -urNp -x '*.orig' wget-1.21.1.org/src/url.c wget-1.21.1/src/url.c
+--- wget-1.21.1.org/src/url.c	2021-01-08 23:51:43.000000000 +0100
++++ wget-1.21.1/src/url.c	2021-05-06 00:07:54.233635623 +0200
+@@ -36,6 +36,7 @@ as that of the covered work.  */
  #include <unistd.h>
  #include <errno.h>
  #include <assert.h>
@@ -51,7 +48,7 @@ index df63e1c..b41d5ac 100644
  
  #include "utils.h"
  #include "url.h"
-@@ -2200,6 +2201,25 @@ are_urls_equal (const char *u1, const char *u2)
+@@ -2382,6 +2383,25 @@ are_urls_equal (const char *u1, const ch
    return (*p == 0 && *q == 0 ? true : false);
  }
  
@@ -65,7 +62,7 @@ index df63e1c..b41d5ac 100644
 +  res = fsetxattr(fd, XA_ORIGIN, url, strlen(url), 0);
 +  if (res != 0)
 +    {
-+      if (errno == ENOTSUP)
++      if (errno == ENOTSUP || errno == EPERM)
 +        res = 0;
 +      else
 +        logprintf (LOG_NOTQUIET, "fsetxattr: %s\n", strerror (errno));
@@ -77,11 +74,10 @@ index df63e1c..b41d5ac 100644
  #ifdef TESTING
  /* Debugging and testing support for path_simplify. */
  
-diff --git a/src/url.h b/src/url.h
-index b1c46c1..72234e9 100644
---- a/src/url.h
-+++ b/src/url.h
-@@ -132,4 +132,8 @@ bool schemes_are_similar_p (enum url_scheme a, enum url_scheme b);
+diff -urNp -x '*.orig' wget-1.21.1.org/src/url.h wget-1.21.1/src/url.h
+--- wget-1.21.1.org/src/url.h	2021-01-08 23:51:43.000000000 +0100
++++ wget-1.21.1/src/url.h	2021-05-06 00:07:54.233635623 +0200
+@@ -133,4 +133,8 @@ bool schemes_are_similar_p (enum url_sch
  
  bool are_urls_equal (const char *u1, const char *u2);
  
@@ -90,27 +86,3 @@ index b1c46c1..72234e9 100644
 +int set_xa (const struct url *, int);
 +
  #endif /* URL_H */
--- 
-2.3.3
-
-
-commit 8a15b84d4be480514c650db1a34cbb2122d6590d
-Author: Mantas Mikulėnas <grawity@gmail.com>
-Date:   Tue Jun 30 14:56:59 2015 +0300
-
-    Ignore 'Operation not permitted' when writing to /dev/null
-
-diff --git a/src/url.c b/src/url.c
-index 30cb86f..cff8683 100644
---- a/src/url.c
-+++ b/src/url.c
-@@ -2242,7 +2242,7 @@ set_xa (const struct url *origin, int fd)
-   res = fsetxattr(fd, XA_ORIGIN, url, strlen(url), 0);
-   if (res != 0)
-     {
--      if (errno == ENOTSUP)
-+      if (errno == ENOTSUP || errno == EPERM)
-         res = 0;
-       else
-         logprintf (LOG_NOTQUIET, "fsetxattr: %s\n", strerror (errno));
-

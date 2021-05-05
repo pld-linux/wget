@@ -1,7 +1,7 @@
-diff -uNr wget-1.8.2.orig/NEWS wget-1.8.2/NEWS
---- wget-1.8.2.orig/NEWS	Thu Aug 28 21:45:31 2003
-+++ wget-1.8.2/NEWS	Thu Aug 28 21:45:31 2003
-@@ -232,7 +232,7 @@
+diff -urNp -x '*.orig' wget-1.21.1.org/NEWS wget-1.21.1/NEWS
+--- wget-1.21.1.org/NEWS	2021-01-09 10:55:07.000000000 +0100
++++ wget-1.21.1/NEWS	2021-05-06 00:07:34.604635623 +0200
+@@ -1005,7 +1005,7 @@ distributed with Wget.
  
  ** Compiles on pre-ANSI compilers.
  
@@ -9,8 +9,8 @@ diff -uNr wget-1.8.2.orig/NEWS wget-1.8.2/NEWS
 +** Global wgetrc now goes to /etc (i.e. $sysconfdir).
  
  ** Lots of bugfixes.
- 
-@@ -295,9 +295,8 @@
+ 
+@@ -1068,9 +1068,8 @@ Emacs, standalone info, or converted to
  ** Fixed a long-standing bug, so that Wget now works over SLIP
  connections.
  
@@ -22,19 +22,19 @@ diff -uNr wget-1.8.2.orig/NEWS wget-1.8.2/NEWS
  
  ** You can set up quota in .wgetrc to prevent sucking too much
  data. Try `quota = 5M' in .wgetrc (or quota = 100K if you want your
-diff -Nur wget-1.10/doc.orig/sample.wgetrc wget-1.10/doc/sample.wgetrc
---- wget-1.10/doc.orig/sample.wgetrc	2001-11-30 08:32:17.000000000 +0100
-+++ wget-1.10/doc/sample.wgetrc	2005-06-22 09:43:39.000000000 +0200
-@@ -7,7 +7,7 @@
- ## not contain a comprehensive list of commands -- look at the manual
- ## to find out what you can put into this file.
+diff -urNp -x '*.orig' wget-1.21.1.org/doc/sample.wgetrc wget-1.21.1/doc/sample.wgetrc
+--- wget-1.21.1.org/doc/sample.wgetrc	2020-05-05 01:10:59.000000000 +0200
++++ wget-1.21.1/doc/sample.wgetrc	2021-05-06 00:07:34.605635623 +0200
+@@ -10,7 +10,7 @@
+ ## Or online here:
+ ##   https://www.gnu.org/software/wget/manual/wget.html#Startup-File
  ##
 -## Wget initialization file can reside in /usr/local/etc/wgetrc
 +## Wget initialization file can reside in /etc/wgetrc
  ## (global, for all users) or $HOME/.wgetrc (for a single user).
  ##
  ## To use the settings in this file, you will have to uncomment them,
-@@ -16,7 +16,7 @@
+@@ -22,7 +22,7 @@
  
  
  ##
@@ -43,10 +43,10 @@ diff -Nur wget-1.10/doc.orig/sample.wgetrc wget-1.10/doc/sample.wgetrc
  ## Think well before you change them, since they may reduce wget's
  ## functionality, and make it behave contrary to the documentation:
  ##
-diff -Nur wget-1.10/doc.orig/wget.texi wget-1.10/doc/wget.texi
---- wget-1.10/doc.orig/wget.texi	2005-06-22 09:42:36.000000000 +0200
-+++ wget-1.10/doc/wget.texi	2005-06-22 09:44:02.000000000 +0200
-@@ -191,7 +191,7 @@ gauge can be customized to your preferen
+diff -urNp -x '*.orig' wget-1.21.1.org/doc/wget.texi wget-1.21.1/doc/wget.texi
+--- wget-1.21.1.org/doc/wget.texi	2021-05-06 00:07:34.276635623 +0200
++++ wget-1.21.1/doc/wget.texi	2021-05-06 00:07:34.606635623 +0200
+@@ -195,7 +195,7 @@ gauge can be customized to your preferen
  Most of the features are fully configurable, either through command line
  options, or via the initialization file @file{.wgetrc} (@pxref{Startup
  File}).  Wget allows you to define @dfn{global} startup files
@@ -55,7 +55,7 @@ diff -Nur wget-1.10/doc.orig/wget.texi wget-1.10/doc/wget.texi
  specify the location of a startup file with the --config option.
  To disable the reading of config files, use --no-config.
  If both --config and --no-config are given, --no-config is ignored.
-@@ -200,7 +200,7 @@ If both --config and --no-config are giv
+@@ -204,7 +204,7 @@ If both --config and --no-config are giv
  @ignore
  @c man begin FILES
  @table @samp
@@ -64,7 +64,7 @@ diff -Nur wget-1.10/doc.orig/wget.texi wget-1.10/doc/wget.texi
  Default location of the @dfn{global} startup file.
  
  @item .wgetrc
-@@ -2411,9 +2411,7 @@
+@@ -3185,9 +3185,7 @@ commands.
  @cindex location of wgetrc
  
  When initializing, Wget will look for a @dfn{global} startup file,
@@ -75,7 +75,7 @@ diff -Nur wget-1.10/doc.orig/wget.texi wget-1.10/doc/wget.texi
  
  Then it will look for the user's file.  If the environmental variable
  @code{WGETRC} is set, Wget will try to load that file.  Failing that, no
-@@ -2423,7 +2421,7 @@
+@@ -3197,7 +3195,7 @@ If @code{WGETRC} is not set, Wget will t
  
  The fact that user's settings are loaded after the system-wide ones
  means that in case of collision user's wgetrc @emph{overrides} the
@@ -83,4 +83,4 @@ diff -Nur wget-1.10/doc.orig/wget.texi wget-1.10/doc/wget.texi
 +system-wide wgetrc (in @file{/etc/wgetrc} by default).
  Fascist admins, away!
  
- @node Wgetrc Syntax
+ @node Wgetrc Syntax, Wgetrc Commands, Wgetrc Location, Startup File

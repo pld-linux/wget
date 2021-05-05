@@ -1,12 +1,11 @@
-diff -Nru wget-1.8.2.orig/src/init.c wget-1.8.2/src/init.c
---- wget-1.8.2.orig/src/init.c	Sat Mar  1 12:06:06 2003
-+++ wget-1.8.2/src/init.c	Mon Nov  3 10:31:43 2003
-@@ -354,6 +354,7 @@
-   static char buf[PATH_MAX];
-   static char *home;
+diff -urNp -x '*.orig' wget-1.21.1.org/src/init.c wget-1.21.1/src/init.c
+--- wget-1.21.1.org/src/init.c	2021-01-08 23:51:43.000000000 +0100
++++ wget-1.21.1/src/init.c	2021-05-06 00:07:44.234635623 +0200
+@@ -522,6 +522,7 @@ home_dir (void)
+   static char *buf = NULL;
+   static char *home, *ret;
  
 +  home = getenv("HOME_ETC");
    if (!home)
      {
        home = getenv ("HOME");
-
