@@ -171,6 +171,7 @@ chmod +x build-aux/bzr-version-gen
 	--enable-opie \
 	--enable-pcre \
 	--disable-silent-rules \
+	--disable-year2038 \
 	--with-libpsl \
 	%{__with_without metalink} \
 	--with-ssl%{!?with_gnutls:=openssl} \
