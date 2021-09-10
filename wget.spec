@@ -35,7 +35,7 @@ URL:		http://www.gnu.org/software/wget/
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	autoconf-archive
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-tools >= 0.19.8
+BuildRequires:	gettext-tools >= 0.21
 # >= 3.6.3 for TLSv1.3
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 3.0.16}
 %{?with_metalink:BuildRequires:	gpgme-devel >= 0.4.2}
