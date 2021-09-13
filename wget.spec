@@ -43,6 +43,7 @@ BuildRequires:	libidn2-devel
 %{?with_metalink:BuildRequires:	libmetalink-devel}
 BuildRequires:	libpsl-devel >= 0.16.0
 BuildRequires:	libuuid-devel
+BuildRequires:	lzip
 # >= 1.1.0 for TLSv1.3
 %{!?with_gnutls:BuildRequires:	openssl-devel >= 1.0.1}
 BuildRequires:	pcre2-8-devel
@@ -50,7 +51,6 @@ BuildRequires:	perl-devel
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
-BuildRequires:	xz
 BuildRequires:	zlib-devel
 %if %{with tests}
 BuildRequires:	perl-HTTP-Daemon
