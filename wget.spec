@@ -18,12 +18,12 @@ Summary(ru.UTF-8):	Утилита для получения файлов по п
 Summary(uk.UTF-8):	Утиліта для отримання файлів по протоколам HTTP та FTP
 Summary(zh_CN.UTF-8):	[通讯]功能强大的下载程序,支持断点续传
 Name:		wget
-Version:	1.21.2
-Release:	3
+Version:	1.21.3
+Release:	1
 License:	GPL v3+ with OpenSSL exception
 Group:		Networking/Utilities
 Source0:	http://ftp.gnu.org/gnu/wget/%{name}-%{version}.tar.lz
-# Source0-md5:	2703828579552a5a6749fadfb1bf305d
+# Source0-md5:	bbeed59ec13757911a634f4e883fd954
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	d8b2b56ec7461606c22edbafaf8a418f
 Patch0:		%{name}-info.patch
@@ -39,7 +39,7 @@ BuildRequires:	gettext-tools >= 0.21
 # >= 3.6.3 for TLSv1.3
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 3.0.16}
 %{?with_metalink:BuildRequires:	gpgme-devel >= 0.4.2}
-BuildRequires:	libidn2-devel
+BuildRequires:	libidn2-devel >= 0.14.0
 %{?with_metalink:BuildRequires:	libmetalink-devel}
 BuildRequires:	libpsl-devel >= 0.16.0
 BuildRequires:	libuuid-devel
@@ -61,6 +61,7 @@ BuildRequires:	python3-modules >= 1:3.0
 Provides:	webclient
 %{?with_gnutls:Requires:	gnutls-libs >= 3.0.16}
 %{!?with_gnutls:Requires:	openssl >= 1.0.1}
+Requires:	libidn2 >= 0.14.0
 Requires:	libpsl >= 0.16.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
