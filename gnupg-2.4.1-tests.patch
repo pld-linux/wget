@@ -1,0 +1,30 @@
+From 478b2e93a2b4102d5c76332ea5ff6a1a920ae0db Mon Sep 17 00:00:00 2001
+From: Jan Palus <jpalus@fastmail.com>
+Date: Fri, 12 May 2023 01:44:13 +0200
+Subject: [PATCH] * testenv/conf/expected_files.py: Ignore common.conf
+
+Signed-off-by: Jan Palus <jpalus@fastmail.com>
+---
+ testenv/conf/expected_files.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/testenv/conf/expected_files.py b/testenv/conf/expected_files.py
+index 65adb707..72146726 100644
+--- a/testenv/conf/expected_files.py
++++ b/testenv/conf/expected_files.py
+@@ -24,10 +24,10 @@ class ExpectedFiles:
+         snapshot = {}
+         for parent, dirs, files in os.walk('.'):
+             for name in files:
+-                # pubring.gpg, pubring.kbx, dirmngr.conf, gpg.conf will be created by libgpgme
++                # pubring.gpg, pubring.kbx, common.conf, dirmngr.conf, gpg.conf will be created by libgpgme
+                 #   if $HOME doesn't contain the .gnupg directory.
+                 # setting $HOME to CWD (in base_test.py) breaks two Metalink tests, so we skip this file here.
+-                if name in [ 'pubring.gpg', 'pubring.kbx', 'dirmngr.conf', 'gpg.conf' ]:
++                if name in [ 'pubring.gpg', 'pubring.kbx', 'common.conf', 'dirmngr.conf', 'gpg.conf' ]:
+                     continue
+ 
+                 f = {'content': ''}
+-- 
+2.40.1
+
