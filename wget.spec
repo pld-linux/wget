@@ -5,9 +5,10 @@
 # - add http://article.gmane.org/gmane.comp.web.wget.patches/2333
 #
 # Conditional build:
-%bcond_without	tests	# check target
-%bcond_without	metalink # build without metalink support
-%bcond_with	gnutls	# use GnuTLS (wget default) instead of OpenSSL
+%bcond_without	tests		# check target
+%bcond_without	metalink	# build without metalink support
+%bcond_with	gnutls		# use GnuTLS (wget default) instead of OpenSSL
+%bcond_without	libproxy	# libproxy support
 
 Summary:	A utility for retrieving files using the HTTP or FTP protocols
 Summary(es.UTF-8):	Cliente en línea de comando para bajar archivos WWW/FTP con recursión opcional
@@ -41,6 +42,7 @@ BuildRequires:	gettext-tools >= 0.21
 %{?with_metalink:BuildRequires:	gpgme-devel >= 0.4.2}
 BuildRequires:	libidn2-devel >= 0.14.0
 %{?with_metalink:BuildRequires:	libmetalink-devel}
+%{?with_libproxy:BuildRequires:	libproxy-devel}
 BuildRequires:	libpsl-devel >= 0.16.0
 BuildRequires:	libuuid-devel
 BuildRequires:	lzip
@@ -167,6 +169,7 @@ chmod +x build-aux/bzr-version-gen
 	--enable-ipv6 \
 	--enable-iri \
 	--enable-largefile \
+	%{?with_libproxy:--enable-libproxy} \
 	--enable-nls \
 	--enable-ntlm \
 	--enable-opie \
