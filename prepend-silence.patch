@@ -1,0 +1,28 @@
+From d98df662121977f3d3ba69d0cfbd4d3322714f2d Mon Sep 17 00:00:00 2001
+From: Darshit Shah <darnir@gnu.org>
+Date: Fri, 15 Nov 2024 22:28:41 +0100
+Subject: * src/url.c (maybe_prepend_scheme): Print message only in verbose
+ mode
+
+---
+ src/url.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+(limited to 'src/url.c')
+
+diff --git a/src/url.c b/src/url.c
+index 2f27c48a..913db4f1 100644
+--- a/src/url.c
++++ b/src/url.c
+@@ -625,7 +625,7 @@ maybe_prepend_scheme (const char *url)
+     return NULL;
+ 
+ 
+-  fprintf(stderr, "Prepended http:// to '%s'\n", url);
++  logprintf (LOG_VERBOSE, _ ("Prepended http:// to '%s'\n"), url);
+   return aprintf ("http://%s", url);
+ }
+ 
+-- 
+cgit v1.2.3-70-g09d2
+
